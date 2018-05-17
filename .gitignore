@@ -1,0 +1,8 @@
+node_modules/
+api/**/*.js
+.DS_Store
+*.log
+.idea
+.vscode/
+*.env
+ranters/

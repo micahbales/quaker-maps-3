@@ -1,0 +1,47 @@
+{
+  "name": "quaker-maps-project",
+  "version": "1.0.0",
+  "description": "Mapping the Religious Society of Friends",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "dev": "concurrently \"npm run typescript\" \"npm run watch\" \"npm run assets\"",
+    "assets": "webpack -w",
+    "watch": "nodemon ./index.js",
+    "typescript": "tsc -w",
+    "commit": "npm run precommit && npm run tests && git add -A && git commit",
+    "lint": "tslint './*.ts' --fix",
+    "prettier": "prettier --write './*.ts'",
+    "precommit": "npm run prettier && npm run lint",
+    "test": ""
+  },
+  "author": "Micah Bales",
+  "license": "+CAL LICENSE - SEE LICENSE FILE",
+  "dependencies": {
+    "@types/node": "^10.0.8",
+    "body-parser": "^1.18.3",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "pg": "^7.4.3",
+    "typescript": "^2.8.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.11.1",
+    "autoprefixer": "^8.5.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "concurrently": "^3.5.1",
+    "css-loader": "^0.28.11",
+    "mini-css-extract-plugin": "^0.4.0",
+    "node-sass": "^4.9.0",
+    "nodemon": "^1.17.4",
+    "postcss": "^6.0.22",
+    "postcss-loader": "^2.1.5",
+    "prettier": "^1.12.1",
+    "sass-loader": "^7.0.1",
+    "tslint": "^5.10.0",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.3"
+  }
+}

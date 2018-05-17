@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "lib": ["es2017", "DOM"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "allowJs":true
+  },
+  "compileOnSave": true,
+  "exclude": [
+    "node_modules",
+    "public",
+    "webpack.config.js"
+  ]
+}
