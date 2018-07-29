@@ -1,9 +1,9 @@
-import app from '../app';
-const express = require('express');
-const router = express.Router();
-const {catchErrors} = require('../handlers/errorHandlers');
-const controllers = require('../controllers/controllers');
+import {root} from '../controllers/controllers';
+import {catchErrors} from '../handlers/errorHandlers';
+import express = require('express');
+import {Router} from 'express';
+const router: Router = express.Router();
 
-router.get('/', catchErrors(controllers.root));
+router.get('/', catchErrors(root));
 
 export default router;

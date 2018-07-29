@@ -4,7 +4,7 @@
     "target": "es5",
     "sourceMap": true,
     "moduleResolution": "node",
-    "lib": ["es2017", "DOM"],
+    "lib": ["es2017", "dom"],
     "typeRoots": [
       "node_modules/@types"
     ],

@@ -19,7 +19,9 @@
                 "timeEnd",
                 "trace"
             ]
-        }
+        },
+        "ordered-imports": false,
+        "quotemark": [true, "single"]
     },
     "jsRules": {
         "max-line-length": {
