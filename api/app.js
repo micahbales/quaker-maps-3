@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var bodyParser = require("body-parser");
+var express = require("express");
 var router_1 = require("./routes/router");
-var bodyParser = require('body-parser');
-var express = require('express');
 var app = express();
 // Serve up static files from 'public'
-app.use(express.static('public'));
+app.use(express.static("public"));
 // Take raw requests and converts them into usable properties on req.body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

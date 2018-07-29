@@ -12,8 +12,6 @@
   },
   "compileOnSave": true,
   "exclude": [
-    "node_modules",
-    "public",
-    "webpack.config.js"
+    "node_modules"
   ]
 }

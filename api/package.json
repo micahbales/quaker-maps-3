@@ -1,0 +1,26 @@
+{
+  "name": "quaker-maps-api",
+  "scripts": {
+    "start": "nodemon ./api/index.js",
+    "server": "concurrently --kill-others-on-fail \"npm run typescript\" \"npm start\"",
+    "typescript": "tsc -w",
+    "lint": "tslint './*.ts' --fix"
+  },
+  "author": "Micah Bales",
+  "license": "+CAL LICENSE - SEE LICENSE FILE",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "pg": "^7.4.3"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^4.0.3",
+    "@types/express": "^4.11.1",
+    "@types/node": "^10.0.8",
+    "concurrently": "^3.5.1",
+    "nodemon": "^1.17.4",
+    "tslint": "^5.10.0",
+    "typescript": "^2.8.3"
+  }
+}
