@@ -11,5 +11,8 @@
   "license": "+CAL LICENSE - SEE LICENSE FILE",
   "devDependencies": {
     "concurrently": "^3.5.0"
+  },
+  "dependencies": {
+    "pg": "^7.4.3"
   }
 }
