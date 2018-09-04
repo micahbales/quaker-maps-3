@@ -1,0 +1,17 @@
+{
+    "dev": {
+        "driver": "pg",
+        "user": {"ENV": "POSTGRES_LOCAL_USERNAME"},
+        "password": {"ENV": "POSTGRES_LOCAL_PASSWORD"},
+        "host": "localhost",
+        "database": "quaker_maps_dev"
+      },
+
+    "test": {
+        "driver": "pg",
+        "user": {"ENV": "POSTGRES_LOCAL_USERNAME"},
+        "password": {"ENV": "POSTGRES_LOCAL_PASSWORD"},
+        "host": "localhost",
+        "database": "quaker_maps_test"
+    }
+}

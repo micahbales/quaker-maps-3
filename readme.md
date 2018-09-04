@@ -11,6 +11,7 @@ We release this project to the world under the [+CAL license](https://legaldesig
 * Node 10
 * Typescript
 * Postgres
+* db-migrate
 
 ## Installing Dependencies
 
@@ -22,7 +23,7 @@ npm install
 
 ## Setting up API config:
 
-From the `api` directory:
+In the `api` directory:
 
 ```
 mv .env.example .env
@@ -33,6 +34,30 @@ Open `.env` and replace the example secrets with your real project secrets.
 ## Postgres
 
 [Download PostgreSQL](https://www.postgresql.org/download/) and run it locally on your machine. Postgres must be running for the project's API to function correctly.
+
+### Installing db-migrate
+
+Run the following command:
+
+```
+npm install -g db-migrate db-migrate-pg
+```
+
+### Setting Up a Database Migration with db-migrate
+
+In the `api` directory, run:
+
+```
+db-migrate create [name-of-migration] --sql-file
+```
+
+You can then compose your SQL migration in the `...-up.sql` file.
+
+Then, run the migration (and also all prior migrations) with this command:
+
+```
+db-migrate up
+```
 
 ### SQL Workbench
 
