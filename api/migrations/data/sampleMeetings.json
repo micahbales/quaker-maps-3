@@ -1,6 +1,6 @@
 [
   {
-    "name": "Great Plains Yearly Meeting",
+    "title": "Great Plains Yearly Meeting",
     "longitude": "-97.33005299999999",
     "mappable": "1",
     "phone": "(316)262-0471",
@@ -9,17 +9,14 @@
     "address": "1840 W. University Ave.",
     "latitude": "37.68717609999999",
     "zip": "67213-3966",
-    "location": "1 block E of Friends University Campus",
+    "description": "1 block E of Friends University Campus",
     "worship_time": "10:45am",
-    "yearly_meeting": "",
     "state": "KS",
     "website": "http://universityfriends.quaker.org",
-    "map_status": "Address on map is Wichita, KS, USA",
-    "accessibility": "Hearing Assistance System, Wheelchair Accessible",
     "lgbt_affirming": "0"
   },
   {
-    "name": "Central City Friends Church",
+    "title": "Central City Friends Church",
     "description": "From junction Hwys 30 & 14, Hwy 14 N across railroad, 1st L. (E St.), 2nd R. (B Ave.), 2 blocks",
     "longitude": "-98.00469409999999",
     "mappable": "1",
@@ -29,16 +26,13 @@
     "address": "2715 25th Ave",
     "latitude": "41.1181788",
     "zip": "68826",
-    "location": "403 B Ave, corner of B Ave and C St",
+    "description": "403 B Ave, corner of B Ave and C St",
     "worship_time": "1:00pm every 4th Sunday",
-    "yearly_meeting": "",
     "state": "NE",
-    "map_status": "Address on map is Central City, NE 68826, USA",
-    "accessibility": "Wheelchair Accessible",
     "lgbt_affirming": "0"
   },
   {
-    "name": "University Friends Church",
+    "title": "University Friends Church",
     "longitude": "-97.33005299999999",
     "mappable": "1",
     "phone": "(316)262-0471",
@@ -47,17 +41,14 @@
     "address": "1840 W. University Ave.",
     "latitude": "37.68717609999999",
     "zip": "67213-3966",
-    "location": "1 block E of Friends University Campus",
+    "description": "1 block E of Friends University Campus",
     "worship_time": "10:45am",
-    "yearly_meeting": "",
     "state": "KS",
     "website": "http://universityfriends.quaker.org",
-    "map_status": "Address on map is Wichita, KS, USA",
-    "accessibility": "Hearing Assistance System, Wheelchair Accessible",
     "lgbt_affirming": "0"
   },
   {
-    "name": "Hominy Friends Meeting",
+    "title": "Hominy Friends Meeting",
     "description": "off Hwy 99, 1 block S. of Hwy 20",
     "longitude": "-96.38827800000001",
     "mappable": "1",
@@ -67,14 +58,11 @@
     "latitude": "36.4122768",
     "zip": "74035",
     "worship_time": "11:00am",
-    "yearly_meeting": "",
     "state": "OK",
-    "map_status": "Address on map is 510 Friends Rd, Hominy, OK 74035, USA",
-    "accessibility": "Wheelchair Accessible",
     "lgbt_affirming": "0"
   },
   {
-    "name": "Council House Friends",
+    "title": "Council House Friends",
     "description": "Council House Friends is located Northwest of Tiff City, MO, East of highway 10, and North of E 240 Rd. ",
     "longitude": "-94.66153749999999",
     "mappable": "1",
@@ -82,16 +70,14 @@
     "address": "22601 S. 680 Rd.",
     "latitude": "36.6825495",
     "zip": "74370-3412",
-    "location": "Corner of Cayuga, S. 680 and E. 230 Roads",
+    "description": "Corner of Cayuga, S. 680 and E. 230 Roads",
     "worship_time": "10:00am 1st Sundays",
-    "yearly_meeting": "",
     "state": "OK",
     "website": "http://www.councilhousefriends.org",
-    "map_status": "Address on map is S 680 Rd & E 230 Rd, Wyandotte, OK 74370, USA",
     "lgbt_affirming": "0"
   },
   {
-    "name": "Heartland Friends Meeting",
+    "title": "Heartland Friends Meeting",
     "description": "147th W. Hwy 54, just NE of Wichita Friends School",
     "longitude": "-97.509812",
     "mappable": "1",
@@ -105,8 +91,6 @@
     "yearly_meeting": ", Missouri Valley FC",
     "state": "KS",
     "website": "http://heartland.quaker.org",
-    "map_status": "Address on map is 14505 Sandwedge Cir, Wichita, KS 67235, USA",
-    "accessibility": "Hearing Assistance System, Wheelchair Accessible",
     "lgbt_affirming": "0"
   }
 ]
