@@ -1,0 +1,34 @@
+[
+    {
+        "meeting_id": "2",
+        "branch_id":"1"
+    },
+    {
+        "meeting_id": "2",
+        "branch_id":"2"
+    },
+    {
+        "meeting_id": "3",
+        "branch_id":"2"
+    },
+    {
+        "meeting_id": "3",
+        "branch_id":"3"
+    },
+    {
+        "meeting_id": "4",
+        "branch_id":"2"
+    },
+    {
+        "meeting_id": "5",
+        "branch_id":"2"
+    },
+    {
+        "meeting_id": "6",
+        "branch_id":"1"
+    },
+    {
+        "meeting_id": "6",
+        "branch_id":"2"
+    }
+]
