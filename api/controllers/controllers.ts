@@ -6,7 +6,7 @@ export const root = async (req, res) => {
 
     const pool = new Pool();
 
-    const queryResponse = await pool.query('SELECT NOW()');
+    const queryResponse = await pool.query('SELECT * FROM meeting;');
     console.log(queryResponse);
     await pool.end();
 
