@@ -1,26 +1,32 @@
 [
     {
         "meeting_id": "2",
-        "accessibility_id": "1"
+        "accessibility_id": "1",
+        "table_type": "meeting_accessibility"
     },
     {
         "meeting_id": "3",
-        "accessibility_id": "1"
+        "accessibility_id": "1",
+        "table_type": "meeting_accessibility"
     },
     {
         "meeting_id": "3",
-        "accessibility_id": "2"
+        "accessibility_id": "2",
+        "table_type": "meeting_accessibility"
     },
     {
         "meeting_id": "4",
-        "accessibility_id": "1"
+        "accessibility_id": "1",
+        "table_type": "meeting_accessibility"
     },
     {
         "meeting_id": "3",
-        "accessibility_id": "1"
+        "accessibility_id": "1",
+        "table_type": "meeting_accessibility"
     },
     {
         "meeting_id": "3",
-        "accessibility_id": "2"
+        "accessibility_id": "2",
+        "table_type": "meeting_accessibility"
     }
 ]

@@ -1,20 +1,26 @@
 [
     {
-        "title": "Friends General Conference"
+        "title": "Friends General Conference",
+        "table_type": "branch"
     },
     {
-        "title": "Friends United Meeting"
+        "title": "Friends United Meeting",
+        "table_type": "branch"
     },
     {
-        "title": "Evangelical Friends Church International"
+        "title": "Evangelical Friends Church International",
+        "table_type": "branch"
     },
     {
-        "title": "Conservative"
+        "title": "Conservative",
+        "table_type": "branch"
     },
     {
-        "title": "Holiness"
+        "title": "Holiness",
+        "table_type": "branch"
     },
     {
-        "title": "Independent"
+        "title": "Independent",
+        "table_type": "branch"
     }
 ]

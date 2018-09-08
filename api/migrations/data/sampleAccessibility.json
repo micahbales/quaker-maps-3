@@ -1,8 +1,10 @@
 [
     {
-        "title": "Wheelchair Accessible"
+        "title": "Wheelchair Accessible",
+        "table_type": "accessibility"
     },
     {
-        "title": "Hearing Assistance System"
+        "title": "Hearing Assistance System",
+        "table_type": "accessibility"
     }
 ]

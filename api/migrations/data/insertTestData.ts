@@ -1,11 +1,19 @@
 import dotenv = require ('dotenv');
 dotenv.config();
 import {Pool, Client} from 'pg';
-import sampleMeetings = require('./sampleMeetings.json');
+
+import sampleMeetings = require('./sampleMeetings');
 import sampleMeetingYearlyMeetings = require('./sampleMeetingYearlyMeetings');
-const pool = new Pool();
+import sampleBranches = require('./sampleBranches');
+import sampleMeetingBranches = require('./sampleMeetingBranches');
+import sampleWorshipStyles = require('./sampleWorshipStyles');
+import sampleMeetingWorshipStyles = require('./sampleMeetingWorshipStyles');
+import sampleAccessibility = require('./sampleAccessibility');
+import sampleMeetingAccessibility = require('./sampleMeetingAccessibility');
 
 async function insertTestData(records) {
+    const pool = new Pool();
+
     for (const record of records) {
         // Get table_type, then remove it from the record
         const tableType = record.table_type;
@@ -31,4 +39,9 @@ async function insertTestData(records) {
 
 insertTestData(sampleMeetings);
 insertTestData(sampleMeetingYearlyMeetings);
-
+insertTestData(sampleBranches);
+insertTestData(sampleMeetingBranches);
+insertTestData(sampleWorshipStyles);
+insertTestData(sampleMeetingWorshipStyles);
+insertTestData(sampleAccessibility);
+insertTestData(sampleMeetingAccessibility);
