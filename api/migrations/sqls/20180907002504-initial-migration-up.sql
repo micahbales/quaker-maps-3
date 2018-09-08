@@ -78,3 +78,24 @@ CREATE TABLE meeting_accessibility (
     created TIMESTAMP default current_timestamp,
     updated TIMESTAMP default current_timestamp
 );
+
+-- Create Quaker
+CREATE TABLE quaker (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255),
+    username VARCHAR(30),
+    password VARCHAR(255),
+    description VARCHAR(255),
+    created TIMESTAMP default current_timestamp,
+    updated TIMESTAMP default current_timestamp
+);
+
+-- Create MeetingQuaker
+CREATE TABLE meeting_quaker (
+    id SERIAL PRIMARY KEY,
+    quaker_id SMALLINT,
+    meeting_id SMALLINT,
+    created TIMESTAMP default current_timestamp,
+    updated TIMESTAMP default current_timestamp
+);

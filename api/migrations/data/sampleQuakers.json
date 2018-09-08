@@ -1,0 +1,18 @@
+[
+    {
+        "name": "Micah Bales",
+        "email": "micah@micahbales.com",
+        "username": "micahbales",
+        "password": "saskdjsk@#kdk!!",
+        "description": "I like long walks on the great plains of Kansas, and pizza.",
+        "table_type": "quaker"
+    },
+    {
+        "name": "George Fox",
+        "email": "george@fox.net",
+        "username": "geofox",
+        "password": "iamwalkinginthegloryofthelightsaidme",
+        "description": "There is one, even Christ Jesus, who can speak to thy condition!",
+        "table_type": "quaker"
+    }
+]

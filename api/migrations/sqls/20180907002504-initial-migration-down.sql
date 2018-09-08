@@ -6,3 +6,5 @@ DROP TABLE worship_style;
 DROP TABLE meeting_worship_style;
 DROP TABLE accessibility;
 DROP TABLE meeting_accessibility;
+DROP TABLE quaker;
+DROP TABLE meeting_quaker;

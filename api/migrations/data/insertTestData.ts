@@ -10,6 +10,8 @@ import sampleWorshipStyles = require('./sampleWorshipStyles');
 import sampleMeetingWorshipStyles = require('./sampleMeetingWorshipStyles');
 import sampleAccessibility = require('./sampleAccessibility');
 import sampleMeetingAccessibility = require('./sampleMeetingAccessibility');
+import sampleQuakers = require('./sampleQuakers');
+import sampleMeetingQuakers = require('./sampleMeetingQuakers');
 
 async function insertTestData(records) {
     const pool = new Pool();
@@ -45,3 +47,5 @@ insertTestData(sampleWorshipStyles);
 insertTestData(sampleMeetingWorshipStyles);
 insertTestData(sampleAccessibility);
 insertTestData(sampleMeetingAccessibility);
+insertTestData(sampleQuakers);
+insertTestData(sampleMeetingQuakers);
