@@ -15,6 +15,11 @@
         "table_type": "meeting_accessibility"
     },
     {
+        "meeting_id": "3",
+        "accessibility_id": "3",
+        "table_type": "meeting_accessibility"
+    },
+    {
         "meeting_id": "4",
         "accessibility_id": "1",
         "table_type": "meeting_accessibility"

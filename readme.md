@@ -26,7 +26,7 @@ npm install
 In the `api` directory:
 
 ```
-mv .env.example .env
+cp .env.example .env
 ```
 
 Open `.env` and replace the example secrets with your real project secrets.
@@ -57,6 +57,14 @@ Then, run the migration (and also all prior migrations) with this command:
 
 ```
 db-migrate up
+```
+
+### Seed Local Database with Sample Data
+
+In the `api` directory, run:
+
+```
+npm run seed
 ```
 
 ### SQL Workbench

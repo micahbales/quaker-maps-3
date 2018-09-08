@@ -6,7 +6,8 @@
     "start": "nodemon ./api/index.js",
     "server": "concurrently --kill-others-on-fail \"npm run typescript\" \"npm start\"",
     "typescript": "tsc -w",
-    "lint": "tslint './*.ts' --fix"
+    "lint": "tslint './*.ts' --fix",
+    "seed": "node ./migrations/data/insertTestData.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
