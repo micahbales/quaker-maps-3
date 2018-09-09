@@ -3,11 +3,12 @@
   "author": "Micah Bales",
   "license": "+CAL LICENSE - SEE LICENSE FILE",
   "scripts": {
-    "start": "nodemon ./api/index.js",
+    "start": "nodemon index.js",
     "server": "concurrently --kill-others-on-fail \"npm run typescript\" \"npm start\"",
     "typescript": "tsc -w",
     "lint": "tslint './*.ts' --fix",
-    "seed": "node ./migrations/data/insertTestData.js"
+    "seed": "node ./migrations/data/insertTestData.js",
+    "tests": "NODE_ENV=test mocha tests/**/*.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -18,11 +19,17 @@
     "pg": "^7.4.3"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.4",
     "@types/dotenv": "^4.0.3",
     "@types/express": "^4.16.0",
+    "@types/mocha": "^5.2.5",
     "@types/node": "^10.0.8",
+    "@types/supertest": "^2.0.6",
+    "chai": "^4.1.2",
     "concurrently": "^3.5.1",
+    "mocha": "^5.2.0",
     "nodemon": "^1.17.4",
+    "supertest": "^3.3.0",
     "tslint": "^5.10.0",
     "typescript": "^2.8.3"
   }

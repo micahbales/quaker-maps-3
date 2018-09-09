@@ -1,5 +1,5 @@
-import dotenv = require ('dotenv');
-dotenv.config();
+import * as dotenv from 'dotenv';
+dotenv.config({path: __dirname + '/../../.env'});
 import {Pool, Client} from 'pg';
 
 import * as sampleMeetings from './sampleMeetings.json';
