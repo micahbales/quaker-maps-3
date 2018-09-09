@@ -5,7 +5,8 @@
   "scripts": {
     "client": "cd client && npm start",
     "dev": "concurrently --kill-others-on-fail \"npm run client\" \"npm run server\"",
-    "server": "cd api && npm run server"
+    "server": "cd api && npm run server",
+    "install-all": "npm install && cd client && npm install && cd ../api && npm install"
   },
   "author": "Micah Bales",
   "license": "+CAL LICENSE - SEE LICENSE FILE",

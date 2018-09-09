@@ -18,7 +18,7 @@ We release this project to the world under the [+CAL license](https://legaldesig
 In the root project directory, run:
 
 ```
-npm install
+npm run install-all
 ```
 
 ## Setting up API config:
