@@ -1,9 +1,9 @@
-import {root} from '../controllers/controllers';
-import {catchErrors} from '../handlers/errorHandlers';
+import {allMeetings} from '../controllers/meetings';
+import {catchErrors} from '../utils/utils';
 import express = require('express');
 import {Router} from 'express';
 const router: Router = express.Router();
 
-router.get('/', catchErrors(root));
+router.get('/all-meetings', catchErrors(allMeetings));
 
 export default router;
