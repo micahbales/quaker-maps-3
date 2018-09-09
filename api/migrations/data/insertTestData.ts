@@ -2,16 +2,16 @@ import dotenv = require ('dotenv');
 dotenv.config();
 import {Pool, Client} from 'pg';
 
-import sampleMeetings = require('./sampleMeetings');
-import sampleMeetingYearlyMeetings = require('./sampleMeetingYearlyMeetings');
-import sampleBranches = require('./sampleBranches');
-import sampleMeetingBranches = require('./sampleMeetingBranches');
-import sampleWorshipStyles = require('./sampleWorshipStyles');
-import sampleMeetingWorshipStyles = require('./sampleMeetingWorshipStyles');
-import sampleAccessibility = require('./sampleAccessibility');
-import sampleMeetingAccessibility = require('./sampleMeetingAccessibility');
-import sampleQuakers = require('./sampleQuakers');
-import sampleMeetingQuakers = require('./sampleMeetingQuakers');
+import * as sampleMeetings from './sampleMeetings.json';
+import * as sampleMeetingYearlyMeetings from './sampleMeetingYearlyMeetings.json';
+import * as sampleBranches from './sampleBranches.json';
+import * as sampleMeetingBranches from './sampleMeetingBranches.json';
+import * as sampleWorshipStyles from './sampleWorshipStyles.json';
+import * as sampleMeetingWorshipStyles from './sampleMeetingWorshipStyles.json';
+import * as sampleAccessibility from './sampleAccessibility.json';
+import * as sampleMeetingAccessibility from './sampleMeetingAccessibility.json';
+import * as sampleQuakers from './sampleQuakers.json';
+import * as sampleMeetingQuakers from './sampleMeetingQuakers.json';
 
 async function insertTestData(records) {
     const pool = new Pool();
@@ -25,8 +25,9 @@ async function insertTestData(records) {
         const recordKeys: string = Object.keys(record).join(',');
         const recordValues: string = Object.values(record).map((value) => `\'${value}\'`)
         .map((value: string) => {
+            // Strings should be in quotes, numbers should not
             const strippedValue: string | number = value.replace(/'/g, '');
-            return isNaN(strippedValue) ? value : Number(strippedValue);
+            return Number.isNaN(Number(strippedValue)) ? value : Number(strippedValue);
         }).join(',');
 
         const queryString = `INSERT INTO ${tableType} (${recordKeys}) VALUES(${recordValues});`;

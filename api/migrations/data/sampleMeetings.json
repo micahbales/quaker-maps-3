@@ -13,7 +13,7 @@
     "worship_time": "00:00:00",
     "state": "KS",
     "website": "http://universityfriends.quaker.org",
-    "lgbt_affirming": "true",
+    "lgbt_affirming": "false",
     "table_type": "meeting"
   },
   {
@@ -46,7 +46,7 @@
     "worship_time": "10:45:00",
     "state": "KS",
     "website": "http://universityfriends.quaker.org",
-    "lgbt_affirming": "true",
+    "lgbt_affirming": "false",
     "table_type": "meeting"
   },
   {
@@ -61,7 +61,7 @@
     "zip": "74035",
     "worship_time": "11:00:00",
     "state": "OK",
-    "lgbt_affirming": "true",
+    "lgbt_affirming": "false",
     "table_type": "meeting"
   },
   {
@@ -76,7 +76,7 @@
     "worship_time": "10:00:00",
     "state": "OK",
     "website": "http://www.councilhousefriends.org",
-    "lgbt_affirming": "true",
+    "lgbt_affirming": "false",
     "table_type": "meeting"
   },
   {
