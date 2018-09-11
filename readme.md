@@ -13,12 +13,15 @@ We release this project to the world under the [+CAL license](https://legaldesig
 * Postgres
 * db-migrate
 
-## Installing Dependencies
+## Installing Dependencies & Setting Up Databases
 
-In the root project directory, run:
+To install all dependencies, run database migrations, and seed test and dev databases with sample data, run:
 
 ```
 npm run install-all
+cd api
+db-migrate up -e dev && db-migrate-up -e test
+npm run seed
 ```
 
 ## Setting up API config:
@@ -43,7 +46,7 @@ Run the following command:
 npm install -g db-migrate db-migrate-pg
 ```
 
-### Setting Up a Database Migration with db-migrate
+### Creating Up a New Database Migration with db-migrate
 
 In the `api` directory, run:
 
@@ -53,10 +56,20 @@ db-migrate create [name-of-migration] --sql-file
 
 You can then compose your SQL migration in the `...-up.sql` file.
 
-Then, run the migration (and also all prior migrations) with this command:
+Make sure to also write a backwards migration to allow easy rollback, using the `...-down.sql` file.
+
+#### Migrating Development and Test Databases
+
+To run both test and development environments, you'll need to run specific migrations for those. For example, `dev`:
 
 ```
-db-migrate up
+db-migrate up -e dev
+```
+
+And `test`:
+
+```
+db-migrate up -e test
 ```
 
 ### Seed Local Database with Sample Data
