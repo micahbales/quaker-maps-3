@@ -1,14 +1,19 @@
-import {Client} from 'pg';
 import {query} from '../utils/utils';
 
 export const allMeetings = async (req, res) => {
-    const client = new Client();
-    await client.connect();
+    const meetings = await query(
+        'SELECT * FROM meeting;'
+    );
 
-    const queryString = 'SELECT * FROM meeting;';
-    const meetingRecords = await query(client, queryString);
+    res.json({meetings});
+};
 
-    await client.end();
+export const meetingById = async (req, res) => {
+    const meetingId = req.params.id;
+    const meetings = await query(
+        'SELECT * FROM meeting ' +
+        ' WHERE id = ' + meetingId + ';'
+    );
 
-    res.json({allMeetings: meetingRecords});
+    res.json({meetings});
 };
