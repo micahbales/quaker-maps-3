@@ -8,11 +8,11 @@ export const catchErrors = (fn) => {
 };
 
 // Use this to make a simple query to the database
-export const query = async (queryString) => {
+export const query = async (queryString, values?) => {
   const client = new Client();
   await client.connect();
 
-  return await client.query(queryString).then((rows) => {
+  return await client.query(queryString, values).then((rows) => {
     // Clean up and return results
     client.end();
     return rows;

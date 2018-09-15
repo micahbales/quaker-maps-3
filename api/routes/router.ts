@@ -1,11 +1,14 @@
 import {catchErrors} from '../utils/utils';
 import express = require('express');
 import {Router} from 'express';
-import {allMeetings} from '../controllers/meetings';
-import {meetingById} from '../controllers/meetings';
+import {getAllMeetings} from '../controllers/meetings';
+import {getMeetingById} from '../controllers/meetings';
+import {createMeeting} from '../controllers/meetings';
 const router: Router = express.Router();
 
-router.get('/meetings', catchErrors(allMeetings));
-router.get('/meetings/:id', catchErrors(meetingById));
+// Meetings
+router.get('/meetings', catchErrors(getAllMeetings));
+router.get('/meetings/:id', catchErrors(getMeetingById));
+router.post('/meetings', catchErrors(createMeeting));
 
 export default router;
