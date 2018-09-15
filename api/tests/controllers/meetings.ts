@@ -11,7 +11,6 @@ describe('Meetings', () => {
                     .get('/meetings')
                     .expect(200)
                     .end((err, res) => {
-                        console.log(res.body.meetings.length);
                         chai.assert(res.body.meetings.length === 6);
                         done(err);
                     });

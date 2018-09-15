@@ -7,8 +7,9 @@
     "lib": ["es2017", "dom"],
     "typeRoots": [
       "node_modules/@types"
-    ],
-    "allowJs":true
+    ]
+    // This option was causing a write error with our migration js files
+    // "allowJs":true
   },
   "compileOnSave": true,
   "exclude": [

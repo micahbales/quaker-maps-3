@@ -10,7 +10,7 @@
     "seed": "npm run seed:dev && npm run seed:test",
     "seed:dev": "PGDATABASE='quaker_maps_dev' node ./migrations/data/insertTestData.js",
     "seed:test": "PGDATABASE='quaker_maps_test' node ./migrations/data/insertTestData.js",
-    "tests": "db-migrate down -e test && db-migrate up -e test && npm run seed:test && PGDATBASE=quaker_maps_test mocha tests/**/*.js"
+    "tests": "tsc && db-migrate down -e test && db-migrate up -e test && npm run seed:test && NODE_ENV=test PGDATBASE=quaker_maps_test mocha tests/**/*.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
