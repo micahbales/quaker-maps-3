@@ -1,6 +1,6 @@
 // Load environmental variables
 import * as dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({path: __dirname + '/.env.dev'});
 
 // Start App
 import app from './app';
