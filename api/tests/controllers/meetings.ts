@@ -40,6 +40,19 @@ describe('Meetings', () => {
         });
     });
 
+    describe('GET /yearlymeetings', () => {
+        it('should return all yearly meetings (in this case, just one)', (done) => {
+            supertest(app)
+                    .get('/yearlymeetings')
+                    .expect(200)
+                    .end((err, res) => {
+                        chai.assert(res.body.meetings.length === 1);
+                        chai.assert(res.body.meetings[0].title = 'Great Plains Yearly Meeting');
+                        done(err);
+                    });
+        });
+    });
+
     describe('POST /meetings/:id', () => {
         it('should create a new meeting record', (done) => {
             const meeting = {

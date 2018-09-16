@@ -9,6 +9,16 @@ export const getAllMeetings = async (req, res) => {
     res.json({meetings: meetings.rows});
 };
 
+// GET /yearlymeetings
+export const getYearlyMeetings = async (req, res) => {
+    const meetings = await query(
+        'SELECT meeting.* FROM meeting ' +
+        ' WHERE meeting.id NOT IN (SELECT meeting_id FROM meeting_yearly_meeting);'
+    );
+
+    res.json({meetings: meetings.rows});
+};
+
 // GET /meetings/:id
 export const getMeetingById = async (req, res) => {
     const meetingId = req.params.id;
