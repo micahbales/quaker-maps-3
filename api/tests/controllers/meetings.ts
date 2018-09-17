@@ -53,7 +53,7 @@ describe('Meetings', () => {
         });
     });
 
-    describe('POST /meetings/:id', () => {
+    describe('POST /meetings/', () => {
         it('should create a new meeting record', (done) => {
             const meeting = {
                 title: 'brand new meeting',
@@ -85,6 +85,47 @@ describe('Meetings', () => {
                         .end((err, res) => {
                             // New meeting record is successfully retrieved
                             chai.assert(res.body.meetings.find((o) => o.title === 'brand new meeting'));
+                            done(err);
+                        });
+                    });
+        });
+    });
+
+    describe('PUT /meetings/:id', () => {
+        it('should update a meeting record', (done) => {
+            const meeting = {
+                title: 'an updated meeting',
+                longitude: 75.20201,
+                mappable: 'true',
+                phone: '1234567890',
+                email: 'example@example.com',
+                city: 'anytown',
+                address: '123 street',
+                latitude: -88.0029,
+                zip: '12345',
+                description: 'we updated our description to reflect changes',
+                worship_time: '10:00AM',
+                state: 'AK',
+                website: 'www.www.com',
+                lgbt_affirming: 'true'
+            };
+
+            // Update meeting record
+            supertest(app)
+                    .put('/meetings/7')
+                    .send({meeting})
+                    .expect(204)
+                    .end((err, res) => {
+                        // Then check and make sure it was updated
+                        supertest(app)
+                        .get('/meetings')
+                        .expect(200)
+                        .end((err, res) => {
+                            // New meeting record is successfully retrieved
+                            chai.assert(res.body.meetings.find((o) => {
+                                return o.title === 'an updated meeting' && 
+                                o.description === 'we updated our description to reflect changes'
+                            }));
                             done(err);
                         });
                     });

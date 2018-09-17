@@ -42,3 +42,31 @@ export const createMeeting = async (req, res) => {
 
     res.status(201).send({meeting});
 };
+
+// PUT /meetings/:id
+export const updateMeeting = async (req, res) => {
+    const meetingId = req.params.id;
+    const meeting = req.body.meeting;
+    const queryString = 'UPDATE meeting ' +
+    ' SET ' +
+    ' title=\'' + meeting.title + '\',' +
+    ' longitude=' + meeting.longitude + ',' +
+    ' mappable=\'' + meeting.mappable + '\',' +
+    ' phone=\'' + meeting.phone + '\',' +
+    ' email=\'' + meeting.email + '\',' +
+    ' city=\'' + meeting.city + '\',' +
+    ' address=\'' + meeting.address + '\',' +
+    ' latitude=' + meeting.latitude + ',' +
+    ' description=\'' + meeting.description + '\',' +
+    ' worship_time=\'' + meeting.worship_time + '\',' +
+    ' state=\'' + meeting.state + '\',' +
+    ' website=\'' + meeting.website + '\',' +
+    ' lgbt_affirming=\'' + meeting.lgbt_affirming + '\'' +
+    ' WHERE id = ' + meetingId + ';';
+
+    console.log(queryString);
+
+    const meetings = await query(queryString);
+
+    res.json({meetings: meetings.rows});
+};
