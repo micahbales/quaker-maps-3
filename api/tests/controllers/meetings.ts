@@ -131,4 +131,23 @@ describe('Meetings', () => {
                     });
         });
     });
+    describe('DELETE /meetings/:id', () => {
+        it('should delete a meeting record', (done) => {
+            // Update meeting record
+            supertest(app)
+                    .delete('/meetings/7')
+                    .expect(204)
+                    .end((err, res) => {
+                        // Then check and make sure it was deleted
+                        supertest(app)
+                        .get('/meetings')
+                        .expect(200)
+                        .end((err, res) => {
+                            // New meeting record no longer exists
+                            chai.assert(!!(res.body.meetings[6]) === false);
+                            done(err);
+                        });
+                    });
+        });
+    });
 });

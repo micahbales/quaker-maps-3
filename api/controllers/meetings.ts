@@ -70,3 +70,14 @@ export const updateMeeting = async (req, res) => {
 
     res.json({meetings: meetings.rows});
 };
+
+// DELETE /meetings/:id
+export const deleteMeeting = async (req, res) => {
+    const meetingId = req.params.id;
+    const meeting = await query(
+        'DELETE FROM meeting ' +
+        ' WHERE id = ' + meetingId + ';'
+    );
+
+    res.json({meeting});
+};
