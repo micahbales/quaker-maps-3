@@ -56,7 +56,7 @@ export const updateMeeting = async (req, res) => {
 
     const meetings = await query(queryString);
 
-    res.json({meetings: meetings.rows});
+    res.status(204).json({meetings: meetings.rows});
 };
 
 // DELETE /meetings/:id

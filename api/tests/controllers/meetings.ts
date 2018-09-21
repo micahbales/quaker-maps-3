@@ -131,6 +131,7 @@ describe('Meetings', () => {
                     });
         });
     });
+    
     describe('DELETE /meetings/:id', () => {
         it('should delete a meeting record', (done) => {
             // Update meeting record
@@ -144,7 +145,7 @@ describe('Meetings', () => {
                         .expect(200)
                         .end((err, res) => {
                             // New meeting record no longer exists
-                            chai.assert(!!(res.body.meetings[6]) === false);
+                            chai.assert(!!(res.body.meetings.find((o) => o.title === 'an updated meeting')) === false);
                             done(err);
                         });
                     });
