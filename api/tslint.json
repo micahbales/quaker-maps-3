@@ -1,6 +1,12 @@
 {
     "extends": "tslint:recommended",
-    "rules": {
+    "linterOptions": {
+        "exclude": [
+            "config/**/*.js",
+            "node_modules/**/*.ts"
+        ]
+        },
+        "rules": {
         "curly": false,
         "max-line-length": {
             "options": [120]
