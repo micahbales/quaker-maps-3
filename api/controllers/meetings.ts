@@ -10,17 +10,25 @@ import {
 export const getAllMeetings = async (req, res) => {
     const meetings = await query(
         `SELECT m1.*,
+
         (SELECT string_agg(m2.title, ', ')
                FROM meeting_yearly_meeting mym1
                     LEFT JOIN meeting m2
                               ON m2.id = mym1.yearly_meeting_id
-               WHERE mym1.meeting_id = m1.id) yearly_meeting
+               WHERE mym1.meeting_id = m1.id) AS yearly_meeting,
+
+        (SELECT string_agg(ws1.title, ', ')
+                FROM meeting_worship_style mws1
+                    LEFT JOIN worship_style ws1
+                                ON ws1.id = mws1.worship_style_id
+                WHERE mws1.meeting_id = m1.id) AS worship_style
+
         FROM meeting m1;`
     );
 
     // TODO:
     // We need to include yearly meeting, (check)
-                        // worship style,
+                        // worship style, (check)
                         // branch,
                         // and accessibility
     // in the records we send back to the client

@@ -23,5 +23,20 @@
         "worship_style_id": "1",
         "meeting_id": "6",
         "table_type": "meeting_worship_style"
+    },
+    {
+        "worship_style_id": "1",
+        "meeting_id": "1",
+        "table_type": "meeting_worship_style"
+    },
+    {
+        "worship_style_id": "2",
+        "meeting_id": "1",
+        "table_type": "meeting_worship_style"
+    },
+    {
+        "worship_style_id": "3",
+        "meeting_id": "1",
+        "table_type": "meeting_worship_style"
     }
 ]

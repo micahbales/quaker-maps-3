@@ -60,6 +60,10 @@ class MeetingCard extends React.Component<IMeetingCardProps> {
                     item={this.meeting.phone} 
                 />
                 <RecordItemListing 
+                    label='Worship Style' 
+                    item={this.meeting.worship_style} 
+                />
+                <RecordItemListing 
                     label='Description' 
                     item={this.meeting.description} 
                 />

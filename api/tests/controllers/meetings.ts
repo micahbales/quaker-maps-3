@@ -15,6 +15,39 @@ describe('Meetings', () => {
                         done(err);
                     });
         });
+
+        it('should 5 meetings with a yearly meeting, and one with no yearly meeting', (done) => {
+            supertest(app)
+                    .get('/meetings')
+                    .expect(200)
+                    .end((err, res) => {
+                        const expectedValues = [
+                            null,
+                            'Great Plains Yearly Meeting',
+                            'Great Plains Yearly Meeting',
+                            'Great Plains Yearly Meeting',
+                            'Great Plains Yearly Meeting',
+                            'Great Plains Yearly Meeting',
+                        ];
+                        const actualValues = res.body.meetings.map((m) => m.yearly_meeting);
+
+                        chai.assert.equal(expectedValues.length, actualValues.length);
+                        chai.assert.equal(actualValues.length, 6);
+                        chai.assert.equal(expectedValues.join(','), actualValues.join(','));
+
+                        done(err);
+                    });
+        });
+
+        it('should return a yearly meeting with all three worship styles', (done) => {
+            supertest(app)
+                    .get('/meetings')
+                    .expect(200)
+                    .end((err, res) => {
+                        chai.assert(res.body.meetings[0].worship_style = 'unprogrammed, programmed, semi_programmed');
+                        done(err);
+                    });
+        });
     });
 
     describe('GET /meetings/:id', () => {
@@ -77,7 +110,7 @@ describe('Meetings', () => {
                     .post('/meetings')
                     .send({meeting})
                     .expect(201)
-                    .end((err, res) => {
+                    .end(() => {
                         // Then check and make sure it was created
                         supertest(app)
                         .get('/meetings')
@@ -115,7 +148,7 @@ describe('Meetings', () => {
                     .put('/meetings/7')
                     .send({meeting})
                     .expect(204)
-                    .end((err, res) => {
+                    .end(() => {
                         // Then check and make sure it was updated
                         supertest(app)
                         .get('/meetings')
@@ -123,22 +156,22 @@ describe('Meetings', () => {
                         .end((err, res) => {
                             // New meeting record is successfully retrieved
                             chai.assert(res.body.meetings.find((o) => {
-                                return o.title === 'an updated meeting' && 
-                                o.description === 'we updated our description to reflect changes'
+                                return o.title === 'an updated meeting' &&
+                                o.description === 'we updated our description to reflect changes';
                             }));
                             done(err);
                         });
                     });
         });
     });
-    
+
     describe('DELETE /meetings/:id', () => {
         it('should delete a meeting record', (done) => {
             // Update meeting record
             supertest(app)
                     .delete('/meetings/7')
                     .expect(204)
-                    .end((err, res) => {
+                    .end(() => {
                         // Then check and make sure it was deleted
                         supertest(app)
                         .get('/meetings')
