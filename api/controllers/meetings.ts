@@ -14,14 +14,20 @@ export const getAllMeetings = async (req, res) => {
         (SELECT string_agg(m2.title, ', ')
                FROM meeting_yearly_meeting mym1
                     LEFT JOIN meeting m2
-                              ON m2.id = mym1.yearly_meeting_id
+                            ON m2.id = mym1.yearly_meeting_id
                WHERE mym1.meeting_id = m1.id) AS yearly_meeting,
 
         (SELECT string_agg(ws1.title, ', ')
                 FROM meeting_worship_style mws1
                     LEFT JOIN worship_style ws1
-                                ON ws1.id = mws1.worship_style_id
-                WHERE mws1.meeting_id = m1.id) AS worship_style
+                            ON ws1.id = mws1.worship_style_id
+                WHERE mws1.meeting_id = m1.id) AS worship_style,
+
+        (SELECT string_agg(b1.title, ', ')
+                FROM meeting_branch mb1
+                    LEFT JOIN branch b1
+                            ON b1.id = mb1.branch_id
+                WHERE mb1.meeting_id = m1.id) AS branch
 
         FROM meeting m1;`
     );
@@ -29,7 +35,7 @@ export const getAllMeetings = async (req, res) => {
     // TODO:
     // We need to include yearly meeting, (check)
                         // worship style, (check)
-                        // branch,
+                        // branch, (check)
                         // and accessibility
     // in the records we send back to the client
     // This will mean a lot of joins for this query

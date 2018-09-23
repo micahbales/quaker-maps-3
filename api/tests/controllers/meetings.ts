@@ -48,6 +48,28 @@ describe('Meetings', () => {
                         done(err);
                     });
         });
+
+        it('should return Great Plains Yearly Meeting as having the branch Friends United Meeting', (done) => {
+            supertest(app)
+                    .get('/meetings')
+                    .expect(200)
+                    .end((err, res) => {
+                        const meeting = res.body.meetings.find((m) => m.title === 'Great Plains Yearly Meeting');
+                        chai.assert(meeting.branch = 'Friends United Meeting');
+                        done(err);
+                    });
+        });
+
+        it('should return Heartland Meeting as having 2 branches: FUM and FGC', (done) => {
+            supertest(app)
+                    .get('/meetings')
+                    .expect(200)
+                    .end((err, res) => {
+                        const meeting = res.body.meetings.find((m) => m.title === 'Heartland Friends Meeting');
+                        chai.assert(meeting.branch = 'Friends General Conference, Friends United Meeting');
+                        done(err);
+                    });
+        });
     });
 
     describe('GET /meetings/:id', () => {
