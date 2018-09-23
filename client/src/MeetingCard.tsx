@@ -1,15 +1,43 @@
 import * as React from 'react';
 
-interface IProps {
+interface IMeetingCardProps {
     meeting: any;
     key: number;
 }
 
-class MeetingCard extends React.Component<IProps> {
+interface IRecordItemListingProps {
+    item: string;
+    label: string;
+    link?: string;
+}
+
+const RecordItemListing: React.SFC<IRecordItemListingProps> = (props) => {
+    if (props.link) {
+        return (
+            <div>
+                <p>
+                    <label>{props.label}: </label>
+                    <a href={props.link}>{props.item}</a>
+                </p>
+            </div>
+        )
+    }
+    return (
+        <div>
+            <p>
+                <label>{props.label}: </label>
+                {props.item}
+            </p>
+        </div>
+    )
+};
+
+
+class MeetingCard extends React.Component<IMeetingCardProps> {
     private meeting: any;
     private key: number;
 
-    constructor(props: IProps) {
+    constructor(props: IMeetingCardProps) {
         super(props);
         this.meeting = this.props.meeting;
         this.key = this.props.key
@@ -19,35 +47,35 @@ class MeetingCard extends React.Component<IProps> {
         return (
             <div className='meeting-card' key={this.key}>
                 <h3>{this.meeting.title}</h3>
-                <p>
-                    <label>Address: </label>
-                    {this.meeting.address + ' '} 
-                    {this.meeting.city + ' '} 
-                    {this.meeting.state + ' '} 
-                    {this.meeting.zip}
-                </p>
-                <p>
-                    <label>Email: </label>
-                    {this.meeting.email}
-                </p>
-                <p>
-                    <label>Phone: </label>
-                    {this.meeting.phone}
-                </p>
-                <p>
-                    <label>Description: </label>
-                    {this.meeting.description}
-                </p>
-                <p>
-                    <label>Website: </label>
-                    <a href={this.meeting.website}>
-                        {this.meeting.website}
-                    </a>
-                </p>
-                <p>
-                    <label>LGBT Affirming*: </label>
-                    {this.meeting.lgbt_affirming ? 'Yes' : 'No'}
-                </p>
+                <RecordItemListing 
+                    label='Address' 
+                    item={`${this.meeting.address} ${this.meeting.city} ${this.meeting.state} ${this.meeting.zip}`}
+                />
+                <RecordItemListing 
+                    label='Email' 
+                    item={this.meeting.email} 
+                />
+                <RecordItemListing 
+                    label='Phone' 
+                    item={this.meeting.phone} 
+                />
+                <RecordItemListing 
+                    label='Description' 
+                    item={this.meeting.description} 
+                />
+                <RecordItemListing 
+                    label='Website' 
+                    item={this.meeting.website}
+                    link={this.meeting.website}
+                />
+                <RecordItemListing 
+                    label='Yearly Meeting' 
+                    item={this.meeting.yearly_meeting} 
+                />
+                <RecordItemListing 
+                    label='LGBT Affirming*' 
+                    item={this.meeting.lgbt_affirming ? 'Yes' : 'No'} 
+                />
             </div>
         )
     }
