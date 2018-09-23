@@ -92,6 +92,8 @@ jdbc:postgresql://localhost:5432/quaker_maps_dev
 
 (The port number will likely be 5432 or 5433.)
 
+You will also need to set the `Driver` to Postgres, and provide your database username and password.
+
 ## Deployment
 
 _Coming soon_
