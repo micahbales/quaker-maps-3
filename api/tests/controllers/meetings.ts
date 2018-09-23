@@ -20,7 +20,7 @@ describe('Meetings', () => {
     describe('GET /meetings/:id', () => {
         it('should return 1 meeting', (done) => {
             supertest(app)
-                    .get('/meetings/1')
+                    .get('/meetings/2')
                     .expect(200)
                     .end((err, res) => {
                         chai.assert(res.body.meetings.length === 1);
