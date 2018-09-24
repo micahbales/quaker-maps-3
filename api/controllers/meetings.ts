@@ -27,18 +27,16 @@ export const getAllMeetings = async (req, res) => {
                 FROM meeting_branch mb1
                     LEFT JOIN branch b1
                             ON b1.id = mb1.branch_id
-                WHERE mb1.meeting_id = m1.id) AS branch
+                WHERE mb1.meeting_id = m1.id) AS branch,
+
+        (SELECT string_agg(a1.title, ', ')
+                FROM meeting_accessibility ma1
+                    LEFT JOIN accessibility a1
+                            ON a1.id = ma1.accessibility_id
+                WHERE ma1.meeting_id = m1.id) AS accessibility
 
         FROM meeting m1;`
     );
-
-    // TODO:
-    // We need to include yearly meeting, (check)
-                        // worship style, (check)
-                        // branch, (check)
-                        // and accessibility
-    // in the records we send back to the client
-    // This will mean a lot of joins for this query
 
     res.json({meetings: meetings.rows});
 };

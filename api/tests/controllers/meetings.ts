@@ -70,6 +70,31 @@ describe('Meetings', () => {
                         done(err);
                     });
         });
+
+        it('should return Great Plains Yearly Meeting as having no accessibility options', (done) => {
+            supertest(app)
+                    .get('/meetings')
+                    .expect(200)
+                    .end((err, res) => {
+                        const meeting = res.body.meetings.find((m) => m.title === 'Great Plains Yearly Meeting');
+                        chai.assert.equal(meeting.accesibility, null);
+                        done(err);
+                    });
+        });
+
+        it('should return University Friends Church as having all accessibility options', (done) => {
+            supertest(app)
+                    .get('/meetings')
+                    .expect(200)
+                    .end((err, res) => {
+                        const meeting = res.body.meetings.find((m) => m.title === 'University Friends Church');
+                        chai.assert.equal(
+                            meeting.accessibility,
+                            'Wheelchair Accessible, Hearing Assistance System, Childcare Available'
+                        );
+                        done(err);
+                    });
+        });
     });
 
     describe('GET /meetings/:id', () => {

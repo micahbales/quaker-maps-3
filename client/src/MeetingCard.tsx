@@ -81,6 +81,10 @@ class MeetingCard extends React.Component<IMeetingCardProps> {
                     item={this.meeting.yearly_meeting} 
                 />
                 <RecordItemListing 
+                    label='Accessibility' 
+                    item={this.meeting.accessibility} 
+                />
+                <RecordItemListing 
                     label='LGBT Affirming*' 
                     item={this.meeting.lgbt_affirming ? 'Yes' : 'No'} 
                 />
