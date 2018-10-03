@@ -44,7 +44,7 @@ describe('Meetings', () => {
                     .get('/meetings')
                     .expect(200)
                     .end((err, res) => {
-                        chai.assert(res.body.meetings[0].worship_style = 'unprogrammed, programmed, semi_programmed');
+                        chai.assert(res.body.meetings[0].worship_style = 'unprogrammed, programmed, semi-programmed');
                         done(err);
                     });
         });
@@ -165,6 +165,52 @@ describe('Meetings', () => {
                         .end((err, res) => {
                             // New meeting record is successfully retrieved
                             chai.assert(res.body.meetings.find((o) => o.title === 'brand new meeting'));
+                            done(err);
+                        });
+                    });
+        });
+
+        it.only(`should create a new meeting record with joins for
+                yearly meeting, worship style, branch, and accessibility`, (done) => {
+            const meeting = {
+                title: 'brand new meeting',
+                longitude: 75.20201,
+                mappable: 'true',
+                phone: '1234567890',
+                email: 'example@example.com',
+                city: 'anytown',
+                address: '123 street',
+                latitude: -88.0029,
+                zip: '12345',
+                description: 'this is an example meeting',
+                worship_time: '10:00AM',
+                state: 'AK',
+                website: 'www.www.com',
+                lgbt_affirming: 'true',
+                yearly_meeting: [1],
+                worship_style: [1, 3],
+                branch: [1, 2],
+                accessibility: [3]
+            };
+
+            // Create meeting record
+            supertest(app)
+                    .post('/meetings')
+                    .send({meeting})
+                    .expect(201)
+                    .end(() => {
+                        // Then check and make sure it was created
+                        supertest(app)
+                        .get('/meetings')
+                        .expect(200)
+                        .end((err, res) => {
+                            // New meeting record is successfully retrieved
+                            chai.assert(res.body.meetings.find((o) => o.title === 'brand new meeting'));
+                            chai.assert(
+                                res.body.meetings
+                                .find((o) => o.id === 7 &&
+                                o.yearly_meeting === 'Great Plains Yearly Meeting')
+                                );
                             done(err);
                         });
                     });

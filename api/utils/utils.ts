@@ -36,6 +36,7 @@ export function getQueryBling(record) {
           .join(',');
 }
 
+// Create key/value string for queries
 export function getKeyValueQueryString(record) {
   let queryString = '';
 
@@ -47,4 +48,19 @@ export function getKeyValueQueryString(record) {
   return queryString
           // Remove last comma
           .substring(0, queryString.length - 1);
+}
+
+// Remove join table values from record object
+export function removeJoinKeys(record) {
+  const keysToBeRemoved = ['yearly_meeting', 'worship_style', 'branch', 'accessibility'];
+  // Make a shallow copy so we don't mutate the original record
+  const newRecord = Object.assign({}, record);
+
+  for (const key in newRecord) {
+    if (newRecord.hasOwnProperty(key)) {
+      if (keysToBeRemoved.includes(key)) delete newRecord[key];
+    }
+  }
+
+  return newRecord;
 }
