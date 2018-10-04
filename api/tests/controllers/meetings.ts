@@ -224,6 +224,12 @@ describe('Meetings', () => {
                                 .find((o) => o.id === 7 &&
                                 o.branch === 'Friends General Conference, Friends United Meeting')
                                 );
+                            // It has an accessibility option
+                            chai.assert(
+                                res.body.meetings
+                                .find((o) => o.id === 7 &&
+                                o.accessibility === 'Childcare Available')
+                                );
                             done(err);
                         });
                     });

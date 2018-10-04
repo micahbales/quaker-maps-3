@@ -124,7 +124,19 @@ export const createMeeting = async (req, res) => {
         await query(mbQueryString, getValues(mb));
     });
 
-    // accessibility
+    // Create new meeting's accessibility option(s)
+    const newMeetingAccessibility = [];
+    accessibilityIds.forEach((aId) => {
+        newMeetingAccessibility.push({
+            accessibility_id: aId,
+            meeting_id: meetingId
+        });
+    });
+    newMeetingAccessibility.forEach(async (ma, i) => {
+        const maQueryString = 'INSERT INTO meeting_accessibility (' + getKeys(ma) + ') ' +
+                        ' VALUES (' + getQueryBling(ma) + ')' + ';';
+        await query(maQueryString, getValues(ma));
+    });
 
     res.status(201).send({meeting});
 };
