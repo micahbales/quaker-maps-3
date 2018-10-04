@@ -206,10 +206,17 @@ describe('Meetings', () => {
                         .end((err, res) => {
                             // New meeting record is successfully retrieved
                             chai.assert(res.body.meetings.find((o) => o.title === 'brand new meeting'));
+                            // It has a yearly meeting
                             chai.assert(
                                 res.body.meetings
                                 .find((o) => o.id === 7 &&
                                 o.yearly_meeting === 'Great Plains Yearly Meeting')
+                                );
+                            // It has two worship styles
+                            chai.assert(
+                                res.body.meetings
+                                .find((o) => o.id === 7 &&
+                                o.worship_style === 'unprogrammed, semi-programmed')
                                 );
                             done(err);
                         });

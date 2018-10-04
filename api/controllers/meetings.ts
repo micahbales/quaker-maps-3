@@ -80,18 +80,19 @@ export const createMeeting = async (req, res) => {
                         // Return the idea of the newly created meeting
                         'RETURNING id' + ';';
     const meeting = await query(meetingQueryString, getValues(newMeeting));
+    const meetingId = meeting.rows[0].id;
 
     // Create meeting's yearly_meeting(s)
     const newMeetingYearlyMeetings = [];
     yearlyMeetingIds.forEach((ymId) => {
         newMeetingYearlyMeetings.push({
-            meeting_id: meeting.rows[0].id,
+            meeting_id: meetingId,
             yearly_meeting_id: ymId
         });
     });
 
     newMeetingYearlyMeetings.forEach(async (mym, i) => {
-        const mymQueryString = 'INSERT INTO meeting_yearly_meeting(' + getKeys(mym) + ') ' +
+        const mymQueryString = 'INSERT INTO meeting_yearly_meeting (' + getKeys(mym) + ') ' +
                         ' VALUES (' + getQueryBling(mym) + ')' +
                         ';';
 
@@ -101,7 +102,25 @@ export const createMeeting = async (req, res) => {
             );
     });
 
-    // worship_style
+    // Create meeting's worship_style(s)
+    const newMeetingWorshipStyles = [];
+    worshipStyleIds.forEach((wsId) => {
+        newMeetingWorshipStyles.push({
+            worship_style_id: wsId,
+            meeting_id: meetingId
+        });
+    });
+
+    newMeetingWorshipStyles.forEach(async (mws, i) => {
+        const mwsQueryString = 'INSERT INTO meeting_worship_style (' + getKeys(mws) + ') ' +
+        ' VALUES (' + getQueryBling(mws) + ')' +
+        ';';
+
+        await query(
+        mwsQueryString,
+        getValues(mws)
+        );
+    });
 
     // branch
 
@@ -118,6 +137,8 @@ export const updateMeeting = async (req, res) => {
                         ' SET ' +
                         getKeyValueQueryString(meeting) +
                         ' WHERE id = ' + meetingId + ';';
+
+    // We'll also need to be able to update yearly_meeting, worship_style, branch, & accessability
 
     const meetings = await query(queryString);
 
