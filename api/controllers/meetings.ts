@@ -90,16 +90,10 @@ export const createMeeting = async (req, res) => {
             yearly_meeting_id: ymId
         });
     });
-
     newMeetingYearlyMeetings.forEach(async (mym, i) => {
         const mymQueryString = 'INSERT INTO meeting_yearly_meeting (' + getKeys(mym) + ') ' +
-                        ' VALUES (' + getQueryBling(mym) + ')' +
-                        ';';
-
-        await query(
-            mymQueryString,
-            getValues(mym)
-            );
+                        ' VALUES (' + getQueryBling(mym) + ')' + ';';
+        await query(mymQueryString, getValues(mym));
     });
 
     // Create meeting's worship_style(s)
@@ -110,19 +104,25 @@ export const createMeeting = async (req, res) => {
             meeting_id: meetingId
         });
     });
-
     newMeetingWorshipStyles.forEach(async (mws, i) => {
         const mwsQueryString = 'INSERT INTO meeting_worship_style (' + getKeys(mws) + ') ' +
-        ' VALUES (' + getQueryBling(mws) + ')' +
-        ';';
-
-        await query(
-        mwsQueryString,
-        getValues(mws)
-        );
+                        ' VALUES (' + getQueryBling(mws) + ')' + ';';
+        await query(mwsQueryString, getValues(mws));
     });
 
-    // branch
+    // Create new meeting's branch(es)
+    const newMeetingBranches = [];
+    branchIds.forEach((bId) => {
+        newMeetingBranches.push({
+            branch_id: bId,
+            meeting_id: meetingId
+        });
+    });
+    newMeetingBranches.forEach(async (mb, i) => {
+        const mbQueryString = 'INSERT INTO meeting_branch (' + getKeys(mb) + ') ' +
+                        ' VALUES (' + getQueryBling(mb) + ')' + ';';
+        await query(mbQueryString, getValues(mb));
+    });
 
     // accessibility
 

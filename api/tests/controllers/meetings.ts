@@ -16,7 +16,7 @@ describe('Meetings', () => {
                     });
         });
 
-        it('should 5 meetings with a yearly meeting, and one with no yearly meeting', (done) => {
+        it('should return 5 meetings with a yearly meeting, and one with no yearly meeting', (done) => {
             supertest(app)
                     .get('/meetings')
                     .expect(200)
@@ -217,6 +217,12 @@ describe('Meetings', () => {
                                 res.body.meetings
                                 .find((o) => o.id === 7 &&
                                 o.worship_style === 'unprogrammed, semi-programmed')
+                                );
+                            // It has two branches
+                            chai.assert(
+                                res.body.meetings
+                                .find((o) => o.id === 7 &&
+                                o.branch === 'Friends General Conference, Friends United Meeting')
                                 );
                             done(err);
                         });
