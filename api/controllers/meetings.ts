@@ -68,7 +68,43 @@ export const getYearlyMeetings = async (req, res) => {
         );`
     );
 
-    res.json({meetings: meetings.rows});
+    // Yearly meetings don't belong to any yearly meeting
+    meetings.rows.map((meeting) => meeting.yearly_meeting = null);
+
+    const branches = await meetings.rows.map(async (meeting) => {
+        const branch = await query(
+            `SELECT branch.* FROM meeting_branch
+            JOIN branch ON branch.id = meeting_branch.branch_id
+            WHERE meeting_id = ${meeting.id};`
+        );
+        return meeting.branch = branch.rows;
+    });
+
+    const worshipStyles = await meetings.rows.map(async (meeting) => {
+        const ws = await query(
+            `SELECT worship_style.* FROM meeting_worship_style
+            JOIN worship_style ON worship_style.id = meeting_worship_style.worship_style_id
+            WHERE meeting_id = ${meeting.id};`
+        );
+        return meeting.worship_style = ws.rows;
+    });
+
+    const accessibilities = await meetings.rows.map(async (meeting) => {
+        const access = await query(
+            `SELECT accessibility.* FROM meeting_accessibility
+            JOIN accessibility ON accessibility.id = meeting_accessibility.accessibility_id
+            WHERE meeting_id = ${meeting.id};`
+        );
+        return meeting.accessibility = access.rows;
+    });
+
+    Promise.all([
+        Promise.all(branches),
+        Promise.all(worshipStyles),
+        Promise.all(accessibilities)
+    ]).then(() => {
+        res.json({meetings: meetings.rows});
+    });
 };
 
 // GET /meetings/:id

@@ -117,7 +117,7 @@ describe('Meetings', function() {
         });
     });
 
-    describe('GET /yearlymeetings', () => {
+    describe.only('GET /yearlymeetings', () => {
         it('should return all yearly meetings (in this case, just one)', (done) => {
             supertest(app)
                     .get('/yearlymeetings')
@@ -125,6 +125,22 @@ describe('Meetings', function() {
                     .end((err, res) => {
                         chai.assert(res.body.meetings.length === 1);
                         chai.assert(res.body.meetings[0].title = 'Great Plains Yearly Meeting');
+                        done(err);
+                    });
+        });
+    });
+
+    describe.only('GET /yearlymeetings', () => {
+        it('should have no yearly meeting or accessibility, but one branch and 3 worship styles', (done) => {
+            supertest(app)
+                    .get('/yearlymeetings')
+                    .expect(200)
+                    .end((err, res) => {
+                        chai.assert(res.body.meetings.length === 1);
+                        chai.assert(res.body.meetings[0].yearly_meeting === null);
+                        chai.assert(res.body.meetings[0].accessibility.length === 0);
+                        chai.assert(res.body.meetings[0].branch.length === 1);
+                        chai.assert(res.body.meetings[0].worship_style.length === 3);
                         done(err);
                     });
         });
