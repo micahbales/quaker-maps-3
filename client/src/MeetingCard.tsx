@@ -1,17 +1,17 @@
 import * as React from 'react';
 
-interface IMeetingCardProps {
+interface MeetingCardProps {
     meeting: any;
     key: number;
 }
 
-interface IRecordItemListingProps {
+interface RecordItemListingProps {
     item: string;
     label: string;
     link?: string;
 }
 
-const RecordItemListing: React.SFC<IRecordItemListingProps> = (props) => {
+const RecordItemListing: React.SFC<RecordItemListingProps> = (props) => {
     if (props.link) {
         return (
             <div>
@@ -33,11 +33,11 @@ const RecordItemListing: React.SFC<IRecordItemListingProps> = (props) => {
 };
 
 
-class MeetingCard extends React.Component<IMeetingCardProps> {
+class MeetingCard extends React.Component<MeetingCardProps> {
     private meeting: any;
     private key: number;
 
-    constructor(props: IMeetingCardProps) {
+    constructor(props: MeetingCardProps) {
         super(props);
         this.meeting = this.props.meeting;
         this.key = this.props.key

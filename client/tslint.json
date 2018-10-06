@@ -8,6 +8,7 @@
   },
   "rules": {
     "curly": false,
+    "interface-name": [true, "never-prefix"],
     "max-line-length": {
         "options": [120]
     },

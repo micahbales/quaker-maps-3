@@ -115,9 +115,24 @@ describe('Meetings', function() {
                         done(err);
                     });
         });
+
+        it(`should belong to one yearly meeting, two branches, 
+            have three accessibilities and one worship style`, (done) => {
+            supertest(app)
+                    .get('/meetings/3')
+                    .expect(200)
+                    .end((err, res) => {
+                        const queriedMeeting = res.body.meetings.filter((m) => m.id === 3)[0];
+                        chai.assert(queriedMeeting.yearly_meeting.length === 1);
+                        chai.assert(queriedMeeting.branch.length === 2);
+                        chai.assert(queriedMeeting.worship_style.length === 1);
+                        chai.assert(queriedMeeting.accessibility.length === 3);
+                        done(err);
+                    });
+        });
     });
 
-    describe.only('GET /yearlymeetings', () => {
+    describe('GET /yearlymeetings', () => {
         it('should return all yearly meetings (in this case, just one)', (done) => {
             supertest(app)
                     .get('/yearlymeetings')
@@ -130,7 +145,7 @@ describe('Meetings', function() {
         });
     });
 
-    describe.only('GET /yearlymeetings', () => {
+    describe('GET /yearlymeetings', () => {
         it('should have no yearly meeting or accessibility, but one branch and 3 worship styles', (done) => {
             supertest(app)
                     .get('/yearlymeetings')
