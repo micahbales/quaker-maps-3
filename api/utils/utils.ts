@@ -7,7 +7,7 @@ export const catchErrors = (fn) => {
   };
 };
 
-// UMake a simple query to the database
+// Make a simple query to the database
 export const query = async (queryString, values?) => {
   const client = new Client();
   await client.connect();

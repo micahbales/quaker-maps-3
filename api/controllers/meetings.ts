@@ -7,49 +7,65 @@ import {
     removeJoinKeys
 } from '../utils/utils';
 
-// Get all meetings with yearly_meeting, worship_style, branch, and accessibility fields
-const getMeetingsQuery = ` SELECT m1.*,
-
-(SELECT string_agg(m2.title, ', ')
-       FROM meeting_yearly_meeting mym1
-            LEFT JOIN meeting m2
-                    ON m2.id = mym1.yearly_meeting_id
-       WHERE mym1.meeting_id = m1.id) AS yearly_meeting,
-
-(SELECT string_agg(ws1.title, ', ')
-        FROM meeting_worship_style mws1
-            LEFT JOIN worship_style ws1
-                    ON ws1.id = mws1.worship_style_id
-        WHERE mws1.meeting_id = m1.id) AS worship_style,
-
-(SELECT string_agg(b1.title, ', ')
-        FROM meeting_branch mb1
-            LEFT JOIN branch b1
-                    ON b1.id = mb1.branch_id
-        WHERE mb1.meeting_id = m1.id) AS branch,
-
-(SELECT string_agg(a1.title, ', ')
-        FROM meeting_accessibility ma1
-            LEFT JOIN accessibility a1
-                    ON a1.id = ma1.accessibility_id
-        WHERE ma1.meeting_id = m1.id) AS accessibility
-
-FROM meeting m1 `;
-
 // GET /meetings
 export const getAllMeetings = async (req, res) => {
     const meetings = await query(
-         getMeetingsQuery + `;`
+        `SELECT * FROM meeting;`
     );
 
-    res.json({meetings: meetings.rows});
+    const yms = await meetings.rows.map(async (meeting) => {
+        const ym = await query(
+            `SELECT meeting.* FROM meeting_yearly_meeting
+            JOIN meeting ON meeting.id = meeting_yearly_meeting.yearly_meeting_id
+            WHERE meeting_id = ${meeting.id};`
+        );
+        return meeting.yearly_meeting = ym.rows;
+    });
+
+    const branches = await meetings.rows.map(async (meeting) => {
+        const branch = await query(
+            `SELECT branch.* FROM meeting_branch
+            JOIN branch ON branch.id = meeting_branch.branch_id
+            WHERE meeting_id = ${meeting.id};`
+        );
+        return meeting.branch = branch.rows;
+    });
+
+    const worshipStyles = await meetings.rows.map(async (meeting) => {
+        const ws = await query(
+            `SELECT worship_style.* FROM meeting_worship_style
+            JOIN worship_style ON worship_style.id = meeting_worship_style.worship_style_id
+            WHERE meeting_id = ${meeting.id};`
+        );
+        return meeting.worship_style = ws.rows;
+    });
+
+    const accessibilities = await meetings.rows.map(async (meeting) => {
+        const access = await query(
+            `SELECT accessibility.* FROM meeting_accessibility
+            JOIN accessibility ON accessibility.id = meeting_accessibility.accessibility_id
+            WHERE meeting_id = ${meeting.id};`
+        );
+        return meeting.accessibility = access.rows;
+    });
+
+    Promise.all([
+        Promise.all(yms),
+        Promise.all(branches),
+        Promise.all(worshipStyles),
+        Promise.all(accessibilities)
+    ]).then(() => {
+        res.json({meetings: meetings.rows});
+    });
 };
 
 // GET /yearlymeetings
 export const getYearlyMeetings = async (req, res) => {
     const meetings = await query(
-        `${getMeetingsQuery}
-        WHERE m1.id NOT IN (SELECT meeting_id FROM meeting_yearly_meeting);`
+        `SELECT * FROM meeting
+        WHERE id NOT IN (
+            SELECT meeting_id FROM meeting_yearly_meeting
+        );`
     );
 
     res.json({meetings: meetings.rows});
@@ -59,9 +75,11 @@ export const getYearlyMeetings = async (req, res) => {
 export const getMeetingById = async (req, res) => {
     const meetingId = req.params.id;
     const meetings = await query(
-        `${getMeetingsQuery}
+        `SELECT * FROM meeting
         WHERE id = ${meetingId};`
     );
+
+    // also add and return yearly_meeting, branch, worship_style, and accessibility
 
     res.json({meetings: meetings.rows});
 };
@@ -138,7 +156,14 @@ export const createMeeting = async (req, res) => {
         await query(maQueryString, getValues(ma));
     });
 
-    res.status(201).send({meeting});
+    Promise.all([
+        Promise.all(newMeetingYearlyMeetings),
+        Promise.all(newMeetingWorshipStyles),
+        Promise.all(newMeetingBranches),
+        Promise.all(newMeetingAccessibility)
+    ]).then(() => {
+        res.status(201).send({meeting});
+    });
 };
 
 // PUT /meetings/:id
@@ -164,6 +189,8 @@ export const deleteMeeting = async (req, res) => {
         'DELETE FROM meeting ' +
         ' WHERE id = ' + meetingId + ';'
     );
+
+    // Also delete join tables for yearly_meeting, branch, worship_style, and accessibility
 
     res.json({meeting});
 };

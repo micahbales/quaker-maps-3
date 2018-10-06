@@ -4,7 +4,8 @@ import app from '../../app';
 import * as chai from 'chai';
 import * as supertest from 'supertest';
 
-describe('Meetings', () => {
+describe('Meetings', function() {
+    this.timeout(6000);
     describe('GET /meetings', () => {
         it('should return 6 meetings', (done) => {
             supertest(app)
@@ -21,20 +22,15 @@ describe('Meetings', () => {
                     .get('/meetings')
                     .expect(200)
                     .end((err, res) => {
-                        const expectedValues = [
-                            null,
-                            'Great Plains Yearly Meeting',
-                            'Great Plains Yearly Meeting',
-                            'Great Plains Yearly Meeting',
-                            'Great Plains Yearly Meeting',
-                            'Great Plains Yearly Meeting',
-                        ];
-                        const actualValues = res.body.meetings.map((m) => m.yearly_meeting);
-
-                        chai.assert.equal(expectedValues.length, actualValues.length);
-                        chai.assert.equal(actualValues.length, 6);
-                        chai.assert.equal(expectedValues.join(','), actualValues.join(','));
-
+                        const meetingsWithYms = res.body.meetings.filter((meeting) => {
+                            return meeting.yearly_meeting.length >= 1;
+                        });
+                        const meetingWithoutYm = res.body.meetings.filter((meeting) => {
+                            return meeting.yearly_meeting.length < 1;
+                        });
+                        chai.assert(meetingsWithYms.length === 5);
+                        chai.assert(meetingsWithYms[0].yearly_meeting[0].title === 'Great Plains Yearly Meeting');
+                        chai.assert(meetingWithoutYm[0].title === 'Great Plains Yearly Meeting');
                         done(err);
                     });
         });
@@ -44,7 +40,8 @@ describe('Meetings', () => {
                     .get('/meetings')
                     .expect(200)
                     .end((err, res) => {
-                        chai.assert(res.body.meetings[0].worship_style = 'unprogrammed, programmed, semi-programmed');
+                        chai.assert(res.body.meetings[0].worship_style.length === 3);
+                        chai.assert(res.body.meetings[0].worship_style[2].title === 'semi-programmed');
                         done(err);
                     });
         });
@@ -55,7 +52,7 @@ describe('Meetings', () => {
                     .expect(200)
                     .end((err, res) => {
                         const meeting = res.body.meetings.find((m) => m.title === 'Great Plains Yearly Meeting');
-                        chai.assert(meeting.branch = 'Friends United Meeting');
+                        chai.assert(meeting.branch.find((branch) => branch.title === 'Friends United Meeting'));
                         done(err);
                     });
         });
@@ -66,7 +63,8 @@ describe('Meetings', () => {
                     .expect(200)
                     .end((err, res) => {
                         const meeting = res.body.meetings.find((m) => m.title === 'Heartland Friends Meeting');
-                        chai.assert(meeting.branch = 'Friends General Conference, Friends United Meeting');
+                        chai.assert(!!(meeting.branch.find((branch) => branch.title === 'Friends General Conference')));
+                        chai.assert(!!(meeting.branch.find((branch) => branch.title === 'Friends United Meeting')));
                         done(err);
                     });
         });
@@ -88,10 +86,9 @@ describe('Meetings', () => {
                     .expect(200)
                     .end((err, res) => {
                         const meeting = res.body.meetings.find((m) => m.title === 'University Friends Church');
-                        chai.assert.equal(
-                            meeting.accessibility,
-                            'Wheelchair Accessible, Hearing Assistance System, Childcare Available'
-                        );
+                        chai.assert(meeting.accessibility.find((a) => a.title === 'Wheelchair Accessible'));
+                        chai.assert(meeting.accessibility.find((a) => a.title === 'Hearing Assistance System'));
+                        chai.assert(meeting.accessibility.find((a) => a.title === 'Childcare Available'));
                         done(err);
                     });
         });
@@ -170,10 +167,11 @@ describe('Meetings', () => {
                     });
         });
 
-        it.only(`should create a new meeting record with joins for
-                yearly meeting, worship style, branch, and accessibility`, (done) => {
+        it(`should create a new meeting record with a yearly meeting,
+                worship styles, branches, and accessibility`, (done) => {
+            const meetingName = 'fantastic meeting!';
             const meeting = {
-                title: 'brand new meeting',
+                title: meetingName,
                 longitude: 75.20201,
                 mappable: 'true',
                 phone: '1234567890',
@@ -204,32 +202,19 @@ describe('Meetings', () => {
                         .get('/meetings')
                         .expect(200)
                         .end((err, res) => {
-                            // New meeting record is successfully retrieved
-                            chai.assert(res.body.meetings.find((o) => o.title === 'brand new meeting'));
-                            // It has a yearly meeting
-                            chai.assert(
-                                res.body.meetings
-                                .find((o) => o.id === 7 &&
-                                o.yearly_meeting === 'Great Plains Yearly Meeting')
-                                );
-                            // It has two worship styles
-                            chai.assert(
-                                res.body.meetings
-                                .find((o) => o.id === 7 &&
-                                o.worship_style === 'unprogrammed, semi-programmed')
-                                );
-                            // It has two branches
-                            chai.assert(
-                                res.body.meetings
-                                .find((o) => o.id === 7 &&
-                                o.branch === 'Friends General Conference, Friends United Meeting')
-                                );
-                            // It has an accessibility option
-                            chai.assert(
-                                res.body.meetings
-                                .find((o) => o.id === 7 &&
-                                o.accessibility === 'Childcare Available')
-                                );
+                            const mtg = res.body.meetings.find((o) => o.title === meetingName);
+                            // // New meeting record is successfully retrieved
+                            chai.assert(mtg);
+                            // // It has a yearly meeting
+                            chai.assert(mtg.yearly_meeting[0].id === 1);
+                            // // It has two worship styles
+                            chai.assert(mtg.worship_style[0].id === 1);
+                            chai.assert(mtg.worship_style[1].id === 3);
+                            // // It has two branches
+                            chai.assert(mtg.branch[0].id === 1);
+                            chai.assert(mtg.branch[1].id === 2);
+                            // // It has an accessibility option
+                            chai.assert(mtg.accessibility[0].id === 3);
                             done(err);
                         });
                     });
