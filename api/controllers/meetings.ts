@@ -4,7 +4,8 @@ import {
     getValues,
     getQueryBling,
     getKeyValueQueryString,
-    removeJoinKeys
+    removeJoinKeys,
+    getMeetingAttributeRecords
 } from '../utils/utils';
 
 // GET /meetings
@@ -13,50 +14,10 @@ export const getAllMeetings = async (req, res) => {
         `SELECT * FROM meeting;`
     );
 
-    const yms = await meetings.rows.map(async (meeting) => {
-        const ym = await query(
-            `SELECT meeting.* FROM meeting_yearly_meeting
-            JOIN meeting ON meeting.id = meeting_yearly_meeting.yearly_meeting_id
-            WHERE meeting_id = ${meeting.id};`
-        );
-        return meeting.yearly_meeting = ym.rows;
-    });
-
-    const branches = await meetings.rows.map(async (meeting) => {
-        const branch = await query(
-            `SELECT branch.* FROM meeting_branch
-            JOIN branch ON branch.id = meeting_branch.branch_id
-            WHERE meeting_id = ${meeting.id};`
-        );
-        return meeting.branch = branch.rows;
-    });
-
-    const worshipStyles = await meetings.rows.map(async (meeting) => {
-        const ws = await query(
-            `SELECT worship_style.* FROM meeting_worship_style
-            JOIN worship_style ON worship_style.id = meeting_worship_style.worship_style_id
-            WHERE meeting_id = ${meeting.id};`
-        );
-        return meeting.worship_style = ws.rows;
-    });
-
-    const accessibilities = await meetings.rows.map(async (meeting) => {
-        const access = await query(
-            `SELECT accessibility.* FROM meeting_accessibility
-            JOIN accessibility ON accessibility.id = meeting_accessibility.accessibility_id
-            WHERE meeting_id = ${meeting.id};`
-        );
-        return meeting.accessibility = access.rows;
-    });
-
-    Promise.all([
-        Promise.all(yms),
-        Promise.all(branches),
-        Promise.all(worshipStyles),
-        Promise.all(accessibilities)
-    ]).then(() => {
-        res.json({meetings: meetings.rows});
-    });
+    getMeetingAttributeRecords(meetings)
+        .then(() => {
+            res.json({meetings: meetings.rows});
+        });
 };
 
 // GET /yearlymeetings
@@ -68,43 +29,10 @@ export const getYearlyMeetings = async (req, res) => {
         );`
     );
 
-    // Yearly meetings don't belong to any yearly meeting
-    meetings.rows.map((meeting) => meeting.yearly_meeting = null);
-
-    const branches = await meetings.rows.map(async (meeting) => {
-        const branch = await query(
-            `SELECT branch.* FROM meeting_branch
-            JOIN branch ON branch.id = meeting_branch.branch_id
-            WHERE meeting_id = ${meeting.id};`
-        );
-        return meeting.branch = branch.rows;
-    });
-
-    const worshipStyles = await meetings.rows.map(async (meeting) => {
-        const ws = await query(
-            `SELECT worship_style.* FROM meeting_worship_style
-            JOIN worship_style ON worship_style.id = meeting_worship_style.worship_style_id
-            WHERE meeting_id = ${meeting.id};`
-        );
-        return meeting.worship_style = ws.rows;
-    });
-
-    const accessibilities = await meetings.rows.map(async (meeting) => {
-        const access = await query(
-            `SELECT accessibility.* FROM meeting_accessibility
-            JOIN accessibility ON accessibility.id = meeting_accessibility.accessibility_id
-            WHERE meeting_id = ${meeting.id};`
-        );
-        return meeting.accessibility = access.rows;
-    });
-
-    Promise.all([
-        Promise.all(branches),
-        Promise.all(worshipStyles),
-        Promise.all(accessibilities)
-    ]).then(() => {
-        res.json({meetings: meetings.rows});
-    });
+    getMeetingAttributeRecords(meetings, true)
+        .then(() => {
+            res.json({meetings: meetings.rows});
+        });
 };
 
 // GET /meetings/:id
@@ -115,50 +43,10 @@ export const getMeetingById = async (req, res) => {
         WHERE id = ${meetingId};`
     );
 
-    const yms = await meetings.rows.map(async (meeting) => {
-        const ym = await query(
-            `SELECT meeting.* FROM meeting_yearly_meeting
-            JOIN meeting ON meeting.id = meeting_yearly_meeting.yearly_meeting_id
-            WHERE meeting_id = ${meeting.id};`
-        );
-        return meeting.yearly_meeting = ym.rows;
-    });
-
-    const branches = await meetings.rows.map(async (meeting) => {
-        const branch = await query(
-            `SELECT branch.* FROM meeting_branch
-            JOIN branch ON branch.id = meeting_branch.branch_id
-            WHERE meeting_id = ${meeting.id};`
-        );
-        return meeting.branch = branch.rows;
-    });
-
-    const worshipStyles = await meetings.rows.map(async (meeting) => {
-        const ws = await query(
-            `SELECT worship_style.* FROM meeting_worship_style
-            JOIN worship_style ON worship_style.id = meeting_worship_style.worship_style_id
-            WHERE meeting_id = ${meeting.id};`
-        );
-        return meeting.worship_style = ws.rows;
-    });
-
-    const accessibilities = await meetings.rows.map(async (meeting) => {
-        const access = await query(
-            `SELECT accessibility.* FROM meeting_accessibility
-            JOIN accessibility ON accessibility.id = meeting_accessibility.accessibility_id
-            WHERE meeting_id = ${meeting.id};`
-        );
-        return meeting.accessibility = access.rows;
-    });
-
-    Promise.all([
-        Promise.all(yms),
-        Promise.all(branches),
-        Promise.all(worshipStyles),
-        Promise.all(accessibilities)
-    ]).then(() => {
-        res.json({meetings: meetings.rows});
-    });
+    getMeetingAttributeRecords(meetings)
+        .then(() => {
+            res.json({meetings: meetings.rows});
+        });
 };
 
 // POST /meetings

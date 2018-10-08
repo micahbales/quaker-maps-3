@@ -1,7 +1,7 @@
 {
   "name": "quaker-maps-client",
   "author": "Micah Bales",
-  "license": "+CAL LICENSE - SEE LICENSE FILE",
+  "license": "+CAL - SEE LICENSE FILE",
   "dependencies": {
     "react": "^16.4.1",
     "react-dom": "^16.4.1",

@@ -9,7 +9,7 @@
     "install-all": "npm install && cd client && npm install && cd ../api && npm install"
   },
   "author": "Micah Bales",
-  "license": "+CAL LICENSE - SEE LICENSE FILE",
+  "license": "+CAL - SEE LICENSE FILE",
   "devDependencies": {
     "concurrently": "^3.5.0"
   }

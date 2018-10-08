@@ -1,7 +1,7 @@
 {
   "name": "quaker-maps-api",
   "author": "Micah Bales",
-  "license": "+CAL LICENSE - SEE LICENSE FILE",
+  "license": "+CAL - SEE LICENSE FILE",
   "scripts": {
     "start": "nodemon index.js",
     "server": "concurrently --kill-others-on-fail \"npm run typescript\" \"npm start\"",

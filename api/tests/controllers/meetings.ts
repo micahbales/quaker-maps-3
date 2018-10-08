@@ -116,7 +116,7 @@ describe('Meetings', function() {
                     });
         });
 
-        it(`should belong to one yearly meeting, two branches, 
+        it(`should belong to one yearly meeting, two branches,
             have three accessibilities and one worship style`, (done) => {
             supertest(app)
                     .get('/meetings/3')
@@ -143,9 +143,7 @@ describe('Meetings', function() {
                         done(err);
                     });
         });
-    });
 
-    describe('GET /yearlymeetings', () => {
         it('should have no yearly meeting or accessibility, but one branch and 3 worship styles', (done) => {
             supertest(app)
                     .get('/yearlymeetings')
