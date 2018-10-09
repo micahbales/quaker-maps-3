@@ -5,7 +5,8 @@ import {
     getQueryBling,
     getKeyValueQueryString,
     removeJoinKeys,
-    getMeetingAttributeRecords
+    getMeetingAttributeRecords,
+    createMeetingAttributeRecords
 } from '../utils/utils';
 
 // GET /meetings
@@ -29,7 +30,7 @@ export const getYearlyMeetings = async (req, res) => {
         );`
     );
 
-    getMeetingAttributeRecords(meetings, true)
+    getMeetingAttributeRecords(meetings)
         .then(() => {
             res.json({meetings: meetings.rows});
         });
@@ -51,84 +52,19 @@ export const getMeetingById = async (req, res) => {
 
 // POST /meetings
 export const createMeeting = async (req, res) => {
-    const yearlyMeetingIds: number[] = req.body.meeting.yearly_meeting;
-    const worshipStyleIds: number[] = req.body.meeting.worship_style;
-    const branchIds: number[] = req.body.meeting.branch;
-    const accessibilityIds: number [] = req.body.meeting.accessibility;
-    const newMeeting = removeJoinKeys(req.body.meeting);
-
-    // Add new meeting record
+    const meetingWithAttributeRecordIds = req.body.meeting;
+    const newMeeting = removeJoinKeys(meetingWithAttributeRecordIds);
     const meetingQueryString = 'INSERT INTO meeting (' + getKeys(newMeeting) + ') ' +
                         ' VALUES (' + getQueryBling(newMeeting) + ')' +
                         // Return the idea of the newly created meeting
-                        'RETURNING id' + ';';
+                        'RETURNING *' + ';';
     const meeting = await query(meetingQueryString, getValues(newMeeting));
     const meetingId = meeting.rows[0].id;
 
-    // Create meeting's yearly_meeting(s)
-    const newMeetingYearlyMeetings = [];
-    yearlyMeetingIds.forEach((ymId) => {
-        newMeetingYearlyMeetings.push({
-            meeting_id: meetingId,
-            yearly_meeting_id: ymId
+    createMeetingAttributeRecords(meetingWithAttributeRecordIds, meetingId)
+        .then(() => {
+            res.status(200).send({meeting});
         });
-    });
-    newMeetingYearlyMeetings.forEach(async (mym, i) => {
-        const mymQueryString = 'INSERT INTO meeting_yearly_meeting (' + getKeys(mym) + ') ' +
-                        ' VALUES (' + getQueryBling(mym) + ')' + ';';
-        await query(mymQueryString, getValues(mym));
-    });
-
-    // Create meeting's worship_style(s)
-    const newMeetingWorshipStyles = [];
-    worshipStyleIds.forEach((wsId) => {
-        newMeetingWorshipStyles.push({
-            worship_style_id: wsId,
-            meeting_id: meetingId
-        });
-    });
-    newMeetingWorshipStyles.forEach(async (mws, i) => {
-        const mwsQueryString = 'INSERT INTO meeting_worship_style (' + getKeys(mws) + ') ' +
-                        ' VALUES (' + getQueryBling(mws) + ')' + ';';
-        await query(mwsQueryString, getValues(mws));
-    });
-
-    // Create new meeting's branch(es)
-    const newMeetingBranches = [];
-    branchIds.forEach((bId) => {
-        newMeetingBranches.push({
-            branch_id: bId,
-            meeting_id: meetingId
-        });
-    });
-    newMeetingBranches.forEach(async (mb, i) => {
-        const mbQueryString = 'INSERT INTO meeting_branch (' + getKeys(mb) + ') ' +
-                        ' VALUES (' + getQueryBling(mb) + ')' + ';';
-        await query(mbQueryString, getValues(mb));
-    });
-
-    // Create new meeting's accessibility option(s)
-    const newMeetingAccessibility = [];
-    accessibilityIds.forEach((aId) => {
-        newMeetingAccessibility.push({
-            accessibility_id: aId,
-            meeting_id: meetingId
-        });
-    });
-    newMeetingAccessibility.forEach(async (ma, i) => {
-        const maQueryString = 'INSERT INTO meeting_accessibility (' + getKeys(ma) + ') ' +
-                        ' VALUES (' + getQueryBling(ma) + ')' + ';';
-        await query(maQueryString, getValues(ma));
-    });
-
-    Promise.all([
-        Promise.all(newMeetingYearlyMeetings),
-        Promise.all(newMeetingWorshipStyles),
-        Promise.all(newMeetingBranches),
-        Promise.all(newMeetingAccessibility)
-    ]).then(() => {
-        res.status(201).send({meeting});
-    });
 };
 
 // PUT /meetings/:id

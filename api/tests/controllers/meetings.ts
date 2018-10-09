@@ -150,7 +150,7 @@ describe('Meetings', function() {
                     .expect(200)
                     .end((err, res) => {
                         chai.assert(res.body.meetings.length === 1);
-                        chai.assert(res.body.meetings[0].yearly_meeting === null);
+                        chai.assert(res.body.meetings[0].yearly_meeting.length === 0);
                         chai.assert(res.body.meetings[0].accessibility.length === 0);
                         chai.assert(res.body.meetings[0].branch.length === 1);
                         chai.assert(res.body.meetings[0].worship_style.length === 3);
@@ -266,7 +266,11 @@ describe('Meetings', function() {
                 worship_time: '10:00AM',
                 state: 'AK',
                 website: 'www.www.com',
-                lgbt_affirming: 'true'
+                lgbt_affirming: 'true',
+                yearly_meeting: null, // remove yearly meeting
+                worship_style: [2, 3], // was [1, 3]
+                branch: [1], // was [1, 2]
+                accessibility: [1, 2, 3] // was [3]
             };
 
             // Update meeting record
@@ -284,6 +288,10 @@ describe('Meetings', function() {
                             chai.assert(res.body.meetings.find((o) => {
                                 return o.title === 'an updated meeting' &&
                                 o.description === 'we updated our description to reflect changes';
+                                // o.yearly_meeting.length === 0 &&
+                                // o.worship_style[0].id === 2 &&
+                                // o.branch.length === 1 &&
+                                // o.accessibility.length === 3;
                             }));
                             done(err);
                         });
