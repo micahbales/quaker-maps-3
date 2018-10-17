@@ -303,7 +303,7 @@ describe('Meetings', function() {
         it('should delete a meeting record', (done) => {
             // Update meeting record
             supertest(app)
-                    .delete('/meetings/7')
+                    .delete('/meetings/8')
                     .expect(204)
                     .end(() => {
                         // Then check and make sure it was deleted

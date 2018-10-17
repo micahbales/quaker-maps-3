@@ -6,7 +6,8 @@ import {
     getKeyValueQueryString,
     removeJoinKeys,
     getMeetingAttributeRecords,
-    createMeetingAttributeRecords
+    createMeetingAttributeRecords,
+    deleteMeetingAttributeRecords
 } from '../utils/utils';
 
 // GET /meetings
@@ -79,29 +80,7 @@ export const updateMeeting = async (req, res) => {
 
     await query(queryString);
 
-    // Delete yearly meeting records
-    await query(
-        `DELETE FROM meeting_yearly_meeting
-        WHERE meeting_yearly_meeting.meeting_id = ${meetingId};`
-    );
-
-    // Delete worship style records
-    await query(
-        `DELETE FROM meeting_worship_style
-        WHERE meeting_worship_style.meeting_id = ${meetingId};`
-    );
-
-    // Delete branch records
-    await query(
-        `DELETE FROM meeting_branch
-        WHERE meeting_branch.meeting_id = ${meetingId};`
-    );
-
-    // Delete accessibility records
-    await query(
-        `DELETE FROM meeting_accessibility
-        WHERE meeting_accessibility.meeting_id = ${meetingId};`
-    );
+    await deleteMeetingAttributeRecords(meetingId);
 
     createMeetingAttributeRecords(meetingWithAttributeRecordIds, meetingId)
         .then(() => {

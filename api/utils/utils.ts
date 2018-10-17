@@ -211,3 +211,38 @@ export async function createMeetingAttributeRecords(meeting, meetingId) {
 
   return promise;
 }
+
+export async function deleteMeetingAttributeRecords(meetingId) {
+  const deleteYearlyMeetings = await query(
+    `DELETE FROM meeting_yearly_meeting
+    WHERE meeting_yearly_meeting.meeting_id = ${meetingId};`
+  );
+
+  const deleteWorshipStyles = await query(
+      `DELETE FROM meeting_worship_style
+      WHERE meeting_worship_style.meeting_id = ${meetingId};`
+  );
+
+  const deleteBranches = await query(
+      `DELETE FROM meeting_branch
+      WHERE meeting_branch.meeting_id = ${meetingId};`
+  );
+
+  const deleteAccessibilities = await query(
+      `DELETE FROM meeting_accessibility
+      WHERE meeting_accessibility.meeting_id = ${meetingId};`
+  );
+
+  const promise = new Promise((resolve, reject) => {
+      Promise.all([
+        deleteYearlyMeetings,
+        deleteWorshipStyles,
+        deleteBranches,
+        deleteAccessibilities
+      ]).then(() => {
+        resolve();
+      });
+  });
+
+  return promise;
+}
