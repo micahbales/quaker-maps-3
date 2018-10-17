@@ -96,7 +96,7 @@ export const deleteMeeting = async (req, res) => {
         ' WHERE id = ' + meetingId + ';'
     );
 
-    // Also delete join tables for yearly_meeting, branch, worship_style, and accessibility
+    await deleteMeetingAttributeRecords(meetingId);
 
     res.json({meeting});
 };
