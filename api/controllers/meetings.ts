@@ -69,18 +69,44 @@ export const createMeeting = async (req, res) => {
 
 // PUT /meetings/:id
 export const updateMeeting = async (req, res) => {
+    const meetingWithAttributeRecordIds = req.body.meeting;
+    const updatedMeeting = removeJoinKeys(meetingWithAttributeRecordIds);
     const meetingId = req.params.id;
-    const meeting = req.body.meeting;
     const queryString = 'UPDATE meeting ' +
                         ' SET ' +
-                        getKeyValueQueryString(meeting) +
+                        getKeyValueQueryString(updatedMeeting) +
                         ' WHERE id = ' + meetingId + ';';
 
-    // We'll also need to be able to update yearly_meeting, worship_style, branch, & accessability
+    await query(queryString);
 
-    const meetings = await query(queryString);
+    // Delete yearly meeting records
+    await query(
+        `DELETE FROM meeting_yearly_meeting
+        WHERE meeting_yearly_meeting.meeting_id = ${meetingId};`
+    );
 
-    res.status(204).json({meetings: meetings.rows});
+    // Delete worship style records
+    await query(
+        `DELETE FROM meeting_worship_style
+        WHERE meeting_worship_style.meeting_id = ${meetingId};`
+    );
+
+    // Delete branch records
+    await query(
+        `DELETE FROM meeting_branch
+        WHERE meeting_branch.meeting_id = ${meetingId};`
+    );
+
+    // Delete accessibility records
+    await query(
+        `DELETE FROM meeting_accessibility
+        WHERE meeting_accessibility.meeting_id = ${meetingId};`
+    );
+
+    createMeetingAttributeRecords(meetingWithAttributeRecordIds, meetingId)
+        .then(() => {
+            res.status(200).send({});
+        });
 };
 
 // DELETE /meetings/:id

@@ -275,9 +275,9 @@ describe('Meetings', function() {
 
             // Update meeting record
             supertest(app)
-                    .put('/meetings/7')
+                    .put('/meetings/8')
                     .send({meeting})
-                    .expect(204)
+                    .expect(200)
                     .end(() => {
                         // Then check and make sure it was updated
                         supertest(app)
@@ -287,11 +287,11 @@ describe('Meetings', function() {
                             // New meeting record is successfully retrieved
                             chai.assert(res.body.meetings.find((o) => {
                                 return o.title === 'an updated meeting' &&
-                                o.description === 'we updated our description to reflect changes';
-                                // o.yearly_meeting.length === 0 &&
-                                // o.worship_style[0].id === 2 &&
-                                // o.branch.length === 1 &&
-                                // o.accessibility.length === 3;
+                                o.description === 'we updated our description to reflect changes' &&
+                                o.yearly_meeting.length === 0 &&
+                                o.worship_style[0].id === 2 &&
+                                o.branch.length === 1 &&
+                                o.accessibility.length === 3;
                             }));
                             done(err);
                         });
