@@ -41,7 +41,7 @@ describe('Meetings', function() {
                     .expect(200)
                     .end((err, res) => {
                         chai.assert(res.body.meetings[0].worship_style.length === 3);
-                        chai.assert(res.body.meetings[0].worship_style[2].title === 'semi-programmed');
+                        chai.assert(res.body.meetings[0].worship_style[2].title === 'Semi-programmed');
                         done(err);
                     });
         });

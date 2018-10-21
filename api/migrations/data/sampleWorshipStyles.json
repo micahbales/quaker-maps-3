@@ -1,14 +1,14 @@
 [
     {
-        "title": "unprogrammed",
+        "title": "Unprogrammed",
         "table_type": "worship_style"
     },
     {
-        "title": "programmed",
+        "title": "Programmed",
         "table_type": "worship_style"
     },
     {
-        "title": "semi-programmed",
+        "title": "Semi-programmed",
         "table_type": "worship_style"
     }
 ]

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './styles/MeetingCard.css';
 
 interface MeetingCardProps {
     meeting: any;
@@ -6,12 +7,26 @@ interface MeetingCardProps {
 }
 
 interface RecordItemListingProps {
-    item: string;
+    item: any;
     label: string;
     link?: string;
 }
 
 const RecordItemListing: React.SFC<RecordItemListingProps> = (props) => {
+    if (Array.isArray(props.item)) {
+        return (
+            <div className='record-item-listing'>
+                <label>{props.label}: </label>
+                <ul>
+                    {
+                        props.item.map((o: any, i: number) => {
+                            return <li key={i}>{o.title}</li>;
+                        })
+                    }
+                </ul>
+            </div>
+        );
+    }
     if (props.link) {
         return (
             <div>
@@ -20,7 +35,7 @@ const RecordItemListing: React.SFC<RecordItemListingProps> = (props) => {
                     <a href={props.link}>{props.item}</a>
                 </p>
             </div>
-        )
+        );
     }
     return (
         <div>
@@ -29,7 +44,7 @@ const RecordItemListing: React.SFC<RecordItemListingProps> = (props) => {
                 {props.item}
             </p>
         </div>
-    )
+    );
 };
 
 
