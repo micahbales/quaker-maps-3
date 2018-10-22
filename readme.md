@@ -26,13 +26,14 @@ npm run seed
 
 ## Setting up API config:
 
-In the `api` directory:
+In the root directory:
 
 ```
-cp .env.example .env
+cp .env.dev.example .env.dev
+cp .env.test.example .env.test
 ```
 
-Open `.env` and replace the example secrets with your real project secrets.
+Open `.env.dev` and `.env.test` replace the example secrets with your real project secrets.
 
 ## Postgres
 
@@ -40,15 +41,13 @@ Open `.env` and replace the example secrets with your real project secrets.
 
 ### Installing db-migrate
 
-Run the following command:
-
 ```
 npm install -g db-migrate db-migrate-pg
 ```
 
 ### Creating Up a New Database Migration with db-migrate
 
-In the `api` directory, run:
+In the root project directory, run:
 
 ```
 db-migrate create [name-of-migration] --sql-file
@@ -56,11 +55,11 @@ db-migrate create [name-of-migration] --sql-file
 
 You can then compose your SQL migration in the `...-up.sql` file.
 
-Make sure to also write a backwards migration to allow easy rollback, using the `...-down.sql` file.
+Make sure to also write a backwards migration to allow rollback, using the `...-down.sql` file.
 
 #### Migrating Development and Test Databases
 
-To run both test and development environments, you'll need to run specific migrations for those. For example, `dev`:
+You'll need to run specific migrations for both the development and test environments. For example, `dev`:
 
 ```
 db-migrate up -e dev
@@ -74,7 +73,7 @@ db-migrate up -e test
 
 ### Seed Local Database with Sample Data
 
-In the `api` directory, run:
+In the root project directory, run:
 
 ```
 npm run seed

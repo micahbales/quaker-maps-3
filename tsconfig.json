@@ -7,7 +7,8 @@
     "lib": ["es2017", "dom"],
     "typeRoots": [
       "node_modules/@types"
-    ]
+    ],
+    "jsx": "react",
     // This option was causing a write error with our migration js files
     // "allowJs":true
   },
