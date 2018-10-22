@@ -3,7 +3,6 @@ import './styles/MeetingCard.css';
 
 interface MeetingCardProps {
     meeting: any;
-    key: number;
 }
 
 interface RecordItemListingProps {
@@ -50,17 +49,15 @@ const RecordItemListing: React.SFC<RecordItemListingProps> = (props) => {
 
 class MeetingCard extends React.Component<MeetingCardProps> {
     private meeting: any;
-    private key: number;
 
     constructor(props: MeetingCardProps) {
         super(props);
         this.meeting = this.props.meeting;
-        this.key = this.props.key
     }
 
     public render() {
         return (
-            <div className='meeting-card' key={this.key}>
+            <div className='meeting-card'>
                 <h3>{this.meeting.title}</h3>
                 <RecordItemListing 
                     label='Address' 
