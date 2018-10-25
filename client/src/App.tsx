@@ -18,7 +18,7 @@ class App extends React.Component {
 
   public callApi = async () => {
     // Fetch all meetings
-    const response = await fetch('/meetings');
+    const response = await fetch('/api/v1/meetings');
     const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);

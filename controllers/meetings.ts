@@ -64,7 +64,7 @@ export const createMeeting = async (req, res) => {
 
     createMeetingAttributeRecords(meetingWithAttributeRecordIds, meetingId)
         .then(() => {
-            res.status(200).send({meeting});
+            res.status(200).send({meeting: meeting});
         });
 };
 
@@ -98,5 +98,5 @@ export const deleteMeeting = async (req, res) => {
 
     await deleteMeetingAttributeRecords(meetingId);
 
-    res.json({meeting});
+    res.json({meeting: meeting});
 };
