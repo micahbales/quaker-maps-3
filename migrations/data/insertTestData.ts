@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 dotenv.config({path: __dirname + '/../../.env'});
-import {Pool, Client} from 'pg';
+import {Pool} from 'pg';
 
 import * as sampleMeetings from './sampleMeetings.json';
 import * as sampleMeetingYearlyMeetings from './sampleMeetingYearlyMeetings.json';
@@ -14,7 +14,9 @@ import * as sampleQuakers from './sampleQuakers.json';
 import * as sampleMeetingQuakers from './sampleMeetingQuakers.json';
 
 async function insertTestData(records) {
-    const pool = new Pool();
+    const pool = new Pool({
+        connectionString: process.env.DATABASE_URL
+      });
 
     for (const record of records) {
         // Get table_type, then remove it from the record

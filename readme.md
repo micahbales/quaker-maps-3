@@ -9,7 +9,7 @@ We release this project to the world under the [+CAL license](https://legaldesig
 ## Requirements
 
 * Node 10
-* Typescript
+* Typescript 3
 * Postgres
 * db-migrate
 
@@ -35,7 +35,7 @@ cp .env.test.example .env.test
 
 Open `.env.dev` and `.env.test` replace the example secrets with your real project secrets.
 
-## Postgres
+## Database Quick Start
 
 [Download PostgreSQL](https://www.postgresql.org/download/) and run it locally on your machine. Postgres must be running for the project's API to function correctly.
 
@@ -93,6 +93,42 @@ jdbc:postgresql://localhost:5432/quaker_maps_dev
 
 You will also need to set the `Driver` to Postgres, and provide your database username and password.
 
-## Deployment
+## Deployment to Heroku
 
-_Coming soon_
+This project is currently hosted on Heroku. You can view the deployed project here:
+
+[http://quaker-maps-project.herokuapp.com/](http://quaker-maps-project.herokuapp.com/)
+
+### Setting up Project
+
+If you are deploying this project as a new Heroku app, you'll need to start by creating the app and provisioning a hosted Postgres database. This can be done either from the Heroku website, or via the CLI ([instructions here](https://devcenter.heroku.com/articles/creating-apps) and [here](https://devcenter.heroku.com/articles/heroku-postgresql)).
+
+Make sure to set up `heroku` as a remote for this repo.
+
+### Database Migration
+
+Once the project is successfully deployed to Heroku, there are some special steps that need to be taken to set up our database.
+
+To migrate the database with our initial migration, execute this command from the root project directory on your local machine:
+
+```
+cat migrations/sqls/20180910231418-initial-migration-up.sql | heroku pg:psql
+```
+
+This command outputs the content of our migration, and then pipes it to the psql console for our Heroku database. Repeat this step, in order, for any additional migrations.
+
+### Seed Development Data
+
+Because this project is currently in pre-release development, we are using our test sample dataset in production. Once the database has been migrated you can add this data by following these steps:
+
+1. Open a bash command line 
+
+```
+heroku run bash
+```
+
+2. Run Typescript and Seed Database
+
+```
+tsc && npm run seed
+```
