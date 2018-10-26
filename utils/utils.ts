@@ -9,7 +9,9 @@ export const catchErrors = (fn) => {
 
 // Make a simple query to the database
 export const query = async (queryString, values?) => {
-  const client = new Client();
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL
+  });
   await client.connect();
 
   return await client.query(queryString, values).then((rows) => {
