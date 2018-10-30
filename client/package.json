@@ -3,13 +3,15 @@
   "author": "Micah Bales",
   "license": "+CAL - SEE LICENSE FILE",
   "dependencies": {
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-scripts-ts": "2.16.0",
     "@types/jest": "^23.3.1",
+    "@types/mapbox-gl": "^0.49.0",
     "@types/node": "^10.5.4",
     "@types/react": "^16.4.7",
-    "@types/react-dom": "^16.0.6"
+    "@types/react-dom": "^16.0.6",
+    "mapbox-gl": "^0.50.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-scripts-ts": "2.16.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",

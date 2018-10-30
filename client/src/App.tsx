@@ -1,8 +1,6 @@
 import * as React from 'react';
 import './styles/App.css';
-import MeetingCard from './MeetingCard';
-
-import logo from './logo.svg';
+import * as mapboxgl from 'mapbox-gl';
 
 class App extends React.Component {
 
@@ -14,6 +12,18 @@ class App extends React.Component {
     this.callApi()
           .then((res) => this.setState({meetings: res.meetings}))
           .catch((err) => console.log(err));
+
+    (mapboxgl as any).accessToken = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAy' + 
+        'MnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
+
+    const map = new mapboxgl.Map({
+      container: 'primary-map',
+      style: 'mapbox://styles/mapbox/light-v9',
+      center: [-96, 37.8],
+      zoom: 3
+    });
+
+    console.log(map);
   }
 
   public callApi = async () => {
@@ -29,19 +39,7 @@ class App extends React.Component {
   public render() {
     return (
       <div className='app'>
-        <header className='app-header'>
-          <img src={logo} className='app-logo' alt='logo' />
-          <h1 className='app-title'>Quaker Maps</h1>
-        </header>
-        <h3>All Meetings:</h3>
-        <div className='meetings-list'>
-          {
-            this.state.meetings.map((meeting:any, i:number) => {
-              return <MeetingCard key={i} meeting={meeting} />
-            })
-          }
-        </div>
-            
+        <div id='primary-map' />
       </div>
     );
   }
