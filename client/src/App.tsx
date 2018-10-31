@@ -1,13 +1,9 @@
 import * as React from 'react';
 import './styles/App.css';
 import * as mapboxgl from 'mapbox-gl';
-(mapboxgl as any).accessToken = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAy' + 
-    'MnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
-
-interface AppState {
-  meetings: any[];
-  markers: any[];
-}
+import {AppState, Meeting, BoundsPoints} from './AppDefinitions';
+const mapboxKey = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAyMnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
+(mapboxgl as any).accessToken = mapboxKey;
 
 class App extends React.Component {
 
@@ -36,18 +32,18 @@ class App extends React.Component {
             // Create map
             this.map = new mapboxgl.Map({
               container: 'primary-map',
-              style: 'mapbox://styles/mapbox/light-v9',
+              style: 'mapbox://styles/micahbales/cjnx84jgd0viy2sojoy624r6k',
               center: [
                 this.state.meetings[1].longitude,
                 this.state.meetings[1].latitude,
               ],
-              zoom: 5
+              zoom: 10
             });
 
             // Set up markers
             let marker;
-            const markers: any[] = [];
-            this.state.meetings.forEach((meeting) => {
+            const markers: mapboxgl.Marker[] = [];
+            this.state.meetings.forEach((meeting: Meeting) => {
               marker = new mapboxgl.Marker()
               .setLngLat([meeting.longitude, meeting.latitude])
               .addTo(this.map);
@@ -55,7 +51,31 @@ class App extends React.Component {
               markers.push(marker);
             });
 
-            // Update state
+            // Get bounds
+            const boundsPoints = this.state.meetings.reduce((acc, meeting: Meeting) => {
+              const updatedPoints: BoundsPoints = {
+                highestLat: meeting.latitude > acc.highestLat ? meeting.latitude : acc.highestLat,
+                highestLng: meeting.longitude > acc.highestLng ? meeting.longitude : acc.highestLng,
+                lowestLat: meeting.latitude < acc.lowestLat ? meeting.latitude : acc.lowestLat,
+                lowestLng: meeting.longitude < acc.lowestLng ? meeting.longitude : acc.lowestLng
+              };
+              return Object.assign(acc, updatedPoints);
+            }, {highestLat: -Infinity, highestLng: -Infinity, lowestLat: Infinity, lowestLng: Infinity});
+            
+            const sw: mapboxgl.LngLatLike = {lng: boundsPoints.lowestLng, lat: boundsPoints.lowestLat};
+            const ne: mapboxgl.LngLatLike = {lng: boundsPoints.highestLng, lat: boundsPoints.highestLat};
+            const bounds = new mapboxgl.LngLatBounds(sw, ne);
+            const boundsOptions = {
+              padding: {
+                top: 50, 
+                bottom: 50, 
+                left: 50, 
+                right: 50
+              }
+            }
+
+            // Center map on markers & update state
+            this.map.fitBounds(bounds, boundsOptions);
             this.setState(Object.assign(this.state, {
               markers: markers
             }));
