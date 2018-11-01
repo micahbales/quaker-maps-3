@@ -42,10 +42,18 @@ class App extends React.Component {
 
             // Set up markers
             let marker;
+            let popup;
             const markers: mapboxgl.Marker[] = [];
             this.state.meetings.forEach((meeting: Meeting) => {
+              popup = new mapboxgl.Popup();
+              popup.setHTML(
+                `<h3>${meeting.title}</h3>
+                <p>${meeting.description}</p>`
+              );
+
               marker = new mapboxgl.Marker()
               .setLngLat([meeting.longitude, meeting.latitude])
+              .setPopup(popup)
               .addTo(this.map);
 
               markers.push(marker);
