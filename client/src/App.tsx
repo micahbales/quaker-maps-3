@@ -1,7 +1,9 @@
 import * as React from 'react';
+import {renderToString} from 'react-dom/server'
 import './styles/App.css';
 import * as mapboxgl from 'mapbox-gl';
 import {AppState, Meeting, BoundsPoints} from './AppDefinitions';
+import PopUpCard from './PopUpCard';
 const mapboxKey = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAyMnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
 (mapboxgl as any).accessToken = mapboxKey;
 
@@ -47,8 +49,7 @@ class App extends React.Component {
             this.state.meetings.forEach((meeting: Meeting) => {
               popup = new mapboxgl.Popup();
               popup.setHTML(
-                `<h3>${meeting.title}</h3>
-                <p>${meeting.description}</p>`
+                renderToString(<PopUpCard meeting={meeting} />)
               );
 
               marker = new mapboxgl.Marker()

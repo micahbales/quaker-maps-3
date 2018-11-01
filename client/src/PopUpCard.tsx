@@ -1,14 +1,15 @@
 import * as React from 'react';
+import './styles/PopUpCard.css';
 import RecordItemListing from './RecordItemListing';
 
-interface MeetingCardProps {
+interface PopUpCardProps {
     meeting: any;
 }
 
-class MeetingCard extends React.Component<MeetingCardProps> {
+class PopUpCard extends React.Component<PopUpCardProps> {
     private meeting: any;
 
-    constructor(props: MeetingCardProps) {
+    constructor(props: PopUpCardProps) {
         super(props);
         this.meeting = this.props.meeting;
     }
@@ -21,7 +22,7 @@ class MeetingCard extends React.Component<MeetingCardProps> {
                     label='Address' 
                     item={`${this.meeting.address} ${this.meeting.city} ${this.meeting.state} ${this.meeting.zip}`}
                 />
-                <RecordItemListing 
+                {/* <RecordItemListing 
                     label='Email' 
                     item={this.meeting.email}
                 />
@@ -36,7 +37,7 @@ class MeetingCard extends React.Component<MeetingCardProps> {
                 <RecordItemListing 
                     label='Worship Style' 
                     item={this.meeting.worship_style} 
-                />
+                /> */}
                 <RecordItemListing 
                     label='Description' 
                     item={this.meeting.description} 
@@ -46,7 +47,7 @@ class MeetingCard extends React.Component<MeetingCardProps> {
                     item={this.meeting.website}
                     link={this.meeting.website}
                 />
-                <RecordItemListing 
+                {/* <RecordItemListing 
                     label='Yearly Meeting' 
                     item={this.meeting.yearly_meeting}
                 />
@@ -57,10 +58,18 @@ class MeetingCard extends React.Component<MeetingCardProps> {
                 <RecordItemListing 
                     label='LGBT Affirming*' 
                     item={this.meeting.lgbt_affirming ? 'Yes' : 'No'}
-                />
+                /> */}
+
+                <div>
+                    <p>
+                        <a href='https://urlforindividualmeetingpage.com'>
+                            more info
+                        </a>
+                    </p>
+                </div>
             </div>
         )
     }
 }
 
-export default MeetingCard;
+export default PopUpCard;
