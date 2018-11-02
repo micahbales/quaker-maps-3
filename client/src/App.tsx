@@ -28,68 +28,88 @@ class App extends React.Component {
 
   public componentDidMount() {
     this.callApi()
-          .then((res) => {
-            this.setState({meetings: res.meetings});
-            
+          .then((res) => {            
             // Create map
             this.map = new mapboxgl.Map({
               container: 'primary-map',
               style: 'mapbox://styles/micahbales/cjnx84jgd0viy2sojoy624r6k',
-              center: [
-                this.state.meetings[1].longitude,
-                this.state.meetings[1].latitude,
-              ],
-              zoom: 10
+              // center: [],
+              // zoom: 10
             });
 
-            // Set up markers
-            let marker;
-            let popup;
-            const markers: mapboxgl.Marker[] = [];
-            this.state.meetings.forEach((meeting: Meeting) => {
-              popup = new mapboxgl.Popup();
-              popup.setHTML(
-                renderToString(<PopUpCard meeting={meeting} />)
-              );
-
-              marker = new mapboxgl.Marker()
-              .setLngLat([meeting.longitude, meeting.latitude])
-              .setPopup(popup)
-              .addTo(this.map);
-
-              markers.push(marker);
+            this.map.on('click', () => {
+              const state = Object.assign({}, this.state);
+              this.removeMarkers(state.markers);
+              
+              state.meetings.splice(-1);
+              
+              state.markers = this.addMarkers(state.meetings, this.map);
+              this.setState(state);
             });
 
-            // Get bounds
-            const boundsPoints = this.state.meetings.reduce((acc, meeting: Meeting) => {
-              const updatedPoints: BoundsPoints = {
-                highestLat: meeting.latitude > acc.highestLat ? meeting.latitude : acc.highestLat,
-                highestLng: meeting.longitude > acc.highestLng ? meeting.longitude : acc.highestLng,
-                lowestLat: meeting.latitude < acc.lowestLat ? meeting.latitude : acc.lowestLat,
-                lowestLng: meeting.longitude < acc.lowestLng ? meeting.longitude : acc.lowestLng
-              };
-              return Object.assign(acc, updatedPoints);
-            }, {highestLat: -Infinity, highestLng: -Infinity, lowestLat: Infinity, lowestLng: Infinity});
-            
-            const sw: mapboxgl.LngLatLike = {lng: boundsPoints.lowestLng, lat: boundsPoints.lowestLat};
-            const ne: mapboxgl.LngLatLike = {lng: boundsPoints.highestLng, lat: boundsPoints.highestLat};
-            const bounds = new mapboxgl.LngLatBounds(sw, ne);
-            const boundsOptions = {
-              padding: {
-                top: 50, 
-                bottom: 50, 
-                left: 50, 
-                right: 50
-              }
-            }
+            const markers = this.addMarkers(res.meetings, this.map);
 
-            // Center map on markers & update state
-            this.map.fitBounds(bounds, boundsOptions);
-            this.setState(Object.assign(this.state, {
+            this.setState({
+              meetings: res.meetings,
               markers: markers
-            }));
+            });
           })
           .catch((err) => console.log(err));
+  }
+
+  public addMarkers(meetings: Meeting[], map: any) {
+    let marker;
+    let popup;
+    const markers: mapboxgl.Marker[] = [];
+    meetings.forEach((meeting: Meeting) => {
+      popup = new mapboxgl.Popup();
+      popup.setHTML(
+        renderToString(<PopUpCard meeting={meeting} />)
+      );
+      
+      marker = new mapboxgl.Marker()
+      .setLngLat([meeting.longitude, meeting.latitude])
+      .setPopup(popup)
+      .addTo(map);
+
+      markers.push(marker);
+    });
+
+    this.setBounds(meetings);
+    
+    return markers;
+  }
+
+  public setBounds(meetings: Meeting[]) {
+    const boundsPoints = meetings.reduce((acc, meeting: Meeting) => {
+      const updatedPoints: BoundsPoints = {
+        highestLat: meeting.latitude > acc.highestLat ? meeting.latitude : acc.highestLat,
+        highestLng: meeting.longitude > acc.highestLng ? meeting.longitude : acc.highestLng,
+        lowestLat: meeting.latitude < acc.lowestLat ? meeting.latitude : acc.lowestLat,
+        lowestLng: meeting.longitude < acc.lowestLng ? meeting.longitude : acc.lowestLng
+      };
+      return Object.assign(acc, updatedPoints);
+    }, {highestLat: -Infinity, highestLng: -Infinity, lowestLat: Infinity, lowestLng: Infinity});
+    
+    const sw: mapboxgl.LngLatLike = {lng: boundsPoints.lowestLng, lat: boundsPoints.lowestLat};
+    const ne: mapboxgl.LngLatLike = {lng: boundsPoints.highestLng, lat: boundsPoints.highestLat};
+    const bounds = new mapboxgl.LngLatBounds(sw, ne);
+    const boundsOptions = {
+      padding: {
+        top: 50, 
+        bottom: 50, 
+        left: 50, 
+        right: 50
+      }
+    }
+    // Center map on markers
+    this.map.fitBounds(bounds, boundsOptions);
+  }
+
+  public removeMarkers(markers: mapboxgl.Marker[]) {
+    markers.forEach((marker) => {
+      marker.remove();
+    });
   }
 
   public render() {

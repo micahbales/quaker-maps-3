@@ -1,6 +1,6 @@
 export interface AppState {
     meetings: Meeting[];
-    markers: mapboxgl.LngLatLike[];
+    markers: mapboxgl.Marker[];
 }
   
 export interface Meeting {
