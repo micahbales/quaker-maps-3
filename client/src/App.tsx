@@ -33,8 +33,8 @@ class App extends React.Component {
             this.map = new mapboxgl.Map({
               container: 'primary-map',
               style: 'mapbox://styles/micahbales/cjnx84jgd0viy2sojoy624r6k',
-              // center: [],
-              // zoom: 10
+              center: {lng: -98.585522, lat: 39.8333333},
+              zoom: 10
             });
 
             this.map.on('click', () => {
@@ -66,7 +66,7 @@ class App extends React.Component {
       popup.setHTML(
         renderToString(<PopUpCard meeting={meeting} />)
       );
-      
+
       marker = new mapboxgl.Marker()
       .setLngLat([meeting.longitude, meeting.latitude])
       .setPopup(popup)
@@ -81,6 +81,8 @@ class App extends React.Component {
   }
 
   public setBounds(meetings: Meeting[]) {
+    if (!meetings.length) return;
+
     const boundsPoints = meetings.reduce((acc, meeting: Meeting) => {
       const updatedPoints: BoundsPoints = {
         highestLat: meeting.latitude > acc.highestLat ? meeting.latitude : acc.highestLat,
