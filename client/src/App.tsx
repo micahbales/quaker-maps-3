@@ -54,7 +54,7 @@ class App extends React.Component {
               markers: markers
             });
           })
-          .catch((err) => console.log(err));
+          .catch((err) => console.error(err));
   }
 
   public addMarkers(meetings: Meeting[], map: any) {

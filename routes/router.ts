@@ -1,4 +1,3 @@
-import {catchErrors} from '../utils/utils';
 import express = require('express');
 import {Router} from 'express';
 import {getAllMeetings} from '../controllers/meetings';
@@ -15,18 +14,18 @@ import {deleteQuaker} from '../controllers/quakers';
 const router: Router = express.Router();
 
 // Meetings
-router.get('/api/v1/meetings', catchErrors(getAllMeetings));
-router.get('/api/v1/yearlymeetings', catchErrors(getYearlyMeetings));
-router.get('/api/v1/meetings/:id', catchErrors(getMeetingById));
-router.post('/api/v1/meetings', catchErrors(createMeeting));
-router.put('/api/v1/meetings/:id', catchErrors(updateMeeting));
-router.delete('/api/v1/meetings/:id', catchErrors(deleteMeeting));
+router.get('/api/v1/meetings', getAllMeetings);
+router.get('/api/v1/yearlymeetings', getYearlyMeetings);
+router.get('/api/v1/meetings/:id', getMeetingById);
+router.post('/api/v1/meetings', createMeeting);
+router.put('/api/v1/meetings/:id', updateMeeting);
+router.delete('/api/v1/meetings/:id', deleteMeeting);
 
 // Quakers
-router.get('/api/v1/quakers', catchErrors(getAllQuakers));
-router.get('/api/v1/quakers/:id', catchErrors(getQuakerById));
-router.post('/api/v1/quakers/', catchErrors(createQuaker));
-router.put('/api/v1/quakers/:id', catchErrors(updateQuaker));
-router.delete('/api/v1/quakers/:id', catchErrors(deleteQuaker));
+router.get('/api/v1/quakers', getAllQuakers);
+router.get('/api/v1/quakers/:id', getQuakerById);
+router.post('/api/v1/quakers/', createQuaker);
+router.put('/api/v1/quakers/:id', updateQuaker);
+router.delete('/api/v1/quakers/:id', deleteQuaker);
 
 export default router;

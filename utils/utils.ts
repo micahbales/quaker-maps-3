@@ -1,24 +1,21 @@
 import {Client} from 'pg';
 
-// Lets us use async/await without internal error handling
-export const catchErrors = (fn) => {
-  return (req, res, next) => {
-    return fn(req, res, next).catch(next);
-  };
-};
-
 // Make a simple query to the database
 export const query = async (queryString, values?) => {
   const client = new Client({
     connectionString: process.env.DATABASE_URL
   });
-  await client.connect();
+  await client.connect().catch((err) => console.error(err));
 
-  return await client.query(queryString, values).then((rows) => {
-    // Clean up and return results
-    client.end();
-    return rows;
-  });
+  try {
+    return await client.query(queryString, values).then((rows) => {
+      // Clean up and return results
+      client.end();
+      return rows;
+    });
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 // Get keys for SQL queries
@@ -113,7 +110,7 @@ export async function getMeetingAttributeRecords(meetings) {
     ]).then((data) => {
         resolve();
       });
-  });
+  }).catch((err) => console.error(err));
 
   return promise;
 }
