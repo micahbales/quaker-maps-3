@@ -37,15 +37,15 @@ class App extends React.Component {
               zoom: 10
             });
 
-            this.map.on('click', () => {
-              const state = Object.assign({}, this.state);
-              this.removeMarkers(state.markers);
+            // this.map.on('click', () => {
+            //   const state = Object.assign({}, this.state);
+            //   this.removeMarkers(state.markers);
               
-              state.meetings.splice(-1);
+            //   state.meetings.splice(-1);
               
-              state.markers = this.addMarkers(state.meetings, this.map);
-              this.setState(state);
-            });
+            //   state.markers = this.addMarkers(state.meetings, this.map);
+            //   this.setState(state);
+            // });
 
             const markers = this.addMarkers(res.meetings, this.map);
 
@@ -108,11 +108,11 @@ class App extends React.Component {
     this.map.fitBounds(bounds, boundsOptions);
   }
 
-  public removeMarkers(markers: mapboxgl.Marker[]) {
-    markers.forEach((marker) => {
-      marker.remove();
-    });
-  }
+  // public removeMarkers(markers: mapboxgl.Marker[]) {
+  //   markers.forEach((marker) => {
+  //     marker.remove();
+  //   });
+  // }
 
   public render() {
     return (
