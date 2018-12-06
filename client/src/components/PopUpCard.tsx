@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './styles/PopUpCard.css';
+import '../styles/PopUpCard.css';
 import RecordItemListing from './RecordItemListing';
 
 interface PopUpCardProps {

@@ -1,0 +1,14 @@
+#nav {
+  background-color: var(--blue);
+  color: var(--white);
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 320px;
+  height: 100%;
+  z-index: 1;
+}
+
+#nav h2 {
+  text-align: center;
+}

@@ -3,7 +3,8 @@ import {renderToString} from 'react-dom/server'
 import './styles/App.css';
 import * as mapboxgl from 'mapbox-gl';
 import {AppState, Meeting, BoundsPoints} from './AppDefinitions';
-import PopUpCard from './PopUpCard';
+import PopUpCard from './components/PopUpCard';
+import NavModal from './components/NavModal';
 const mapboxKey = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAyMnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
 (mapboxgl as any).accessToken = mapboxKey;
 
@@ -117,6 +118,7 @@ class App extends React.Component {
   public render() {
     return (
       <div className='app'>
+        <NavModal />
         <div id='primary-map' />
       </div>
     );

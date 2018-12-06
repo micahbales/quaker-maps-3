@@ -1,3 +1,8 @@
+:root {
+  --white: #fefefe;
+  --blue: #6480D2;
+}
+
 #primary-map {
   position: absolute;
   top: 0;
