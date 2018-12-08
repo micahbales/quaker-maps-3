@@ -17,6 +17,10 @@ class App extends React.Component {
     markers: []
   };
 
+  private constructor(props: any) {
+    super(props);
+  }
+
   public callApi = async () => {
     // Fetch all meetings
     const response = await fetch('/api/v1/meetings');
