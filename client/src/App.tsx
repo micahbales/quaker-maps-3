@@ -2,7 +2,7 @@ import * as React from 'react';
 import {renderToString} from 'react-dom/server'
 import './styles/App.css';
 import * as mapboxgl from 'mapbox-gl';
-import {AppState, Meeting, BoundsPoints} from './AppDefinitions';
+import {AppState, Meeting, BoundsPoints} from './Definitions';
 import PopUpCard from './components/PopUpCard';
 import NavModal from './components/NavModal';
 const mapboxKey = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAyMnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
@@ -13,12 +13,17 @@ class App extends React.Component {
   public map: any;
 
   public state: AppState = {
+    currentSearch: {
+      zip: 0,
+    },
     meetings: [],
     markers: []
   };
 
   private constructor(props: any) {
     super(props);
+
+    this.handleNavSubmit = this.handleNavSubmit.bind(this);
   }
 
   public callApi = async () => {
@@ -119,10 +124,25 @@ class App extends React.Component {
   //   });
   // }
 
+  public handleNavSubmit(e: React.SyntheticEvent) {
+    e.preventDefault();
+
+    const zip: number = Number((document.querySelector('.filter-meetings-form .zip') as HTMLInputElement).value);
+    const state = Object.assign({}, this.state);
+
+    state.currentSearch = {
+      zip: zip
+    }
+
+    this.setState(state);
+  }
+
   public render() {
     return (
       <div className='app'>
-        <NavModal />
+        <NavModal 
+          handleNavSubmit={this.handleNavSubmit}
+        />
         <div id='primary-map' />
       </div>
     );

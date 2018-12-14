@@ -1,6 +1,11 @@
 export interface AppState {
+    currentSearch: CurrentSearch;
     meetings: Meeting[];
     markers: mapboxgl.Marker[];
+}
+
+interface CurrentSearch {
+  zip: number;
 }
   
 export interface Meeting {
@@ -50,4 +55,8 @@ export interface BoundsPoints {
     highestLng: number;
     lowestLat: number;
     lowestLng: number;
+}
+
+export interface NavModalProps {
+  handleNavSubmit: (e: React.SyntheticEvent<Element>) => void;
 }

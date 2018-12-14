@@ -24,3 +24,20 @@
 #nav .content h2 {
   text-align: center;
 }
+
+.filter-meetings-form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.filter-meetings-form .form-element {
+  padding: 5px;
+  margin: 5px;
+  width: 60%;
+}
+
+.form-element input, .form-element button {
+  text-align: center;
+  width: 100%;
+}
