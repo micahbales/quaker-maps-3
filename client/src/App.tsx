@@ -131,9 +131,17 @@ class App extends React.Component {
   public handleNavSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
 
-    const zip: string = (document.querySelector('.filter-meetings-form .zip') as HTMLInputElement).value;
+    const currentSearch = {
+      state: ((document.querySelector('.filter-meetings-form select') as HTMLInputElement).value as string),
+      zip: ((document.querySelector('.filter-meetings-form .zip') as HTMLInputElement).value as string),
+    }
     const updatedMeetings = this.state.meetings.filter((meeting) => {
-      return meeting.zip.includes(zip);
+      for (const key in currentSearch) {
+        if (currentSearch[key]) {
+          if (meeting[key].includes(currentSearch[key])) return true;
+        }
+      }
+      return false;
     });
 
     this.removeMarkers(this.state.markers);

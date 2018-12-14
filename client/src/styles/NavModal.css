@@ -37,7 +37,7 @@
   width: 60%;
 }
 
-.form-element input, .form-element button {
+.form-element input, .form-element button, .form-element select {
   text-align: center;
   width: 100%;
 }
