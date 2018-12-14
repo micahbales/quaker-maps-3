@@ -23,7 +23,7 @@ class NavModal extends React.Component<NavModalProps> {
                 </div>
                 <form className='filter-meetings-form'>
                     <div className='form-element'>
-                        <input className='zip' type='number' placeholder='Zip Code' />
+                        <input className='zip' placeholder='Zip Code' />
                     </div>
                     <div className='form-element'>
                         <button className='submit' type='submit' value='Find Meetings' 

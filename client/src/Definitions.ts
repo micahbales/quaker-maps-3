@@ -5,7 +5,7 @@ export interface AppState {
 }
 
 interface CurrentSearch {
-  zip: number;
+  zip: string;
 }
   
 export interface Meeting {

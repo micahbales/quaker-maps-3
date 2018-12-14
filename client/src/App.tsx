@@ -14,7 +14,7 @@ class App extends React.Component {
 
   public state: AppState = {
     currentSearch: {
-      zip: 0,
+      zip: '',
     },
     meetings: [],
     markers: []
@@ -56,18 +56,17 @@ class App extends React.Component {
             //   state.markers = this.addMarkers(state.meetings, this.map);
             //   this.setState(state);
             // });
+            
+            this.addMarkers(res.meetings);
 
-            const markers = this.addMarkers(res.meetings, this.map);
-
-            this.setState({
-              meetings: res.meetings,
-              markers: markers
-            });
+            const state = Object.assign({}, this.state);
+            state.meetings = res.meetings;
+            this.setState(state);
           })
           .catch((err) => console.error(err));
   }
 
-  public addMarkers(meetings: Meeting[], map: any) {
+  public addMarkers(meetings: Meeting[]) {
     let marker;
     let popup;
     const markers: mapboxgl.Marker[] = [];
@@ -80,14 +79,16 @@ class App extends React.Component {
       marker = new mapboxgl.Marker()
       .setLngLat([meeting.longitude, meeting.latitude])
       .setPopup(popup)
-      .addTo(map);
+      .addTo(this.map);
 
       markers.push(marker);
     });
 
     this.setBounds(meetings);
-    
-    return markers;
+
+    const state = Object.assign({}, this.state);
+    state.markers = markers;
+    this.setState(state);
   }
 
   public setBounds(meetings: Meeting[]) {
@@ -118,23 +119,25 @@ class App extends React.Component {
     this.map.fitBounds(bounds, boundsOptions);
   }
 
-  // public removeMarkers(markers: mapboxgl.Marker[]) {
-  //   markers.forEach((marker) => {
-  //     marker.remove();
-  //   });
-  // }
+  public removeMarkers(markers: mapboxgl.Marker[]) {
+    markers.forEach((marker) => {
+      marker.remove();
+    });
+    const state = Object.assign({}, this.state);
+    state.markers = [];
+    this.setState(state);
+  }
 
   public handleNavSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
 
-    const zip: number = Number((document.querySelector('.filter-meetings-form .zip') as HTMLInputElement).value);
-    const state = Object.assign({}, this.state);
+    const zip: string = (document.querySelector('.filter-meetings-form .zip') as HTMLInputElement).value;
+    const updatedMeetings = this.state.meetings.filter((meeting) => {
+      return meeting.zip.includes(zip);
+    });
 
-    state.currentSearch = {
-      zip: zip
-    }
-
-    this.setState(state);
+    this.removeMarkers(this.state.markers);
+    this.addMarkers(updatedMeetings);
   }
 
   public render() {
