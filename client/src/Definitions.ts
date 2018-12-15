@@ -4,7 +4,10 @@ export interface AppState {
     markers: mapboxgl.Marker[];
 }
 
-interface CurrentSearch {
+export interface CurrentSearch {
+  yearly_meeting: string;
+  lgbt_affirming: string | null;
+  state: string;
   zip: string;
 }
   

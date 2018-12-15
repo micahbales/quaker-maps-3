@@ -2,7 +2,7 @@ import * as React from 'react';
 import {renderToString} from 'react-dom/server'
 import './styles/App.css';
 import * as mapboxgl from 'mapbox-gl';
-import {AppState, Meeting, BoundsPoints} from './Definitions';
+import {AppState, CurrentSearch, Meeting, BoundsPoints} from './Definitions';
 import PopUpCard from './components/PopUpCard';
 import NavModal from './components/NavModal';
 const mapboxKey = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAyMnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
@@ -14,6 +14,9 @@ class App extends React.Component {
 
   public state: AppState = {
     currentSearch: {
+      yearly_meeting: '',
+      lgbt_affirming: '',
+      state: '',
       zip: '',
     },
     meetings: [],
@@ -128,30 +131,44 @@ class App extends React.Component {
     this.setState(state);
   }
 
-  public handleNavSubmit(e: React.SyntheticEvent) {
-    e.preventDefault();
-
-    const lgbtNode = ([...Array.from(document.getElementsByName('lgbt'))] as HTMLInputElement[]).find((n) => n.checked);
-    const currentSearch = {
-      lgbt_affirming: lgbtNode!.value,
-      state: ((document.querySelector('.filter-meetings-form select') as HTMLInputElement).value as string),
-      zip: ((document.querySelector('.filter-meetings-form .zip') as HTMLInputElement).value as string),
-    }
-    const updatedMeetings = this.state.meetings.filter((meeting) => {
+  public filterMeetings(currentSearch: CurrentSearch) {
+    return this.state.meetings.filter((meeting) => {
       for (const key in currentSearch) {
         if (currentSearch[key]) {
-          if (String(meeting[key]).includes(currentSearch[key]) || 
-              currentSearch[key].includes(String(meeting[key]))) 
-              return true;
+          if (typeof(meeting[key]) !== 'object') {
+            if (String(meeting[key]).includes(currentSearch[key]) || 
+                currentSearch[key].includes(String(meeting[key]))) 
+                return true;
+          } else if (Array.isArray(meeting[key]) && meeting[key].length > 0) {
+            for (const ym of meeting[key]) {
+              if (ym.title === currentSearch[key]) return true;
+            }
+          }
         }
       }
       return false;
     });
+  }
+
+  public handleNavSubmit(e: React.SyntheticEvent) {
+    e.preventDefault();
+    
+    const lgbtNode = ([...Array.from(document.getElementsByName('lgbt'))] as HTMLInputElement[])
+        .find((n) => n.checked);
+    const currentSearch = {
+      yearly_meeting: ((document.querySelector('.filter-meetings-form .yearlymeeting') as HTMLInputElement)
+          .value as string),
+      lgbt_affirming: lgbtNode ? lgbtNode.value : null,
+      state: ((document.querySelector('.filter-meetings-form .state') as HTMLInputElement).value as string),
+      zip: ((document.querySelector('.filter-meetings-form .zip') as HTMLInputElement).value as string),
+    }
+
+    const filteredMeetings = this.filterMeetings(currentSearch);
 
     // Update map only if there are any results
-    if (updatedMeetings.length > 0) {
+    if (filteredMeetings.length > 0) {
       this.removeMarkers(this.state.markers);
-      this.addMarkers(updatedMeetings);
+      this.addMarkers(filteredMeetings);
     }
   }
 

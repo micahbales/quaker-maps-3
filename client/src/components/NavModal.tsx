@@ -10,6 +10,8 @@ class NavModal extends React.Component<NavModalProps> {
             'OH','OK','OR','PA','RI', 'SC','SD', 'TN','TX','UT','VT','VA','WA',
             'WV','WI','WY','AB','BC','NB','NL','NS', 'NT','NU','ON','PE', 'QC','SK','YT'];
 
+    public yearlymeetings = ['Great Plains Yearly Meeting', 'EFC - Mid America Yearly Meeting'];
+
     public handleModalClose() {
        const nav = document.querySelector('#nav');
        if (nav) nav.classList.add('hidden');
@@ -37,6 +39,19 @@ class NavModal extends React.Component<NavModalProps> {
                             <option value=''>Meeting State</option>
                             {
                                 this.states.map((s: string, i) => {
+                                    return (
+                                        <option value={s} key={i}>{s}</option>
+                                    );
+                                })
+                            }
+                        </select>
+                    </div>
+
+                    <div className='form-element'>
+                        <select className='yearlymeeting'>
+                            <option value=''>Yearly Meeting</option>
+                            {
+                                this.yearlymeetings.map((s: string, i) => {
                                     return (
                                         <option value={s} key={i}>{s}</option>
                                     );
