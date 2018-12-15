@@ -31,6 +31,7 @@ class NavModal extends React.Component<NavModalProps> {
                     <div className='form-element'>
                         <input className='zip' placeholder='Zip Code' />
                     </div>
+
                     <div className='form-element'>
                         <select className='state'>
                             <option value=''>Meeting State</option>
@@ -43,6 +44,13 @@ class NavModal extends React.Component<NavModalProps> {
                             }
                         </select>
                     </div>
+
+                    <div className='form-element'>
+                        <input type='radio' name='lgbt' value='true' /> LGBT-Affirming<br/>
+                        <input type='radio' name='lgbt' value='false' /> Non-Affirming<br/>
+                        <input type='radio' name='lgbt' value='truefalse' /> All
+                    </div>
+
                     <div className='form-element'>
                         <button className='submit' type='submit' value='Find Meetings' 
                             onClick={this.props.handleNavSubmit}>Submit</button>

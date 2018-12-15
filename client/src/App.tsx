@@ -131,14 +131,18 @@ class App extends React.Component {
   public handleNavSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
 
+    const lgbtNode = ([...Array.from(document.getElementsByName('lgbt'))] as HTMLInputElement[]).find((n) => n.checked);
     const currentSearch = {
+      lgbt_affirming: lgbtNode!.value,
       state: ((document.querySelector('.filter-meetings-form select') as HTMLInputElement).value as string),
       zip: ((document.querySelector('.filter-meetings-form .zip') as HTMLInputElement).value as string),
     }
     const updatedMeetings = this.state.meetings.filter((meeting) => {
       for (const key in currentSearch) {
         if (currentSearch[key]) {
-          if (meeting[key].includes(currentSearch[key])) return true;
+          if (String(meeting[key]).includes(currentSearch[key]) || 
+              currentSearch[key].includes(String(meeting[key]))) 
+              return true;
         }
       }
       return false;
