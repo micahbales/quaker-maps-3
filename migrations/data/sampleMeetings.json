@@ -17,6 +17,23 @@
     "table_type": "meeting"
   },
   {
+    "title": "EFC - Mid America Yearly Meeting",
+    "longitude": "-97.365060",
+    "mappable": "true",
+    "phone": "(316)267-0391",
+    "email": "dwilliams@efcmaym.org",
+    "city": "Wichita",
+    "address": "2018 W. Maple St.",
+    "latitude": "37.680810",
+    "zip": "67213",
+    "description": "1 block N of Friends University Campus",
+    "worship_time": "00:00:00",
+    "state": "KS",
+    "website": "http://efcmaym.org/",
+    "lgbt_affirming": "false",
+    "table_type": "meeting"
+  },
+  {
     "title": "Central City Friends Church",
     "description": "From junction Hwys 30 & 14, Hwy 14 N across railroad, 1st L. (E St.), 2nd R. (B Ave.), 2 blocks",
     "longitude": "-98.00469409999999",

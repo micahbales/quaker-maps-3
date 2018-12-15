@@ -30,6 +30,11 @@
         "table_type": "meeting_quaker"
     },
     {
+        "quaker_id": "1",
+        "meeting_id": "7",
+        "table_type": "meeting_quaker"
+    },
+    {
         "quaker_id": "2",
         "meeting_id": "3",
         "table_type": "meeting_quaker"
