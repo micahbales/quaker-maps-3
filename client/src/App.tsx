@@ -144,8 +144,11 @@ class App extends React.Component {
       return false;
     });
 
-    this.removeMarkers(this.state.markers);
-    this.addMarkers(updatedMeetings);
+    // Update map only if there are any results
+    if (updatedMeetings.length > 0) {
+      this.removeMarkers(this.state.markers);
+      this.addMarkers(updatedMeetings);
+    }
   }
 
   public render() {
