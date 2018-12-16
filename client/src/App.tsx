@@ -2,7 +2,7 @@ import * as React from 'react';
 import {renderToString} from 'react-dom/server'
 import './styles/App.css';
 import * as mapboxgl from 'mapbox-gl';
-import {AppState, CurrentSearch, Meeting, BoundsPoints} from './Definitions';
+import {AppState, SearchCriteria, Meeting, BoundsPoints} from './Definitions';
 import PopUpCard from './components/PopUpCard';
 import NavModal from './components/NavModal';
 const mapboxKey = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAyMnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
@@ -13,14 +13,15 @@ class App extends React.Component {
   public map: any;
 
   public state: AppState = {
-    currentSearch: {
+    searchCriteria: {
       yearly_meeting: '',
       lgbt_affirming: '',
       state: '',
       zip: '',
     },
     meetings: [],
-    markers: []
+    markers: [],
+    showYms: false,
   };
 
   private constructor(props: any) {
@@ -50,17 +51,11 @@ class App extends React.Component {
               zoom: 10
             });
 
-            // this.map.on('click', () => {
-            //   const state = Object.assign({}, this.state);
-            //   this.removeMarkers(state.markers);
-              
-            //   state.meetings.splice(-1);
-              
-            //   state.markers = this.addMarkers(state.meetings, this.map);
-            //   this.setState(state);
-            // });
-            
-            this.addMarkers(res.meetings);
+            const filteredMeetings = res.meetings.filter((m: Meeting) => {
+              if (m.yearly_meeting.length < 1) return this.state.showYms;
+              return true;
+            })
+            this.addMarkers(filteredMeetings);
 
             const state = Object.assign({}, this.state);
             state.meetings = res.meetings;
@@ -131,17 +126,20 @@ class App extends React.Component {
     this.setState(state);
   }
 
-  public filterMeetings(currentSearch: CurrentSearch) {
-    return this.state.meetings.filter((meeting) => {
-      for (const key in currentSearch) {
-        if (currentSearch[key]) {
+  public filterMeetings(searchCriteria: SearchCriteria) {
+    return this.state.meetings.filter((meeting: Meeting) => {
+      // Filter yearly Meetings
+      if (meeting.yearly_meeting.length < 1) return this.state.showYms;
+
+      for (const key in searchCriteria) {
+        if (searchCriteria[key]) {
           if (typeof(meeting[key]) !== 'object') {
-            if (String(meeting[key]).includes(currentSearch[key]) || 
-                currentSearch[key].includes(String(meeting[key]))) 
+            if (String(meeting[key]).includes(searchCriteria[key]) || 
+                searchCriteria[key].includes(String(meeting[key]))) 
                 return true;
           } else if (Array.isArray(meeting[key]) && meeting[key].length > 0) {
             for (const ym of meeting[key]) {
-              if (ym.title === currentSearch[key]) return true;
+              if (ym.title === searchCriteria[key]) return true;
             }
           }
         }
@@ -152,18 +150,26 @@ class App extends React.Component {
 
   public handleNavSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
-    
+
+    // Set parameters for meeting search from user inputs
     const lgbtNode = ([...Array.from(document.getElementsByName('lgbt'))] as HTMLInputElement[])
         .find((n) => n.checked);
-    const currentSearch = {
-      yearly_meeting: ((document.querySelector('.filter-meetings-form .yearlymeeting') as HTMLInputElement)
+    const searchCriteria = {
+      accessibility: ((document.querySelector('.filter-meetings-form .accessibility') as HTMLInputElement)
+          .value as string),
+      branch: ((document.querySelector('.filter-meetings-form .branch') as HTMLInputElement)
           .value as string),
       lgbt_affirming: lgbtNode ? lgbtNode.value : null,
       state: ((document.querySelector('.filter-meetings-form .state') as HTMLInputElement).value as string),
+      worship_style: ((document.querySelector('.filter-meetings-form .worship-style') as HTMLInputElement)
+          .value as string),
+      yearly_meeting: ((document.querySelector('.filter-meetings-form .yearlymeeting') as HTMLInputElement)
+          .value as string),
       zip: ((document.querySelector('.filter-meetings-form .zip') as HTMLInputElement).value as string),
     }
 
-    const filteredMeetings = this.filterMeetings(currentSearch);
+    // Filter meetings according to the search criteria
+    const filteredMeetings = this.filterMeetings(searchCriteria);
 
     // Update map only if there are any results
     if (filteredMeetings.length > 0) {

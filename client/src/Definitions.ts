@@ -1,10 +1,11 @@
 export interface AppState {
-    currentSearch: CurrentSearch;
+    searchCriteria: SearchCriteria;
     meetings: Meeting[];
     markers: mapboxgl.Marker[];
+    showYms: boolean;
 }
 
-export interface CurrentSearch {
+export interface SearchCriteria {
   yearly_meeting: string;
   lgbt_affirming: string | null;
   state: string;
