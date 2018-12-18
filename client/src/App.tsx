@@ -2,7 +2,7 @@ import * as React from 'react';
 import {renderToString} from 'react-dom/server'
 import './styles/App.css';
 import * as mapboxgl from 'mapbox-gl';
-import {AppState, SearchCriteria, Meeting, BoundsPoints} from './Definitions';
+import {AppState, Meeting, BoundsPoints} from './Definitions';
 import PopUpCard from './components/PopUpCard';
 import NavModal from './components/NavModal';
 const mapboxKey = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAyMnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
@@ -14,9 +14,12 @@ class App extends React.Component {
 
   public state: AppState = {
     searchCriteria: {
-      yearly_meeting: '',
+      accessibility: '',
+      branch: '',
       lgbt_affirming: '',
       state: '',
+      worship_style: '',
+      yearly_meeting: '',
       zip: '',
     },
     meetings: [],
@@ -126,35 +129,12 @@ class App extends React.Component {
     this.setState(state);
   }
 
-  public filterMeetings(searchCriteria: SearchCriteria) {
-    return this.state.meetings.filter((meeting: Meeting) => {
-      // Filter yearly Meetings
-      if (meeting.yearly_meeting.length < 1) return this.state.showYms;
+  public setSearchCriteria() {
+    const state = Object.assign({}, this.state);
 
-      for (const key in searchCriteria) {
-        if (searchCriteria[key]) {
-          if (typeof(meeting[key]) !== 'object') {
-            if (String(meeting[key]).includes(searchCriteria[key]) || 
-                searchCriteria[key].includes(String(meeting[key]))) 
-                return true;
-          } else if (Array.isArray(meeting[key]) && meeting[key].length > 0) {
-            for (const ym of meeting[key]) {
-              if (ym.title === searchCriteria[key]) return true;
-            }
-          }
-        }
-      }
-      return false;
-    });
-  }
-
-  public handleNavSubmit(e: React.SyntheticEvent) {
-    e.preventDefault();
-
-    // Set parameters for meeting search from user inputs
     const lgbtNode = ([...Array.from(document.getElementsByName('lgbt'))] as HTMLInputElement[])
-        .find((n) => n.checked);
-    const searchCriteria = {
+      .find((n) => n.checked);
+    state.searchCriteria = {
       accessibility: ((document.querySelector('.filter-meetings-form .accessibility') as HTMLInputElement)
           .value as string),
       branch: ((document.querySelector('.filter-meetings-form .branch') as HTMLInputElement)
@@ -168,9 +148,38 @@ class App extends React.Component {
       zip: ((document.querySelector('.filter-meetings-form .zip') as HTMLInputElement).value as string),
     }
 
-    // Filter meetings according to the search criteria
-    const filteredMeetings = this.filterMeetings(searchCriteria);
+    this.setState(state);
+  }
 
+  public filterMeetings() {
+    return this.state.meetings.filter((meeting: Meeting) => {
+      // Filter yearly Meetings
+      if (meeting.yearly_meeting.length < 1) return this.state.showYms;
+
+      for (const key in this.state.searchCriteria) {
+        if (this.state.searchCriteria[key]) {
+          if (typeof(meeting[key]) !== 'object') {
+            if (String(meeting[key]).includes(this.state.searchCriteria[key]) || 
+                this.state.searchCriteria[key].includes(String(meeting[key]))) 
+                return true;
+          } else if (Array.isArray(meeting[key]) && meeting[key].length > 0) {
+            for (const ym of meeting[key]) {
+              if (ym.title === this.state.searchCriteria[key]) return true;
+            }
+          }
+        }
+      }
+      return false;
+    });
+  }
+
+  public async handleNavSubmit(e: React.SyntheticEvent) {
+    e.preventDefault();
+
+    // Set search criteria from user input
+    await this.setSearchCriteria();
+    // Filter meetings according to the search criteria
+    const filteredMeetings = this.filterMeetings();
     // Update map only if there are any results
     if (filteredMeetings.length > 0) {
       this.removeMarkers(this.state.markers);

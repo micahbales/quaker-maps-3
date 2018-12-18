@@ -6,9 +6,12 @@ export interface AppState {
 }
 
 export interface SearchCriteria {
-  yearly_meeting: string;
+  accessibility: string;
+  branch: string;
   lgbt_affirming: string | null;
   state: string;
+  worship_style: string;
+  yearly_meeting: string;
   zip: string;
 }
   
