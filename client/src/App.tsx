@@ -33,6 +33,14 @@ class App extends React.Component {
     this.handleNavSubmit = this.handleNavSubmit.bind(this);
   }
 
+  public setLocalStorage(itemName: string, data: object) {
+    try {
+      localStorage.setItem(itemName, JSON.stringify(data));
+    } catch(err) {
+      console.error(err);
+    }
+  }
+
   public callApi = async () => {
     // Fetch all meetings
     const response = await fetch('/api/v1/meetings');
@@ -54,15 +62,22 @@ class App extends React.Component {
               zoom: 10
             });
 
-            const filteredMeetings = res.meetings.filter((m: Meeting) => {
-              if (m.yearly_meeting.length < 1) return this.state.showYms;
-              return true;
-            })
-            this.addMarkers(filteredMeetings);
-
+            // Add meetings to state
             const state = Object.assign({}, this.state);
             state.meetings = res.meetings;
             this.setState(state);
+
+            // Get search criteria from local storage
+            const localState = localStorage.getItem('quaker-maps-search-criteria');
+            if (localState) {
+              const appState = Object.assign({}, this.state);
+              appState.searchCriteria = JSON.parse(localState);
+              this.setState(appState);
+            }
+
+            // Filter meetings and add markers
+            const filteredMeetings = this.filterMeetings();
+            this.addMarkers(filteredMeetings);
           })
           .catch((err) => console.error(err));
   }
@@ -149,6 +164,7 @@ class App extends React.Component {
     }
 
     this.setState(state);
+    this.setLocalStorage('quaker-maps-search-criteria', state.searchCriteria);
   }
 
   public filterMeetings() {
