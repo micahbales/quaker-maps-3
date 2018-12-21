@@ -167,7 +167,29 @@ class App extends React.Component {
     this.setLocalStorage('quaker-maps-search-criteria', state.searchCriteria);
   }
 
+  public filterMeetingsWithoutCriteria() {
+    let noCriteriaSet = true;
+
+    for (const criterion in this.state.searchCriteria) {
+      // For some reason, null is not returning falsy without the !!
+      if (!!(this.state.searchCriteria[criterion])) {
+        noCriteriaSet = false;
+      }
+    }
+
+    if (noCriteriaSet) return this.state.meetings.filter((meeting) => {
+      if (meeting.yearly_meeting.length < 1) return this.state.showYms;
+      return true;
+    });
+    return false;
+  }
+
   public filterMeetings() {
+    // If there are no search criteria set, return all meetings
+    const meetingsWithoutCriteria = this.filterMeetingsWithoutCriteria();
+    if (meetingsWithoutCriteria) return meetingsWithoutCriteria;
+
+    // Otherwise, filter according to criteria
     return this.state.meetings.filter((meeting: Meeting) => {
       // Filter yearly Meetings
       if (meeting.yearly_meeting.length < 1) return this.state.showYms;
