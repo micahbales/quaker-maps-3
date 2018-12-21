@@ -31,6 +31,7 @@ class App extends React.Component {
     super(props);
 
     this.handleNavSubmit = this.handleNavSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   public setLocalStorage(itemName: string, data: object) {
@@ -224,12 +225,19 @@ class App extends React.Component {
       this.addMarkers(filteredMeetings);
     }
   }
+  public handleInputChange(e: React.SyntheticEvent) {
+    const state = Object.assign({}, this.state);
+    state.searchCriteria.zip = (e.currentTarget as HTMLInputElement).value;
+    this.setState(state);
+  }
 
   public render() {
     return (
       <div className='app'>
         <NavModal 
           handleNavSubmit={this.handleNavSubmit}
+          handleInputChange={this.handleInputChange}
+          searchCriteria={this.state.searchCriteria}
         />
         <div id='primary-map' />
       </div>

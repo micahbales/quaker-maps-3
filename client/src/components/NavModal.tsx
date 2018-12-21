@@ -35,7 +35,8 @@ class NavModal extends React.Component<NavModalProps> {
                 </div>
                 <form className='filter-meetings-form'>
                     <div className='form-element'>
-                        <input className='zip' placeholder='Zip Code' />
+                        <input type='text' className='zip' placeholder='Zip Code' 
+                            value={this.props.searchCriteria.zip} onChange={this.props.handleInputChange} />
                     </div>
 
                     <div className='form-element'>
