@@ -32,6 +32,7 @@ class App extends React.Component {
 
     this.handleNavSubmit = this.handleNavSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
   }
 
   public setLocalStorage(itemName: string, data: object) {
@@ -231,12 +232,19 @@ class App extends React.Component {
     this.setState(state);
   }
 
+  public handleSelectChange(criterion: string, e: React.SyntheticEvent) {
+    const state = Object.assign({}, this.state);
+    state.searchCriteria[criterion] = (e.currentTarget as HTMLInputElement).value;
+    this.setState(state);
+  }
+
   public render() {
     return (
       <div className='app'>
         <NavModal 
           handleNavSubmit={this.handleNavSubmit}
           handleInputChange={this.handleInputChange}
+          handleSelectChange={this.handleSelectChange}
           searchCriteria={this.state.searchCriteria}
         />
         <div id='primary-map' />

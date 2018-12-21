@@ -40,7 +40,8 @@ class NavModal extends React.Component<NavModalProps> {
                     </div>
 
                     <div className='form-element'>
-                        <select className='state'>
+                        <select className='state' value={this.props.searchCriteria.state} 
+                            onChange={this.props.handleSelectChange.bind(this.props, 'state')}>
                             <option value=''>Meeting State</option>
                             {
                                 this.states.map((s: string, i) => {
@@ -53,7 +54,8 @@ class NavModal extends React.Component<NavModalProps> {
                     </div>
 
                     <div className='form-element'>
-                        <select className='yearlymeeting'>
+                        <select className='yearlymeeting'
+                            onChange={this.props.handleSelectChange.bind(this.props, 'yearly_meeting')}>
                             <option value=''>Yearly Meeting</option>
                             {
                                 this.yearlymeetings.map((s: string, i) => {
@@ -66,7 +68,8 @@ class NavModal extends React.Component<NavModalProps> {
                     </div>
 
                     <div className='form-element'>
-                        <select className='accessibility'>
+                        <select className='accessibility'
+                            onChange={this.props.handleSelectChange.bind(this.props, 'accessibility')}>
                             <option value=''>Accessibility Options</option>
                             {
                                 this.accessibilities.map((s: string, i) => {
@@ -79,7 +82,8 @@ class NavModal extends React.Component<NavModalProps> {
                     </div>
 
                     <div className='form-element'>
-                        <select className='branch'>
+                        <select className='branch'
+                            onChange={this.props.handleSelectChange.bind(this.props, 'branch')}>
                             <option value=''>Branch</option>
                             {
                                 this.branches.map((s: string, i) => {
@@ -92,7 +96,8 @@ class NavModal extends React.Component<NavModalProps> {
                     </div>
 
                     <div className='form-element'>
-                        <select className='worship-style'>
+                        <select className='worship-style'
+                            onChange={this.props.handleSelectChange.bind(this.props, 'worship_style')}>
                             <option value=''>Worship Style</option>
                             {
                                 this.worshipStyles.map((s: string, i) => {

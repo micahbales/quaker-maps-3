@@ -67,5 +67,6 @@ export interface BoundsPoints {
 export interface NavModalProps {
   handleNavSubmit: (e: React.SyntheticEvent<Element>) => void;
   handleInputChange: (e: React.SyntheticEvent<Element>) => void;
+  handleSelectChange: (criterion: string, e: React.SyntheticEvent<Element>) => void;
   searchCriteria: SearchCriteria;
 }
