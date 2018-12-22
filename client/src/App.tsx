@@ -32,7 +32,6 @@ class App extends React.Component {
 
     this.handleNavSubmit = this.handleNavSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSelectChange = this.handleSelectChange.bind(this);
   }
 
   public setLocalStorage(itemName: string, data: object) {
@@ -146,29 +145,6 @@ class App extends React.Component {
     this.setState(state);
   }
 
-  public setSearchCriteria() {
-    const state = Object.assign({}, this.state);
-
-    const lgbtNode = ([...Array.from(document.getElementsByName('lgbt'))] as HTMLInputElement[])
-      .find((n) => n.checked);
-    state.searchCriteria = {
-      accessibility: ((document.querySelector('.filter-meetings-form .accessibility') as HTMLInputElement)
-          .value as string),
-      branch: ((document.querySelector('.filter-meetings-form .branch') as HTMLInputElement)
-          .value as string),
-      lgbt_affirming: lgbtNode ? lgbtNode.value : null,
-      state: ((document.querySelector('.filter-meetings-form .state') as HTMLInputElement).value as string),
-      worship_style: ((document.querySelector('.filter-meetings-form .worship-style') as HTMLInputElement)
-          .value as string),
-      yearly_meeting: ((document.querySelector('.filter-meetings-form .yearlymeeting') as HTMLInputElement)
-          .value as string),
-      zip: ((document.querySelector('.filter-meetings-form .zip') as HTMLInputElement).value as string),
-    }
-
-    this.setState(state);
-    this.setLocalStorage('quaker-maps-search-criteria', state.searchCriteria);
-  }
-
   public filterMeetingsWithoutCriteria() {
     let noCriteriaSet = true;
 
@@ -213,11 +189,9 @@ class App extends React.Component {
     });
   }
 
-  public async handleNavSubmit(e: React.SyntheticEvent) {
+  public handleNavSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
 
-    // Set search criteria from user input
-    await this.setSearchCriteria();
     // Filter meetings according to the search criteria
     const filteredMeetings = this.filterMeetings();
     // Update map only if there are any results
@@ -226,16 +200,12 @@ class App extends React.Component {
       this.addMarkers(filteredMeetings);
     }
   }
-  public handleInputChange(e: React.SyntheticEvent) {
-    const state = Object.assign({}, this.state);
-    state.searchCriteria.zip = (e.currentTarget as HTMLInputElement).value;
-    this.setState(state);
-  }
 
-  public handleSelectChange(criterion: string, e: React.SyntheticEvent) {
+  public handleInputChange(criterion: string, e: React.SyntheticEvent) {
     const state = Object.assign({}, this.state);
     state.searchCriteria[criterion] = (e.currentTarget as HTMLInputElement).value;
     this.setState(state);
+    this.setLocalStorage('quaker-maps-search-criteria', state.searchCriteria);
   }
 
   public render() {
@@ -244,7 +214,6 @@ class App extends React.Component {
         <NavModal 
           handleNavSubmit={this.handleNavSubmit}
           handleInputChange={this.handleInputChange}
-          handleSelectChange={this.handleSelectChange}
           searchCriteria={this.state.searchCriteria}
         />
         <div id='primary-map' />
