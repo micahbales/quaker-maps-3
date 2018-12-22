@@ -1,4 +1,5 @@
 export interface AppState {
+    activeCriteria: string[];
     searchCriteria: SearchCriteria;
     meetings: Meeting[];
     markers: mapboxgl.Marker[];

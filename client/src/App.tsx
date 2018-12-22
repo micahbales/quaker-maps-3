@@ -13,6 +13,7 @@ class App extends React.Component {
   public map: any;
 
   public state: AppState = {
+    activeCriteria: [],
     searchCriteria: {
       accessibility: '',
       branch: '',
@@ -32,6 +33,7 @@ class App extends React.Component {
 
     this.handleNavSubmit = this.handleNavSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.setActiveCriteria = this.setActiveCriteria.bind(this);
   }
 
   public setLocalStorage(itemName: string, data: object) {
@@ -54,7 +56,7 @@ class App extends React.Component {
 
   public componentDidMount() {
     this.callApi()
-          .then((res) => {            
+          .then(async (res) => {            
             // Create map
             this.map = new mapboxgl.Map({
               container: 'primary-map',
@@ -77,7 +79,7 @@ class App extends React.Component {
             }
 
             // Filter meetings and add markers
-            const filteredMeetings = this.filterMeetings();
+            const filteredMeetings = await this.filterMeetings();
             this.addMarkers(filteredMeetings);
           })
           .catch((err) => console.error(err));
@@ -145,42 +147,43 @@ class App extends React.Component {
     this.setState(state);
   }
 
-  public filterMeetingsWithoutCriteria() {
-    let noCriteriaSet = true;
-
+  public setActiveCriteria() {
+    const state = Object.assign({}, this.state);
+    const activeCriteria = [];
+    
     for (const criterion in this.state.searchCriteria) {
-      // For some reason, null is not returning falsy without the !!
-      if (!!(this.state.searchCriteria[criterion])) {
-        noCriteriaSet = false;
+      if (this.state.searchCriteria[criterion]) {
+        activeCriteria.push(criterion);
       }
     }
-
-    if (noCriteriaSet) return this.state.meetings.filter((meeting) => {
-      if (meeting.yearly_meeting.length < 1) return this.state.showYms;
-      return true;
-    });
-    return false;
+    state.activeCriteria = activeCriteria;
+    this.setState(state);
   }
 
-  public filterMeetings() {
-    // If there are no search criteria set, return all meetings
-    const meetingsWithoutCriteria = this.filterMeetingsWithoutCriteria();
-    if (meetingsWithoutCriteria) return meetingsWithoutCriteria;
+  public async filterMeetings() {
+    // Only search results against actively selected criteria
+    await this.setActiveCriteria();
 
-    // Otherwise, filter according to criteria
+    // Filter for meetings that match all active criteria
     return this.state.meetings.filter((meeting: Meeting) => {
-      // Filter yearly Meetings
-      if (meeting.yearly_meeting.length < 1) return this.state.showYms;
+      // Filter yearly meetings
+      if (meeting.yearly_meeting.length < 1 && !this.state.showYms) return false;
 
-      for (const key in this.state.searchCriteria) {
-        if (this.state.searchCriteria[key]) {
-          if (typeof(meeting[key]) !== 'object') {
-            if (String(meeting[key]).includes(this.state.searchCriteria[key]) || 
-                this.state.searchCriteria[key].includes(String(meeting[key]))) 
-                return true;
-          } else if (Array.isArray(meeting[key]) && meeting[key].length > 0) {
-            for (const ym of meeting[key]) {
-              if (ym.title === this.state.searchCriteria[key]) return true;
+      let criteriaSatisfied = 0;
+      for (const key of this.state.activeCriteria) {
+        // Handle string/null values
+        if (typeof(meeting[key]) !== 'object') {
+          if (String(meeting[key]).includes(this.state.searchCriteria[key]) || 
+              this.state.searchCriteria[key].includes(String(meeting[key]))) {
+                criteriaSatisfied += 1;
+                if (criteriaSatisfied >= this.state.activeCriteria.length) return true;
+              }
+        // Handle array values
+        } else if (Array.isArray(meeting[key]) && meeting[key].length > 0) {
+          for (const ym of meeting[key]) {
+            if (ym.title === this.state.searchCriteria[key]) {
+              criteriaSatisfied += 1;
+              if (criteriaSatisfied >= this.state.activeCriteria.length) return true;
             }
           }
         }
@@ -189,11 +192,11 @@ class App extends React.Component {
     });
   }
 
-  public handleNavSubmit(e: React.SyntheticEvent) {
+  public async handleNavSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
 
     // Filter meetings according to the search criteria
-    const filteredMeetings = this.filterMeetings();
+    const filteredMeetings = await this.filterMeetings();
     // Update map only if there are any results
     if (filteredMeetings.length > 0) {
       this.removeMarkers(this.state.markers);
