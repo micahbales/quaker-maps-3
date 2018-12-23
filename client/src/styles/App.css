@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Arvo');
+
 :root {
   --white: #fefefe;
-  --blue: #6480D2;
+  --nav-background: rgba(100,128,210, .9);
+  --nav-button: rgb(100,128,210)
 }
 
 #primary-map {

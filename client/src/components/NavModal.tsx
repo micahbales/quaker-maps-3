@@ -19,6 +19,8 @@ class NavModal extends React.Component<NavModalProps> {
     public handleModalClose() {
        const nav = document.querySelector('#nav');
        if (nav) nav.classList.add('hidden');
+       const navButton = document.querySelector('#nav-button');
+       if (navButton) navButton.classList.remove('hidden');
 
        document.querySelectorAll('.filter-meetings-form input')
             .forEach((input: HTMLInputElement) => input.value = '');
@@ -26,7 +28,7 @@ class NavModal extends React.Component<NavModalProps> {
 
     public render() {
         return (
-            <div id='nav'>
+            <div id='nav' className='hidden'>
                 <span className='close' onClick={this.handleModalClose}>
                     &times;
                 </span>

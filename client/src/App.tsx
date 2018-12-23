@@ -5,6 +5,7 @@ import * as mapboxgl from 'mapbox-gl';
 import {AppState, Meeting, BoundsPoints} from './Definitions';
 import PopUpCard from './components/PopUpCard';
 import NavModal from './components/NavModal';
+import NavButton from './components/NavButton';
 const mapboxKey = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAyMnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
 (mapboxgl as any).accessToken = mapboxKey;
 
@@ -214,6 +215,7 @@ class App extends React.Component {
   public render() {
     return (
       <div className='app'>
+        <NavButton />
         <NavModal 
           handleNavSubmit={this.handleNavSubmit}
           handleInputChange={this.handleInputChange}

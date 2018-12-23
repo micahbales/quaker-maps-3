@@ -1,5 +1,5 @@
 #nav {
-  background-color: var(--blue);
+  background-color: var(--nav-background);
   color: var(--white);
   position: absolute;
   top: 0;
