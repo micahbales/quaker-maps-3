@@ -21,9 +21,6 @@ class NavModal extends React.Component<NavModalProps> {
        if (nav) nav.classList.add('hidden');
        const navButton = document.querySelector('#nav-button');
        if (navButton) navButton.classList.remove('hidden');
-
-       document.querySelectorAll('.filter-meetings-form input')
-            .forEach((input: HTMLInputElement) => input.value = '');
     }
 
     public render() {

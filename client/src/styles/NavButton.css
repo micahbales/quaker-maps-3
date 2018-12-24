@@ -3,9 +3,11 @@
   z-index: 2;
   top: 10px;
   left: 10px;
+  animation: border-pulsate 2s infinite;
   background-color: var(--nav-button);
   border: 1px solid var(--white);
   border-radius: 50px;
+  box-shadow: 0 0 10px var(--nav-button);
   height: 50px;
   width: 50px;
 }
@@ -19,4 +21,19 @@
   font-family: 'Arvo';
   color: var(--white);
   cursor: pointer;
+}
+
+@keyframes border-pulsate {
+    0% { 
+        border-width: 0px;
+        margin: 4px;
+    }
+    50% { 
+        border-width: 4px;
+        margin: 0px;
+    }
+    100% { 
+        border-width: 0px;
+        margin: 4px;
+    }
 }
