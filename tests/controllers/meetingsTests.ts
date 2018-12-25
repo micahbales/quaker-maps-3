@@ -6,38 +6,37 @@ import * as supertest from 'supertest';
 
 describe('Meetings', function() {
     this.timeout(6000);
-    describe('GET /meetings', () => {
-        it('should return 6 meetings', (done) => {
+    describe('GET /api/v1/meetings', () => {
+        it('should return 7 meetings', (done) => {
             supertest(app)
-                    .get('/meetings')
+                    .get('/api/v1/meetings')
                     .expect(200)
                     .end((err, res) => {
-                        chai.assert(res.body.meetings.length === 6);
+                        chai.assert(res.body.meetings.length === 7);
                         done(err);
                     });
         });
 
-        it('should return 5 meetings with a yearly meeting, and one with no yearly meeting', (done) => {
+        it('should return 5 meetings with a yearly meeting, and two with no yearly meeting', (done) => {
             supertest(app)
-                    .get('/meetings')
+                    .get('/api/v1/meetings')
                     .expect(200)
                     .end((err, res) => {
                         const meetingsWithYms = res.body.meetings.filter((meeting) => {
                             return meeting.yearly_meeting.length >= 1;
                         });
-                        const meetingWithoutYm = res.body.meetings.filter((meeting) => {
+                        const meetingsWithoutYm = res.body.meetings.filter((meeting) => {
                             return meeting.yearly_meeting.length < 1;
                         });
                         chai.assert(meetingsWithYms.length === 5);
-                        chai.assert(meetingsWithYms[0].yearly_meeting[0].title === 'Great Plains Yearly Meeting');
-                        chai.assert(meetingWithoutYm[0].title === 'Great Plains Yearly Meeting');
+                        chai.assert(meetingsWithoutYm.length === 2);
                         done(err);
                     });
         });
 
         it('should return a yearly meeting with all three worship styles', (done) => {
             supertest(app)
-                    .get('/meetings')
+                    .get('/api/v1/meetings')
                     .expect(200)
                     .end((err, res) => {
                         chai.assert(res.body.meetings[0].worship_style.length === 3);
@@ -48,7 +47,7 @@ describe('Meetings', function() {
 
         it('should return Great Plains Yearly Meeting as having the branch Friends United Meeting', (done) => {
             supertest(app)
-                    .get('/meetings')
+                    .get('/api/v1/meetings')
                     .expect(200)
                     .end((err, res) => {
                         const meeting = res.body.meetings.find((m) => m.title === 'Great Plains Yearly Meeting');
@@ -59,7 +58,7 @@ describe('Meetings', function() {
 
         it('should return Heartland Meeting as having 2 branches: FUM and FGC', (done) => {
             supertest(app)
-                    .get('/meetings')
+                    .get('/api/v1/meetings')
                     .expect(200)
                     .end((err, res) => {
                         const meeting = res.body.meetings.find((m) => m.title === 'Heartland Friends Meeting');
@@ -71,7 +70,7 @@ describe('Meetings', function() {
 
         it('should return Great Plains Yearly Meeting as having no accessibility options', (done) => {
             supertest(app)
-                    .get('/meetings')
+                    .get('/api/v1/meetings')
                     .expect(200)
                     .end((err, res) => {
                         const meeting = res.body.meetings.find((m) => m.title === 'Great Plains Yearly Meeting');
@@ -82,7 +81,7 @@ describe('Meetings', function() {
 
         it('should return University Friends Church as having all accessibility options', (done) => {
             supertest(app)
-                    .get('/meetings')
+                    .get('/api/v1/meetings')
                     .expect(200)
                     .end((err, res) => {
                         const meeting = res.body.meetings.find((m) => m.title === 'University Friends Church');
@@ -94,10 +93,10 @@ describe('Meetings', function() {
         });
     });
 
-    describe('GET /meetings/:id', () => {
+    describe('GET /api/v1/meetings/:id', () => {
         it('should return 1 meeting', (done) => {
             supertest(app)
-                    .get('/meetings/2')
+                    .get('/api/v1/meetings/2')
                     .expect(200)
                     .end((err, res) => {
                         chai.assert(res.body.meetings.length === 1);
@@ -105,25 +104,25 @@ describe('Meetings', function() {
                     });
         });
 
-        it('should return University Friends Church for an ID of 3', (done) => {
+        it('should return University Friends Church for an ID of 4', (done) => {
             supertest(app)
-                    .get('/meetings/3')
+                    .get('/api/v1/meetings/4')
                     .expect(200)
                     .end((err, res) => {
-                        const queriedMeeting = res.body.meetings.filter((m) => m.id === 3)[0];
+                        const queriedMeeting = res.body.meetings.filter((m) => m.id === 4)[0];
                         chai.assert.equal(queriedMeeting.title, 'University Friends Church');
                         done(err);
                     });
         });
 
-        it(`should belong to one yearly meeting, two branches,
+        it(`should belong to two yearly meetings, two branches,
             have three accessibilities and one worship style`, (done) => {
             supertest(app)
-                    .get('/meetings/3')
+                    .get('/api/v1/meetings/4')
                     .expect(200)
                     .end((err, res) => {
-                        const queriedMeeting = res.body.meetings.filter((m) => m.id === 3)[0];
-                        chai.assert(queriedMeeting.yearly_meeting.length === 1);
+                        const queriedMeeting = res.body.meetings.filter((m) => m.id === 4)[0];
+                        chai.assert(queriedMeeting.yearly_meeting.length === 2);
                         chai.assert(queriedMeeting.branch.length === 2);
                         chai.assert(queriedMeeting.worship_style.length === 1);
                         chai.assert(queriedMeeting.accessibility.length === 3);
@@ -132,24 +131,23 @@ describe('Meetings', function() {
         });
     });
 
-    describe('GET /yearlymeetings', () => {
-        it('should return all yearly meetings (in this case, just one)', (done) => {
+    describe('GET /api/v1/yearlymeetings', () => {
+        it('should return all yearly meetings (in this case, two)', (done) => {
             supertest(app)
-                    .get('/yearlymeetings')
+                    .get('/api/v1/yearlymeetings')
                     .expect(200)
                     .end((err, res) => {
-                        chai.assert(res.body.meetings.length === 1);
-                        chai.assert(res.body.meetings[0].title = 'Great Plains Yearly Meeting');
+                        chai.assert(res.body.meetings.length === 2);
                         done(err);
                     });
         });
 
         it('should have no yearly meeting or accessibility, but one branch and 3 worship styles', (done) => {
             supertest(app)
-                    .get('/yearlymeetings')
+                    .get('/api/v1/yearlymeetings')
                     .expect(200)
                     .end((err, res) => {
-                        chai.assert(res.body.meetings.length === 1);
+                        chai.assert(res.body.meetings.length === 2);
                         chai.assert(res.body.meetings[0].yearly_meeting.length === 0);
                         chai.assert(res.body.meetings[0].accessibility.length === 0);
                         chai.assert(res.body.meetings[0].branch.length === 1);
@@ -159,7 +157,7 @@ describe('Meetings', function() {
         });
     });
 
-    describe('POST /meetings/', () => {
+    describe('POST /api/v1/meetings/', () => {
         it('should create a new meeting record', (done) => {
             const meeting = {
                 title: 'brand new meeting',
@@ -180,13 +178,13 @@ describe('Meetings', function() {
 
             // Create meeting record
             supertest(app)
-                    .post('/meetings')
-                    .send({meeting})
+                    .post('/api/v1/meetings')
+                    .send({meeting: meeting})
                     .expect(201)
                     .end(() => {
                         // Then check and make sure it was created
                         supertest(app)
-                        .get('/meetings')
+                        .get('/api/v1/meetings')
                         .expect(200)
                         .end((err, res) => {
                             // New meeting record is successfully retrieved
@@ -222,13 +220,13 @@ describe('Meetings', function() {
 
             // Create meeting record
             supertest(app)
-                    .post('/meetings')
-                    .send({meeting})
+                    .post('/api/v1/meetings')
+                    .send({meeting: meeting})
                     .expect(201)
                     .end(() => {
                         // Then check and make sure it was created
                         supertest(app)
-                        .get('/meetings')
+                        .get('/api/v1/meetings')
                         .expect(200)
                         .end((err, res) => {
                             const mtg = res.body.meetings.find((o) => o.title === meetingName);
@@ -250,7 +248,7 @@ describe('Meetings', function() {
         });
     });
 
-    describe('PUT /meetings/:id', () => {
+    describe('PUT /api/v1/meetings/:id', () => {
         it('should update a meeting record', (done) => {
             const meeting = {
                 title: 'an updated meeting',
@@ -267,21 +265,21 @@ describe('Meetings', function() {
                 state: 'AK',
                 website: 'www.www.com',
                 lgbt_affirming: 'true',
-                yearly_meeting: null, // remove yearly meeting
-                worship_style: [2, 3], // was [1, 3]
-                branch: [1], // was [1, 2]
-                accessibility: [1, 2, 3] // was [3]
+                yearly_meeting: null,
+                worship_style: [2, 3],
+                branch: [1],
+                accessibility: [1, 2, 3]
             };
 
             // Update meeting record
             supertest(app)
-                    .put('/meetings/8')
-                    .send({meeting})
+                    .put('/api/v1/meetings/7')
+                    .send({meeting: meeting})
                     .expect(200)
                     .end(() => {
                         // Then check and make sure it was updated
                         supertest(app)
-                        .get('/meetings')
+                        .get('/api/v1/meetings')
                         .expect(200)
                         .end((err, res) => {
                             // New meeting record is successfully retrieved
@@ -299,20 +297,20 @@ describe('Meetings', function() {
         });
     });
 
-    describe('DELETE /meetings/:id', () => {
+    describe('DELETE /api/v1/meetings/:id', () => {
         it('should delete a meeting record', (done) => {
             // Update meeting record
             supertest(app)
-                    .delete('/meetings/8')
+                    .delete('/api/v1/meetings/8')
                     .expect(204)
                     .end(() => {
                         // Then check and make sure it was deleted
                         supertest(app)
-                        .get('/meetings')
+                        .get('/api/v1/meetings')
                         .expect(200)
                         .end((err, res) => {
                             // New meeting record no longer exists
-                            chai.assert(!!(res.body.meetings.find((o) => o.title === 'an updated meeting')) === false);
+                            chai.assert(!!(res.body.meetings.find((o) => o.title === 'brand new meeting')) === false);
                             done(err);
                         });
                     });

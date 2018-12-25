@@ -5,10 +5,10 @@ import * as chai from 'chai';
 import * as supertest from 'supertest';
 
 describe('Quakers', () => {
-    describe('GET /quakers', () => {
+    describe('GET /api/v1/quakers', () => {
         it('should return 2 Quakers', (done) => {
             supertest(app)
-                    .get('/quakers')
+                    .get('/api/v1/quakers')
                     .expect(200)
                     .end((err, res) => {
                         chai.assert(res.body.quakers.length === 2);
@@ -17,10 +17,10 @@ describe('Quakers', () => {
         });
     });
 
-    describe('GET /quakers/:id', () => {
+    describe('GET /api/v1/quakers/:id', () => {
         it('should return 1 quaker', (done) => {
             supertest(app)
-                    .get('/quakers/2')
+                    .get('/api/v1/quakers/2')
                     .expect(200)
                     .end((err, res) => {
                         chai.assert(res.body.quakers.length === 1);
@@ -30,7 +30,7 @@ describe('Quakers', () => {
 
         it('should return Georege Fox for an ID of 2', (done) => {
             supertest(app)
-                    .get('/quakers/2')
+                    .get('/api/v1/quakers/2')
                     .expect(200)
                     .end((err, res) => {
                         const queriedquaker = res.body.quakers.filter((m) => m.id === 2)[0];
@@ -40,7 +40,7 @@ describe('Quakers', () => {
         });
     });
 
-    describe('POST /quakers/', () => {
+    describe('POST /api/v1/quakers/', () => {
         it('should create a new quaker record', (done) => {
             const quaker = {
                 name: 'James Naylor',
@@ -53,13 +53,13 @@ describe('Quakers', () => {
 
             // Create quaker record
             supertest(app)
-                    .post('/quakers')
-                    .send({quaker})
+                    .post('/api/v1/quakers')
+                    .send({quaker: quaker})
                     .expect(201)
                     .end(() => {
                         // Then check and make sure it was created
                         supertest(app)
-                        .get('/quakers')
+                        .get('/api/v1/quakers')
                         .expect(200)
                         .end((err, res) => {
                             // New quaker record is successfully retrieved
@@ -70,7 +70,7 @@ describe('Quakers', () => {
         });
     });
 
-    describe('PUT /quakers/:id', () => {
+    describe('PUT /api/v1/quakers/:id', () => {
         it('should update a quaker record', (done) => {
             const quaker = {
                 name: 'William Penn',
@@ -82,13 +82,13 @@ describe('Quakers', () => {
 
             // Update quaker record
             supertest(app)
-                    .put('/quakers/3')
-                    .send({quaker})
+                    .put('/api/v1/quakers/3')
+                    .send({quaker: quaker})
                     .expect(204)
                     .end(() => {
                         // Then check and make sure it was updated
                         supertest(app)
-                        .get('/quakers')
+                        .get('/api/v1/quakers')
                         .expect(200)
                         .end((err, res) => {
                             // New quaker record is successfully retrieved
@@ -102,16 +102,16 @@ describe('Quakers', () => {
         });
     });
 
-    describe('DELETE /quakers/:id', () => {
+    describe('DELETE /api/v1/quakers/:id', () => {
         it('should delete a quaker record', (done) => {
             // Update quaker record
             supertest(app)
-                    .delete('/quakers/3')
+                    .delete('/api/v1/quakers/3')
                     .expect(204)
                     .end(() => {
                         // Then check and make sure it was deleted
                         supertest(app)
-                        .get('/quakers')
+                        .get('/api/v1/quakers')
                         .expect(200)
                         .end((err, res) => {
                             // New quaker record no longer exists
