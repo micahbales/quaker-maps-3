@@ -15,6 +15,7 @@ CREATE TABLE meeting (
     state VARCHAR(255),
     website VARCHAR(255),
     lgbt_affirming BOOLEAN,
+    slug VARCHAR(255),
     created TIMESTAMP default current_timestamp,
     updated TIMESTAMP default current_timestamp
 );
