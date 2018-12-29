@@ -6,13 +6,6 @@
   --nav-button: rgb(100,128,210)
 }
 
-#primary-map {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-}
-
 .hidden {
-  visibility: hidden;
-}
+    visibility: hidden;
+  }
