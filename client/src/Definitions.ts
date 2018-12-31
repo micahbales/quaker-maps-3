@@ -32,6 +32,7 @@ export interface Meeting {
     state: string;
     website: string;
     lgbt_affirming: boolean;
+    slug: string;
     yearly_meeting: [
       {
         id: number,
