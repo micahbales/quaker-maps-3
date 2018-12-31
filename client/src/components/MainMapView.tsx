@@ -1,19 +1,19 @@
 import * as React from 'react';
 import {renderToString} from 'react-dom/server'
-import '../styles/MainMap.css';
+import '../styles/MainMapView.css';
 import * as mapboxgl from 'mapbox-gl';
-import {AppState, MainMapProps, Meeting, BoundsPoints} from '../Definitions';
+import {MainMapState, MainMapViewProps, Meeting, BoundsPoints} from '../Definitions';
 import PopUpCard from './PopUpCard';
 import NavModal from './NavModal';
 import NavButton from './NavButton';
 const mapboxKey = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAyMnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
 (mapboxgl as any).accessToken = mapboxKey;
 
-class MainMap extends React.Component<MainMapProps> {
+class MainMapView extends React.Component<MainMapViewProps> {
 
   public map: any;
 
-  public state: AppState;
+  public state: MainMapState;
 
   public constructor(props: any) {
     super(props);
@@ -211,4 +211,4 @@ class MainMap extends React.Component<MainMapProps> {
   }
 }
 
-export default MainMap;
+export default MainMapView;

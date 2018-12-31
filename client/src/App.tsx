@@ -1,13 +1,14 @@
 import * as React from 'react';
 import {Switch, Route, RouteComponentProps} from 'react-router-dom';
-import MainMap from './components/MainMap';
-import MeetingCard from './components/MeetingCard';
-import {Meeting} from './Definitions';
+import MainMap from './components/MainMapView';
+import MeetingCard from './components/MeetingView';
+import Spinner from './components/Spinner';
+import {AppState, Meeting} from './Definitions';
 import './styles/App.css';
 
 class App extends React.Component {
 
-  public state: any;
+  public state: AppState;
 
   constructor(props: any) {
     super(props);
@@ -72,7 +73,7 @@ class App extends React.Component {
 
   public loadingPage() {
     return (
-      <h1>Loading...</h1>
+      <Spinner />
     );
   }
 

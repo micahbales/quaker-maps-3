@@ -1,4 +1,8 @@
 export interface AppState {
+  meetings: Meeting[];
+}
+
+export interface MainMapState {
     activeCriteria: string[];
     searchCriteria: SearchCriteria;
     meetings: Meeting[];
@@ -66,8 +70,18 @@ export interface BoundsPoints {
     lowestLng: number;
 }
 
-export interface MainMapProps {
+export interface MainMapViewProps {
   meetings: Meeting[];
+}
+
+export interface MeetingCardViewProps {
+  meeting: any;
+}
+
+export interface RecordItemListingProps {
+  item: any;
+  label: string;
+  link?: string;
 }
 
 export interface NavModalProps {

@@ -1,14 +1,11 @@
 import * as React from 'react';
 import RecordItemListing from './RecordItemListing';
+import {MeetingCardViewProps} from './../Definitions';
 
-interface MeetingCardProps {
-    meeting: any;
-}
-
-class MeetingCard extends React.Component<MeetingCardProps> {
+class MeetingCardView extends React.Component<MeetingCardViewProps> {
     private meeting: any;
 
-    constructor(props: MeetingCardProps) {
+    constructor(props: MeetingCardViewProps) {
         super(props);
         this.meeting = this.props.meeting;
     }
@@ -63,4 +60,4 @@ class MeetingCard extends React.Component<MeetingCardProps> {
     }
 }
 
-export default MeetingCard;
+export default MeetingCardView;
