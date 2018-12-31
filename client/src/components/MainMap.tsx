@@ -2,35 +2,37 @@ import * as React from 'react';
 import {renderToString} from 'react-dom/server'
 import '../styles/MainMap.css';
 import * as mapboxgl from 'mapbox-gl';
-import {AppState, Meeting, BoundsPoints} from '../Definitions';
+import {AppState, MainMapProps, Meeting, BoundsPoints} from '../Definitions';
 import PopUpCard from './PopUpCard';
 import NavModal from './NavModal';
 import NavButton from './NavButton';
 const mapboxKey = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAyMnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
 (mapboxgl as any).accessToken = mapboxKey;
 
-class MainMap extends React.Component {
+class MainMap extends React.Component<MainMapProps> {
 
   public map: any;
 
-  public state: AppState = {
-    activeCriteria: [],
-    searchCriteria: {
-      accessibility: '',
-      branch: '',
-      lgbt_affirming: '',
-      state: '',
-      worship_style: '',
-      yearly_meeting: '',
-      zip: '',
-    },
-    meetings: [],
-    markers: [],
-    showYms: false,
-  };
+  public state: AppState;
 
   public constructor(props: any) {
     super(props);
+
+    this.state = {
+      activeCriteria: [],
+      searchCriteria: {
+        accessibility: '',
+        branch: '',
+        lgbt_affirming: '',
+        state: '',
+        worship_style: '',
+        yearly_meeting: '',
+        zip: '',
+      },
+      meetings: props.meetings,
+      markers: [],
+      showYms: false,
+    };
 
     this.handleNavSubmit = this.handleNavSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -45,45 +47,26 @@ class MainMap extends React.Component {
     }
   }
 
-  public callApi = async () => {
-    // Fetch all meetings
-    const response = await fetch('/api/v1/meetings');
-    const body = await response.json();
+  public async componentDidMount() {          
+    // Create map
+    this.map = new mapboxgl.Map({
+      container: 'primary-map',
+      style: 'mapbox://styles/micahbales/cjnx84jgd0viy2sojoy624r6k',
+      center: {lng: -98.585522, lat: 39.8333333},
+      zoom: 10
+    });
 
-    if (response.status !== 200) throw Error(body.message);
+    // Get search criteria from local storage
+    const localState = localStorage.getItem('quaker-maps-search-criteria');
+    if (localState) {
+      const appState = Object.assign({}, this.state);
+      appState.searchCriteria = JSON.parse(localState);
+      this.setState(appState);
+    }
 
-    return body;
-  };
-
-  public componentDidMount() {
-    this.callApi()
-          .then(async (res) => {            
-            // Create map
-            this.map = new mapboxgl.Map({
-              container: 'primary-map',
-              style: 'mapbox://styles/micahbales/cjnx84jgd0viy2sojoy624r6k',
-              center: {lng: -98.585522, lat: 39.8333333},
-              zoom: 10
-            });
-
-            // Add meetings to state
-            const state = Object.assign({}, this.state);
-            state.meetings = res.meetings;
-            this.setState(state);
-
-            // Get search criteria from local storage
-            const localState = localStorage.getItem('quaker-maps-search-criteria');
-            if (localState) {
-              const appState = Object.assign({}, this.state);
-              appState.searchCriteria = JSON.parse(localState);
-              this.setState(appState);
-            }
-
-            // Filter meetings and add markers
-            const filteredMeetings = await this.filterMeetings();
-            this.addMarkers(filteredMeetings);
-          })
-          .catch((err) => console.error(err));
+    // Filter meetings and add markers
+    const filteredMeetings = await this.filterMeetings();
+    this.addMarkers(filteredMeetings);
   }
 
   public addMarkers(meetings: Meeting[]) {
@@ -164,6 +147,7 @@ class MainMap extends React.Component {
   public async filterMeetings() {
     // Only search results against actively selected criteria
     await this.setActiveCriteria();
+    if (this.state.activeCriteria.length < 1) return this.state.meetings;
 
     // Filter for meetings that match all active criteria
     return this.state.meetings.filter((meeting: Meeting) => {

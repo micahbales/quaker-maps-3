@@ -66,6 +66,10 @@ export interface BoundsPoints {
     lowestLng: number;
 }
 
+export interface MainMapProps {
+  meetings: Meeting[];
+}
+
 export interface NavModalProps {
   handleNavSubmit: (e: React.SyntheticEvent<Element>) => void;
   handleInputChange: (criterion: string, e: React.SyntheticEvent<Element>) => void;

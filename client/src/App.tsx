@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Switch, Route, RouteComponentProps} from 'react-router-dom';
-import MainMap from './MainMap';
+import MainMap from './components/MainMap';
 import MeetingCard from './components/MeetingCard';
 import {Meeting} from './Definitions';
 import './styles/App.css';
@@ -17,6 +17,7 @@ class App extends React.Component {
     };
 
     this.renderMeetingCard = this.renderMeetingCard.bind(this);
+    this.renderMainMap = this.renderMainMap.bind(this);
   }
 
   public callApi = async () => {
@@ -40,6 +41,12 @@ class App extends React.Component {
           .catch((err) => console.error(err));
   }
 
+  public renderMainMap(props: RouteComponentProps<any>) {
+    return (
+      <MainMap meetings={this.state.meetings} />
+    );
+  }
+
   public renderMeetingCard(props: RouteComponentProps<any>) {
     const slug = props.match.params.slug;
     const meeting = this.state.meetings.find((m: Meeting) => m.slug === slug);
@@ -60,13 +67,13 @@ class App extends React.Component {
           If you think this is an error, please <a href='mailto:admin@quakermaps.com'>contact a site administrator</a>.
         </p>
       </div>
-    )
+    );
   }
 
   public loadingPage() {
     return (
       <h1>Loading...</h1>
-    )
+    );
   }
 
   public render() {
@@ -74,7 +81,11 @@ class App extends React.Component {
       <div className='app'>
         <Switch>
           {/* Main Map */}
-          <Route exact={true} path='/' component={MainMap} />
+          <Route exact={true} path='/' component={
+              this.state.meetings.length > 0 ? 
+              this.renderMainMap :
+              this.loadingPage} />
+            } />
           {/* Individual Meeting Pages */}
           <Route path='/:slug' render={
             this.state.meetings.length > 0 ? 
