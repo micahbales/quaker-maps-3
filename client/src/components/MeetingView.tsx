@@ -55,6 +55,8 @@ class MeetingCardView extends React.Component<MeetingCardViewProps> {
                     label='LGBT Affirming*' 
                     item={this.meeting.lgbt_affirming ? 'Yes' : 'No'}
                 />
+
+                <h4><a href='/'>Back to Main Map</a></h4>
             </div>
         )
     }

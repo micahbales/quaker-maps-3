@@ -62,7 +62,7 @@ class PopUpCard extends React.Component<PopUpCardProps> {
 
                 <div>
                     <p>
-                        <a href='https://urlforindividualmeetingpage.com'>
+                        <a href={`/${this.meeting.slug}`}>
                             more info
                         </a>
                     </p>
