@@ -61,7 +61,7 @@ class MainMapView extends React.Component<MainMapViewProps> {
     if (localState) {
       const appState = Object.assign({}, this.state);
       appState.searchCriteria = JSON.parse(localState);
-      this.setState(appState);
+      await this.setState(appState);
     }
 
     // Filter meetings and add markers
