@@ -74,7 +74,8 @@ export interface MainMapViewProps {
   meetings: Meeting[];
 }
 
-export interface MeetingCardViewProps {
+export interface MeetingViewProps {
+  history: any;
   meeting: any;
 }
 

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import {Switch, Route, RouteComponentProps} from 'react-router-dom';
+import {createBrowserHistory} from 'history';
 import MainMap from './components/MainMapView';
-import MeetingCard from './components/MeetingView';
+import MeetingView from './components/MeetingView';
 import Spinner from './components/Spinner';
 import {AppState, Meeting} from './Definitions';
 import './styles/App.css';
@@ -9,6 +10,7 @@ import './styles/App.css';
 class App extends React.Component {
 
   public state: AppState;
+  public history: any;
 
   constructor(props: any) {
     super(props);
@@ -17,7 +19,9 @@ class App extends React.Component {
       meetings: [],
     };
 
-    this.renderMeetingCard = this.renderMeetingCard.bind(this);
+    this.history = createBrowserHistory();
+
+    this.renderMeetingView = this.renderMeetingView.bind(this);
     this.renderMainMap = this.renderMainMap.bind(this);
   }
 
@@ -42,18 +46,20 @@ class App extends React.Component {
           .catch((err) => console.error(err));
   }
 
-  public renderMainMap(props: RouteComponentProps<any>) {
+  public renderMainMap() {
     return (
       <MainMap meetings={this.state.meetings} />
     );
   }
 
-  public renderMeetingCard(props: RouteComponentProps<any>) {
+  public renderMeetingView(props: RouteComponentProps<any>) {
     const slug = props.match.params.slug;
     const meeting = this.state.meetings.find((m: Meeting) => m.slug === slug);
     if (meeting) {
       return (
-        <MeetingCard meeting={meeting} />
+        <MeetingView 
+          meeting={meeting} 
+          history={this.history} />
       );
     } else {
       return this.pageNotFound();
@@ -90,7 +96,7 @@ class App extends React.Component {
           {/* Individual Meeting Pages */}
           <Route path='/:slug' render={
             this.state.meetings.length > 0 ? 
-            this.renderMeetingCard :
+            this.renderMeetingView :
             this.loadingPage} />
         </Switch>
       </div>

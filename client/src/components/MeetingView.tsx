@@ -1,13 +1,24 @@
 import * as React from 'react';
 import RecordItemListing from './RecordItemListing';
-import {MeetingCardViewProps} from './../Definitions';
+import {MeetingViewProps} from './../Definitions';
 
-class MeetingCardView extends React.Component<MeetingCardViewProps> {
+class MeetingView extends React.Component<MeetingViewProps> {
     private meeting: any;
 
-    constructor(props: MeetingCardViewProps) {
+    constructor(props: MeetingViewProps) {
         super(props);
         this.meeting = this.props.meeting;
+        this.handleDeleteMeetingClick = this.handleDeleteMeetingClick.bind(this);
+    }
+
+    public handleDeleteMeetingClick() {
+        fetch(`/api/v1/meetings/${this.meeting.id}`, {
+            method: 'DELETE',
+        })
+        .then(() => {
+            this.props.history.push('/');
+            this.props.history.go();
+        });
     }
 
     public render() {
@@ -57,9 +68,11 @@ class MeetingCardView extends React.Component<MeetingCardViewProps> {
                 />
 
                 <h4><a href='/'>Back to Main Map</a></h4>
+
+                <button onClick={this.handleDeleteMeetingClick}>Delete Meeting</button>
             </div>
         )
     }
 }
 
-export default MeetingCardView;
+export default MeetingView;
