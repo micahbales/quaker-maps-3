@@ -57,7 +57,7 @@ export const createMeeting = async (req, res) => {
     const newMeeting = removeJoinKeys(meetingWithAttributeRecordIds);
     const meetingQueryString = 'INSERT INTO meeting (' + getKeys(newMeeting) + ') ' +
                         ' VALUES (' + getQueryBling(newMeeting) + ')' +
-                        // Return the idea of the newly created meeting
+                        // Return the id of the newly created meeting
                         'RETURNING *' + ';';
     const meeting = await query(meetingQueryString, getValues(newMeeting));
     const meetingId = meeting.rows[0].id;

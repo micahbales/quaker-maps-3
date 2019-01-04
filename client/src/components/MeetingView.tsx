@@ -1,5 +1,6 @@
 import * as React from 'react';
 import RecordItemListing from './RecordItemListing';
+import ModifyMeetingModal from './modals/ModifyMeetingModal';
 import {MeetingViewProps} from './../Definitions';
 
 class MeetingView extends React.Component<MeetingViewProps> {
@@ -8,22 +9,20 @@ class MeetingView extends React.Component<MeetingViewProps> {
     constructor(props: MeetingViewProps) {
         super(props);
         this.meeting = this.props.meeting;
-        this.handleDeleteMeetingClick = this.handleDeleteMeetingClick.bind(this);
+        this.handleOpenModifyMeetingModal = this.handleOpenModifyMeetingModal.bind(this);
     }
 
-    public handleDeleteMeetingClick() {
-        fetch(`/api/v1/meetings/${this.meeting.id}`, {
-            method: 'DELETE',
-        })
-        .then(() => {
-            this.props.history.push('/');
-            this.props.history.go();
-        });
+    public handleOpenModifyMeetingModal() {
+        const modal = document.querySelector('#modify-meeting');
+        if (modal) modal.classList.remove('hidden');
     }
 
     public render() {
         return (
             <div className='meeting-card'>
+                <ModifyMeetingModal
+                    meeting={this.meeting}
+                    history={this.props.history} />
                 <h3>{this.meeting.title}</h3>
                 <RecordItemListing 
                     label='Address' 
@@ -69,7 +68,7 @@ class MeetingView extends React.Component<MeetingViewProps> {
 
                 <h4><a href='/'>Back to Main Map</a></h4>
 
-                <button onClick={this.handleDeleteMeetingClick}>Delete Meeting</button>
+                <button onClick={this.handleOpenModifyMeetingModal}>Modify Meeting</button>
             </div>
         )
     }

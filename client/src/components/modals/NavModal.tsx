@@ -1,6 +1,6 @@
 import * as React from 'react';
-import '../styles/NavModal.css';
-import {NavModalProps} from '../Definitions';
+import '../../styles/components/NavModal.css';
+import {NavModalProps} from '../../Definitions';
 
 class NavModal extends React.Component<NavModalProps> {
 

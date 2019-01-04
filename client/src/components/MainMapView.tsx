@@ -4,7 +4,7 @@ import '../styles/MainMapView.css';
 import * as mapboxgl from 'mapbox-gl';
 import {MainMapState, MainMapViewProps, Meeting, BoundsPoints} from '../Definitions';
 import PopUpCard from './PopUpCard';
-import NavModal from './NavModal';
+import NavModal from './modals/NavModal';
 import NavButton from './NavButton';
 const mapboxKey = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAyMnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
 (mapboxgl as any).accessToken = mapboxKey;

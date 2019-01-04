@@ -90,3 +90,8 @@ export interface NavModalProps {
   handleInputChange: (criterion: string, e: React.SyntheticEvent<Element>) => void;
   searchCriteria: SearchCriteria;
 }
+
+export interface ModifyMeetingModalProps {
+  meeting: Meeting;
+  history: any;
+}
