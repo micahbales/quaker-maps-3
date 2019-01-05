@@ -22,7 +22,7 @@ export const getAllMeetings = async (req, res) => {
         });
 };
 
-// GET /yearlymeetings
+// GET /meetings/yearlymeetings
 export const getYearlyMeetings = async (req, res) => {
     const meetings = await query(
         `SELECT * FROM meeting
@@ -35,6 +35,12 @@ export const getYearlyMeetings = async (req, res) => {
         .then(() => {
             res.json({meetings: meetings.rows});
         });
+};
+
+// GET /meetings/branches
+export const getBranches = async (req, res) => {
+    const branches = await query(`SELECT * FROM branch;`);
+    res.json({branches: branches.rows});
 };
 
 // GET /meetings/:id

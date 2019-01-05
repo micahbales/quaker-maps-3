@@ -131,10 +131,10 @@ describe('Meetings', function() {
         });
     });
 
-    describe('GET /api/v1/yearlymeetings', () => {
+    describe('GET /api/v1/meetings/yearlymeetings', () => {
         it('should return all yearly meetings (in this case, two)', (done) => {
             supertest(app)
-                    .get('/api/v1/yearlymeetings')
+                    .get('/api/v1/meetings/yearlymeetings')
                     .expect(200)
                     .end((err, res) => {
                         chai.assert(res.body.meetings.length === 2);
@@ -144,7 +144,7 @@ describe('Meetings', function() {
 
         it('should have no yearly meeting or accessibility, but one branch and 3 worship styles', (done) => {
             supertest(app)
-                    .get('/api/v1/yearlymeetings')
+                    .get('/api/v1/meetings/yearlymeetings')
                     .expect(200)
                     .end((err, res) => {
                         chai.assert(res.body.meetings.length === 2);
@@ -152,6 +152,28 @@ describe('Meetings', function() {
                         chai.assert(res.body.meetings[0].accessibility.length === 0);
                         chai.assert(res.body.meetings[0].branch.length === 1);
                         chai.assert(res.body.meetings[0].worship_style.length === 3);
+                        done(err);
+                    });
+        });
+    });
+
+    describe('GET /api/v1/meetings/branches', () => {
+        it('should return all branches (total of 6)', (done) => {
+            const expectedBranchTitles = [];
+            supertest(app)
+                    .get('/api/v1/meetings/branches')
+                    .expect(200)
+                    .end((err, res) => {
+                        const expectedTitles = ['Friends General Conference',
+                            'Friends United Meeting', 'Evangelical Friends Church International',
+                            'Conservative', 'Holiness', 'Independent'];
+                        // Should be six branches
+                        chai.assert(res.body.branches.length === 6);
+                        // Each expected branch title should be present
+                        res.body.branches.forEach((b) => {
+                            chai.assert(expectedTitles.includes(b.title));
+                        });
+
                         done(err);
                     });
         });
