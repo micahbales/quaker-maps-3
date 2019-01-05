@@ -159,7 +159,6 @@ describe('Meetings', function() {
 
     describe('GET /api/v1/meetings/branches', () => {
         it('should return all branches (total of 6)', (done) => {
-            const expectedBranchTitles = [];
             supertest(app)
                     .get('/api/v1/meetings/branches')
                     .expect(200)
@@ -172,6 +171,45 @@ describe('Meetings', function() {
                         // Each expected branch title should be present
                         res.body.branches.forEach((b) => {
                             chai.assert(expectedTitles.includes(b.title));
+                        });
+
+                        done(err);
+                    });
+        });
+    });
+
+    describe('GET /api/v1/meetings/worshipstyles', () => {
+        it('should return all worship styles (total of 3)', (done) => {
+            supertest(app)
+                    .get('/api/v1/meetings/worshipstyles')
+                    .expect(200)
+                    .end((err, res) => {
+                        const expectedTitles = ['Programmed', 'Unprogrammed', 'Semi-programmed'];
+                        // Should be three worship styles
+                        chai.assert(res.body.worshipstyles.length === 3);
+                        // Each expected worship style title should be present
+                        res.body.worshipstyles.forEach((ws) => {
+                            chai.assert(expectedTitles.includes(ws.title));
+                        });
+
+                        done(err);
+                    });
+        });
+    });
+
+    describe('GET /api/v1/meetings/accessibilities', () => {
+        it('should return all accessibilities (total of 3)', (done) => {
+            supertest(app)
+                    .get('/api/v1/meetings/accessibilities')
+                    .expect(200)
+                    .end((err, res) => {
+                        const expectedTitles = ['Wheelchair Accessible', 'Hearing Assistance System',
+                            'Childcare Available'];
+                        // Should be three accessibilities
+                        chai.assert(res.body.accessibilities.length === 3);
+                        // Each expected accessibility title should be present
+                        res.body.accessibilities.forEach((ws) => {
+                            chai.assert(expectedTitles.includes(ws.title));
                         });
 
                         done(err);

@@ -32,7 +32,7 @@ export const createQuaker = async (req, res) => {
 
     const quaker = await query(queryString, getValues(newquaker));
 
-    res.status(201).send({quaker});
+    res.status(201).send({quaker: quaker});
 };
 
 // PUT /quakers/:id
@@ -57,5 +57,5 @@ export const deleteQuaker = async (req, res) => {
         ' WHERE id = ' + quakerId + ';'
     );
 
-    res.json({quaker});
+    res.json({quaker: quaker});
 };

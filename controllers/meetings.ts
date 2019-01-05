@@ -43,6 +43,18 @@ export const getBranches = async (req, res) => {
     res.json({branches: branches.rows});
 };
 
+// GET /meetings/worshipstyles
+export const getWorshipStyles = async (req, res) => {
+    const worshipstyles = await query(`SELECT * FROM worship_style;`);
+    res.json({worshipstyles: worshipstyles.rows});
+};
+
+// GET /meetings/accessibilities
+export const getAccessibilities = async (req, res) => {
+    const accessibilities = await query(`SELECT * FROM accessibility;`);
+    res.json({accessibilities: accessibilities.rows});
+};
+
 // GET /meetings/:id
 export const getMeetingById = async (req, res) => {
     const meetingId = req.params.id;
