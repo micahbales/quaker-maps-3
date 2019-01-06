@@ -137,7 +137,7 @@ describe('Meetings', function() {
                     .get('/api/v1/meetings/yearlymeetings')
                     .expect(200)
                     .end((err, res) => {
-                        chai.assert(res.body.meetings.length === 2);
+                        chai.assert(res.body.yearlymeetings.length === 2);
                         done(err);
                     });
         });
@@ -147,11 +147,11 @@ describe('Meetings', function() {
                     .get('/api/v1/meetings/yearlymeetings')
                     .expect(200)
                     .end((err, res) => {
-                        chai.assert(res.body.meetings.length === 2);
-                        chai.assert(res.body.meetings[0].yearly_meeting.length === 0);
-                        chai.assert(res.body.meetings[0].accessibility.length === 0);
-                        chai.assert(res.body.meetings[0].branch.length === 1);
-                        chai.assert(res.body.meetings[0].worship_style.length === 3);
+                        chai.assert(res.body.yearlymeetings.length === 2);
+                        chai.assert(res.body.yearlymeetings[0].yearly_meeting.length === 0);
+                        chai.assert(res.body.yearlymeetings[0].accessibility.length === 0);
+                        chai.assert(res.body.yearlymeetings[0].branch.length === 1);
+                        chai.assert(res.body.yearlymeetings[0].worship_style.length === 3);
                         done(err);
                     });
         });

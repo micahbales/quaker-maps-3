@@ -33,7 +33,7 @@ export const getYearlyMeetings = async (req, res) => {
 
     getMeetingAttributeRecords(meetings)
         .then(() => {
-            res.json({meetings: meetings.rows});
+            res.json({yearlymeetings: meetings.rows});
         });
 };
 

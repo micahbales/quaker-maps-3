@@ -10,37 +10,56 @@ import './styles/App.css';
 class App extends React.Component {
 
   public state: AppState;
-  public history: any;
 
   constructor(props: any) {
     super(props);
 
     this.state = {
+      history: createBrowserHistory(),
       meetings: [],
+      yearlymeetings: [],
+      branches: [],
+      worshipStyles: [],
+      accessibilities: [],
     };
-
-    this.history = createBrowserHistory();
 
     this.renderMeetingView = this.renderMeetingView.bind(this);
     this.renderMainMap = this.renderMainMap.bind(this);
   }
 
   public callApi = async () => {
-    // Fetch all meetings
-    const response = await fetch('/api/v1/meetings');
-    const body = await response.json();
+    // Fetch all state data
+    const meetings = await fetch('/api/v1/meetings');
+    const yearlymeetings = await fetch('/api/v1/meetings/yearlymeetings');
+    const branches = await fetch('/api/v1/meetings/branches');
+    const worshipStyles = await fetch('/api/v1/meetings/worshipstyles');
+    const accessibilities = await fetch('/api/v1/meetings/accessibilities');
 
-    if (response.status !== 200) throw Error(body.message);
+    if (meetings.status !== 200) throw Error(await meetings.json());
+    if (yearlymeetings.status !== 200) throw Error(await yearlymeetings.json());
+    if (branches.status !== 200) throw Error(await branches.json());
+    if (worshipStyles.status !== 200) throw Error(await worshipStyles.json());
+    if (accessibilities.status !== 200) throw Error(await accessibilities.json());
 
-    return body;
+    return {
+      meetings: (await meetings.json()).meetings,
+      yearlymeetings: (await yearlymeetings.json()).yearlymeetings,
+      branches: (await branches.json()).branches,
+      worshipStyles: (await worshipStyles.json()).worshipstyles,
+      accessibilities: (await accessibilities.json()).accessibilities,
+    };;
   };
 
   public componentDidMount() {
     this.callApi()
           .then(async (res) => {
-            // Add meetings to state
+            // Add all data from API to state
             const state = Object.assign({}, this.state);
             state.meetings = res.meetings;
+            state.yearlymeetings = res.yearlymeetings;
+            state.branches = res.branches;
+            state.worshipStyles = res.worshipStyles;
+            state.accessibilities = res.accessibilities;
             this.setState(state);
           })
           .catch((err) => console.error(err));
@@ -57,9 +76,9 @@ class App extends React.Component {
     const meeting = this.state.meetings.find((m: Meeting) => m.slug === slug);
     if (meeting) {
       return (
-        <MeetingView 
+        <MeetingView
           meeting={meeting} 
-          history={this.history} />
+          history={this.state.history} />
       );
     } else {
       return this.pageNotFound();

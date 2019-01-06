@@ -1,5 +1,10 @@
 export interface AppState {
   meetings: Meeting[];
+  yearlymeetings: any;
+  branches: any;
+  worshipStyles: any;
+  accessibilities: any;
+  history: any;
 }
 
 export interface MainMapState {
@@ -76,7 +81,7 @@ export interface MainMapViewProps {
 
 export interface MeetingViewProps {
   history: any;
-  meeting: any;
+  meeting: Meeting;
 }
 
 export interface RecordItemListingProps {
