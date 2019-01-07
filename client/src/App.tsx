@@ -67,7 +67,7 @@ class App extends React.Component {
 
   public renderMainMap() {
     return (
-      <MainMap meetings={this.state.meetings} />
+      <MainMap appState={this.state} />
     );
   }
 
@@ -111,7 +111,6 @@ class App extends React.Component {
               this.state.meetings.length > 0 ? 
               this.renderMainMap :
               this.loadingPage} />
-            } />
           {/* Individual Meeting Pages */}
           <Route path='/:slug' render={
             this.state.meetings.length > 0 ? 

@@ -4,17 +4,18 @@ import {NavModalProps} from '../../Definitions';
 
 class NavModal extends React.Component<NavModalProps> {
 
-    public states = ['AL','AK','AZ','AR','CA','CO','CT','DE','DC','FL','GA','HI',
-            'ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI',
-            'MN','MS','MO','MT','NE','NV','NH','NJ', 'NM', 'NY','NC','ND',
-            'OH','OK','OR','PA','RI', 'SC','SD', 'TN','TX','UT','VT','VA','WA',
-            'WV','WI','WY','AB','BC','NB','NL','NS', 'NT','NU','ON','PE', 'QC','SK','YT'];
-    public yearlymeetings = ['Great Plains Yearly Meeting', 'EFC - Mid America Yearly Meeting'];
-    public accessibilities = ['Wheelchair Accessible', 'Hearing Assistance System', 'Childcare Available'];
-    public branches = ['Friends General Conference', 'Friends United Meeting',
-            'Evangelical Friends Church International', 'Conservative',
-            'Holiness', 'Independent'];
-    public worshipStyles = ['Unprogrammed', 'Programmed', 'Semi-programmed'];
+    public stateTitles: string[] = this.getTitleStrings('meetings', 'state');
+    public yearlyMeetingTitles: string[] = this.getTitleStrings('yearlymeetings', 'title');
+    public accessibilityTitles: string[] = this.getTitleStrings('accessibilities', 'title');
+    public branchTitles: string[] = this.getTitleStrings('branches', 'title');
+    public worshipStyleTitles: string[] = this.getTitleStrings('worshipStyles', 'title');
+
+    public getTitleStrings(titleType: string, attr: string): string[] {
+        return this.props[titleType].reduce((list: string[], record: string) => {
+            if (record[attr] && !list.includes(record[attr] as string)) list.push(record[attr]);
+            return list;
+        }, []);
+    }
 
     public handleModalClose() {
        const nav = document.querySelector('#nav');
@@ -45,7 +46,7 @@ class NavModal extends React.Component<NavModalProps> {
                             onChange={this.props.handleInputChange.bind(this.props, 'state')}>
                             <option value=''>Meeting State</option>
                             {
-                                this.states.map((s: string, i) => {
+                                this.stateTitles.map((s: string, i) => {
                                     return (
                                         <option value={s} key={i}>{s}</option>
                                     );
@@ -60,7 +61,7 @@ class NavModal extends React.Component<NavModalProps> {
                             onChange={this.props.handleInputChange.bind(this.props, 'yearly_meeting')}>
                             <option value=''>Yearly Meeting</option>
                             {
-                                this.yearlymeetings.map((s: string, i) => {
+                                this.yearlyMeetingTitles.map((s: string, i) => {
                                     return (
                                         <option value={s} key={i}>{s}</option>
                                     );
@@ -75,7 +76,7 @@ class NavModal extends React.Component<NavModalProps> {
                             onChange={this.props.handleInputChange.bind(this.props, 'accessibility')}>
                             <option value=''>Accessibility Options</option>
                             {
-                                this.accessibilities.map((s: string, i) => {
+                                this.accessibilityTitles.map((s: string, i) => {
                                     return (
                                         <option value={s} key={i}>{s}</option>
                                     );
@@ -90,7 +91,7 @@ class NavModal extends React.Component<NavModalProps> {
                             onChange={this.props.handleInputChange.bind(this.props, 'branch')}>
                             <option value=''>Branch</option>
                             {
-                                this.branches.map((s: string, i) => {
+                                this.branchTitles.map((s: string, i) => {
                                     return (
                                         <option value={s} key={i}>{s}</option>
                                     );
@@ -105,7 +106,7 @@ class NavModal extends React.Component<NavModalProps> {
                             onChange={this.props.handleInputChange.bind(this.props, 'worship_style')}>
                             <option value=''>Worship Style</option>
                             {
-                                this.worshipStyles.map((s: string, i) => {
+                                this.worshipStyleTitles.map((s: string, i) => {
                                     return (
                                         <option value={s} key={i}>{s}</option>
                                     );

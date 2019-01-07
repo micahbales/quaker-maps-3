@@ -29,9 +29,14 @@ class MainMapView extends React.Component<MainMapViewProps> {
         yearly_meeting: '',
         zip: '',
       },
-      meetings: props.meetings,
+      meetings: props.appState.meetings,
+      yearlymeetings: props.appState.yearlymeetings,
+      branches: props.appState.branches,
+      worshipStyles: props.appState.worshipStyles,
+      accessibilities: props.appState.accessibilities,
       markers: [],
       showYms: false,
+      history: this.props.appState.history,
     };
 
     this.handleNavSubmit = this.handleNavSubmit.bind(this);
@@ -204,6 +209,11 @@ class MainMapView extends React.Component<MainMapViewProps> {
           handleNavSubmit={this.handleNavSubmit}
           handleInputChange={this.handleInputChange}
           searchCriteria={this.state.searchCriteria}
+          meetings={this.state.meetings}
+          yearlymeetings={this.state.yearlymeetings}
+          branches={this.state.branches}
+          worshipStyles={this.state.worshipStyles}
+          accessibilities={this.state.accessibilities}
         />
         <div id='primary-map' />
       </div>

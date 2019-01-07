@@ -1,16 +1,15 @@
 export interface AppState {
   meetings: Meeting[];
-  yearlymeetings: any;
+  yearlymeetings: Meeting[];
   branches: any;
   worshipStyles: any;
   accessibilities: any;
   history: any;
 }
 
-export interface MainMapState {
+export interface MainMapState extends AppState {
     activeCriteria: string[];
     searchCriteria: SearchCriteria;
-    meetings: Meeting[];
     markers: mapboxgl.Marker[];
     showYms: boolean;
 }
@@ -76,7 +75,7 @@ export interface BoundsPoints {
 }
 
 export interface MainMapViewProps {
-  meetings: Meeting[];
+  appState: AppState;
 }
 
 export interface MeetingViewProps {
@@ -94,6 +93,11 @@ export interface NavModalProps {
   handleNavSubmit: (e: React.SyntheticEvent<Element>) => void;
   handleInputChange: (criterion: string, e: React.SyntheticEvent<Element>) => void;
   searchCriteria: SearchCriteria;
+  meetings: Meeting[];
+  yearlymeetings: Meeting[];
+  branches: any;
+  worshipStyles: any;
+  accessibilities: any;
 }
 
 export interface ModifyMeetingModalProps {
