@@ -34,6 +34,13 @@ class MainMapView extends React.Component<MainMapViewProps> {
       branches: props.appState.branches,
       worshipStyles: props.appState.worshipStyles,
       accessibilities: props.appState.accessibilities,
+      titles: {
+        stateTitles: this.props.appState.titles.stateTitles,
+        yearlyMeetingTitles: this.props.appState.titles.yearlyMeetingTitles,
+        accessibilityTitles: this.props.appState.titles.accessibilityTitles,
+        branchTitles: this.props.appState.titles.branchTitles,
+        worshipStyleTitles: this.props.appState.titles.worshipStyleTitles,
+      },
       markers: [],
       showYms: false,
       history: this.props.appState.history,
@@ -214,6 +221,7 @@ class MainMapView extends React.Component<MainMapViewProps> {
           branches={this.state.branches}
           worshipStyles={this.state.worshipStyles}
           accessibilities={this.state.accessibilities}
+          titles={this.state.titles}
         />
         <div id='primary-map' />
       </div>

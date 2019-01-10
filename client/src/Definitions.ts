@@ -4,7 +4,16 @@ export interface AppState {
   branches: any;
   worshipStyles: any;
   accessibilities: any;
+  titles: Titles;
   history: any;
+}
+
+export interface Titles {
+  stateTitles: string[];
+    yearlyMeetingTitles: string[];
+    accessibilityTitles: string[];
+    branchTitles: string[];
+    worshipStyleTitles: string[];
 }
 
 export interface MainMapState extends AppState {
@@ -79,8 +88,13 @@ export interface MainMapViewProps {
 }
 
 export interface MeetingViewProps {
-  history: any;
   meeting: Meeting;
+  yearlymeetings: Meeting[];
+  branches: any;
+  worshipStyles: any;
+  accessibilities: any;
+  titles: Titles;
+  history: any;
 }
 
 export interface RecordItemListingProps {
@@ -98,9 +112,15 @@ export interface NavModalProps {
   branches: any;
   worshipStyles: any;
   accessibilities: any;
+  titles: Titles;
 }
 
 export interface ModifyMeetingModalProps {
   meeting: Meeting;
+  yearlymeetings: Meeting[];
+  branches: any;
+  worshipStyles: any;
+  accessibilities: any;
+  titles: Titles;
   history: any;
 }

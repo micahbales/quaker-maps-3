@@ -22,6 +22,11 @@ class MeetingView extends React.Component<MeetingViewProps> {
             <div className='meeting-card'>
                 <ModifyMeetingModal
                     meeting={this.meeting}
+                    yearlymeetings={this.props.yearlymeetings}
+                    branches={this.props.branches}
+                    worshipStyles={this.props.worshipStyles}
+                    accessibilities={this.props.accessibilities}
+                    titles={this.props.titles}
                     history={this.props.history} />
                 <h3>{this.meeting.title}</h3>
                 <RecordItemListing 

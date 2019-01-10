@@ -21,6 +21,13 @@ class App extends React.Component {
       branches: [],
       worshipStyles: [],
       accessibilities: [],
+      titles: {
+        stateTitles: [],
+        yearlyMeetingTitles: [],
+        accessibilityTitles: [],
+        branchTitles: [],
+        worshipStyleTitles: [],
+      }
     };
 
     this.renderMeetingView = this.renderMeetingView.bind(this);
@@ -50,6 +57,13 @@ class App extends React.Component {
     };;
   };
 
+  public getTitleStrings(state: AppState, titleType: string, attr: string): string[] {
+      return state[titleType].reduce((list: string[], record: string) => {
+          if (record[attr] && !list.includes(record[attr] as string)) list.push(record[attr]);
+          return list;
+      }, []);
+  }
+
   public componentDidMount() {
     this.callApi()
           .then(async (res) => {
@@ -60,6 +74,13 @@ class App extends React.Component {
             state.branches = res.branches;
             state.worshipStyles = res.worshipStyles;
             state.accessibilities = res.accessibilities;
+            state.titles = {
+              stateTitles: this.getTitleStrings(state, 'meetings', 'state'),
+              yearlyMeetingTitles: this.getTitleStrings(state, 'yearlymeetings', 'title'),
+              accessibilityTitles: this.getTitleStrings(state, 'accessibilities', 'title'),
+              branchTitles: this.getTitleStrings(state, 'branches', 'title'),
+              worshipStyleTitles: this.getTitleStrings(state, 'worshipStyles', 'title'),
+            };
             this.setState(state);
           })
           .catch((err) => console.error(err));
@@ -77,7 +98,12 @@ class App extends React.Component {
     if (meeting) {
       return (
         <MeetingView
-          meeting={meeting} 
+          meeting={meeting}
+          yearlymeetings={this.state.yearlymeetings}
+          branches={this.state.branches}
+          worshipStyles={this.state.worshipStyles}
+          accessibilities={this.state.accessibilities}
+          titles={this.state.titles}
           history={this.state.history} />
       );
     } else {
