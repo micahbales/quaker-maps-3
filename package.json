@@ -3,8 +3,8 @@
   "author": "Micah Bales",
   "license": "+CAL - SEE LICENSE FILE",
   "engines": {
-    "node": "10.1.0",
-    "npm": "6.1.0"
+    "node": "10.13.0",
+    "npm": "6.4.1"
   },
   "scripts": {
     "start": "tsc && nodemon index.js",
@@ -17,6 +17,7 @@
     "seed": "npm run seed:dev && npm run seed:test",
     "seed:dev": "PGDATABASE='quaker_maps_dev' node ./migrations/data/insertTestData.js",
     "seed:test": "PGDATABASE='quaker_maps_test' node ./migrations/data/insertTestData.js",
+    "reset-dev": "db-migrate down -e dev && db-migrate up -e dev && npm run seed:dev",
     "tests": "tsc && db-migrate down -e test && db-migrate up -e test && npm run seed:test && NODE_ENV=test mocha tests/**/*.js",
     "postinstall": "cd client && npm install && npm run build"
   },

@@ -132,3 +132,11 @@ heroku run bash
 ```
 tsc && npm run seed
 ```
+
+### Refresh Development Data
+
+In the course of development, it may be useful to reset your local data. You can easily do this by running
+
+```
+npm run reset-dev
+```

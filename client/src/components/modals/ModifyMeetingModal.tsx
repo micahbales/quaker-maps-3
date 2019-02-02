@@ -10,54 +10,28 @@ class ModifyMeetingModal extends React.Component<ModifyMeetingModalProps> {
     constructor(props: ModifyMeetingModalProps) {
         super(props);
         this.state = {
-            meeting: this.props.meeting
+            meeting: this.props.meeting,
+            titles: this.props.titles,
+            selectedTitles: {
+                yearlyMeetingTitles: this.props.meeting.yearly_meeting.map((ym) => ym.title),
+            },
         };
         this.handleDeleteMeeting = this.handleDeleteMeeting.bind(this);
     }
 
     public handleModalClose() {
-       const modal = document.querySelector('#modify-meeting');
-       if (modal) modal.classList.add('hidden');
+        const modal = document.querySelector('#modify-meeting');
+        if (modal) modal.classList.add('hidden');
     }
 
     public handleDeleteMeeting() {
         fetch(`/api/v1/meetings/${this.state.meeting.id}`, {
             method: 'DELETE',
         })
-        .then(() => {
-            this.props.history.push('/');
-            this.props.history.go();
-        });
-    }
-
-    public handleInputChange(criterion: string) {
-        const state = Object.assign({}, this.state);
-        // get titles of yms selected by user
-        const yearlyMeetingNames: string[] = this.state.meeting[criterion].map((ym: Meeting) => ym.title);
-        
-        
-        
-        // const userInputValues: string[] = document.querySelector('.yearlymeeting').
-        // const optionsElements: HTMLCollection = document.querySelector('.yearlymeeting').children;
-
-        // [...optionsElements].filter((elem) => {
-        //     console.log(elem)
-        //     return elem.selected;
-        // })
-
-
-
-        
-
-        // get selected yms from this.props.meetings
-
-        // replace state.meeting.yearly_meeting with [...yms] & update state
-
-
-        console.log(state.meeting.yearly_meeting.find((m: Meeting) => {
-            return yearlyMeetingNames.includes(m.title);
-        }));
-        this.setState(state);
+            .then(() => {
+                this.props.history.push('/');
+                this.props.history.go();
+            });
     }
 
     public render() {
@@ -67,21 +41,32 @@ class ModifyMeetingModal extends React.Component<ModifyMeetingModalProps> {
                     <span className='close' onClick={this.handleModalClose}>
                         &times;
                     </span>
-                    <h2>Update {this.state.meeting.title}</h2>
+                    
+                    <h1>{this.state.meeting.title}</h1>
 
-                    <select className='yearlymeeting'
+                    <form>
+                        <h3>Update</h3>
+
+                        <select 
+                            className='yearlymeeting' 
                             multiple={true}
-                            value={this.state.meeting.yearly_meeting.map((ym: Meeting) => ym.title)}
-                            onChange={this.handleInputChange.bind(this, 'yearly_meeting')}>
+                            defaultValue={this.state.selectedTitles.yearlyMeetingTitles}>
                             <option value=''>Yearly Meeting</option>
                             {
-                                this.props.titles.yearlyMeetingTitles.map((s: string, i) => {
+                                this.state.titles.yearlyMeetingTitles.map((title: string, i: number) => {
                                     return (
-                                        <option value={s} key={i}>{s}</option>
+                                        <option
+                                            value={title}
+                                            key={i}>
+                                            {title}
+                                        </option>
                                     );
                                 })
                             }
                         </select>
+                    </form>
+
+                    <h2>Delete</h2>
 
                     <button onClick={this.handleDeleteMeeting}>Delete Meeting</button>
                 </div>
