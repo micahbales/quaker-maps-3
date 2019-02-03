@@ -14,6 +14,9 @@ class ModifyMeetingModal extends React.Component<ModifyMeetingModalProps> {
             titles: this.props.titles,
             selectedTitles: {
                 yearlyMeetingTitles: this.props.meeting.yearly_meeting.map((ym) => ym.title),
+                accessibilityTitles: this.props.meeting.accessibility.map((a) => a.title),
+                worshipStyleTitles: this.props.meeting.worship_style.map((ws) => ws.title),
+                branchTitles: this.props.meeting.branch.map((b) => b.title)
             },
         };
         this.handleDeleteMeeting = this.handleDeleteMeeting.bind(this);
@@ -47,13 +50,67 @@ class ModifyMeetingModal extends React.Component<ModifyMeetingModalProps> {
                     <form>
                         <h3>Update</h3>
 
+                        <h5>Yearly Meeting:</h5>
                         <select 
                             className='yearlymeeting' 
                             multiple={true}
                             defaultValue={this.state.selectedTitles.yearlyMeetingTitles}>
-                            <option value=''>Yearly Meeting</option>
                             {
                                 this.state.titles.yearlyMeetingTitles.map((title: string, i: number) => {
+                                    return (
+                                        <option
+                                            value={title}
+                                            key={i}>
+                                            {title}
+                                        </option>
+                                    );
+                                })
+                            }
+                        </select>
+
+                        <h5>Accessibility:</h5>
+                        <select
+                            className='accessibility'
+                            multiple={true}
+                            defaultValue={this.state.selectedTitles.accessibilityTitles}>
+                            {
+                                this.state.titles.accessibilityTitles.map((title: string, i: number) => {
+                                    return (
+                                        <option
+                                            value={title}
+                                            key={i}>
+                                            {title}
+                                        </option>
+                                    );
+                                })
+                            }
+                        </select>
+
+                        <h5>Branch:</h5>
+                        <select
+                            className='branch'
+                            multiple={true}
+                            defaultValue={this.state.selectedTitles.branchTitles}>
+                            {
+                                this.state.titles.branchTitles.map((title: string, i: number) => {
+                                    return (
+                                        <option
+                                            value={title}
+                                            key={i}>
+                                            {title}
+                                        </option>
+                                    );
+                                })
+                            }
+                        </select>
+
+                        <h5>Worship Style:</h5>
+                        <select
+                            className='worship-style'
+                            multiple={true}
+                            defaultValue={this.state.selectedTitles.worshipStyleTitles}>
+                            {
+                                this.state.titles.worshipStyleTitles.map((title: string, i: number) => {
                                     return (
                                         <option
                                             value={title}
