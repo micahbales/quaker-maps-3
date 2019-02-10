@@ -1,26 +1,9 @@
-export interface AppState {
-  meetings: Meeting[];
-  yearlymeetings: Meeting[];
-  branches: any;
-  worshipStyles: any;
-  accessibilities: any;
-  titles: Titles;
-  history: any;
-}
-
 export interface Titles {
   stateTitles: string[];
     yearlyMeetingTitles: string[];
     accessibilityTitles: string[];
     branchTitles: string[];
     worshipStyleTitles: string[];
-}
-
-export interface MainMapState extends AppState {
-    activeCriteria: string[];
-    searchCriteria: SearchCriteria;
-    markers: mapboxgl.Marker[];
-    showYms: boolean;
 }
 
 export interface SearchCriteria {
@@ -75,52 +58,3 @@ export interface Meeting {
       }
     ]
   }
-  
-export interface BoundsPoints {
-    highestLat: number; 
-    highestLng: number;
-    lowestLat: number;
-    lowestLng: number;
-}
-
-export interface MainMapViewProps {
-  appState: AppState;
-}
-
-export interface MeetingViewProps {
-  meeting: Meeting;
-  yearlymeetings: Meeting[];
-  branches: any;
-  worshipStyles: any;
-  accessibilities: any;
-  titles: Titles;
-  history: any;
-}
-
-export interface RecordItemListingProps {
-  item: any;
-  label: string;
-  link?: string;
-}
-
-export interface NavModalProps {
-  handleNavSubmit: (e: React.SyntheticEvent<Element>) => void;
-  handleInputChange: (criterion: string, e: React.SyntheticEvent<Element>) => void;
-  searchCriteria: SearchCriteria;
-  meetings: Meeting[];
-  yearlymeetings: Meeting[];
-  branches: any;
-  worshipStyles: any;
-  accessibilities: any;
-  titles: Titles;
-}
-
-export interface ModifyMeetingModalProps {
-  meeting: Meeting;
-  yearlymeetings: Meeting[];
-  branches: any;
-  worshipStyles: any;
-  accessibilities: any;
-  titles: Titles;
-  history: any;
-}

@@ -1,6 +1,18 @@
 import * as React from 'react';
 import '../../styles/components/NavModal.css';
-import {NavModalProps} from '../../Definitions';
+import {Meeting, SearchCriteria, Titles} from '../../Definitions';
+
+interface NavModalProps {
+    handleNavSubmit: (e: React.SyntheticEvent<Element>) => void;
+    handleInputChange: (criterion: string, e: React.SyntheticEvent<Element>) => void;
+    searchCriteria: SearchCriteria;
+    meetings: Meeting[];
+    yearlymeetings: Meeting[];
+    branches: any;
+    worshipStyles: any;
+    accessibilities: any;
+    titles: Titles;
+}
 
 class NavModal extends React.Component<NavModalProps> {
 

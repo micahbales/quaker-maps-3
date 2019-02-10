@@ -1,6 +1,16 @@
 import * as React from 'react';
 import '../../styles/components/ModifyMeetingModal.css';
-import {Meeting, ModifyMeetingModalProps} from '../../Definitions';
+import {Meeting, Titles} from '../../Definitions';
+
+interface ModifyMeetingModalProps {
+    meeting: Meeting;
+    yearlymeetings: Meeting[];
+    branches: any;
+    worshipStyles: any;
+    accessibilities: any;
+    titles: Titles;
+    history: any;
+}
 
 class ModifyMeetingModal extends React.Component<ModifyMeetingModalProps> {
 

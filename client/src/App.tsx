@@ -4,8 +4,18 @@ import {createBrowserHistory} from 'history';
 import MainMap from './components/MainMapView';
 import MeetingView from './components/MeetingView';
 import Spinner from './components/Spinner';
-import {AppState, Meeting} from './Definitions';
+import {Meeting, Titles} from './Definitions';
 import './styles/App.css';
+
+export interface AppState {
+  meetings: Meeting[];
+  yearlymeetings: Meeting[];
+  branches: any;
+  worshipStyles: any;
+  accessibilities: any;
+  titles: Titles;
+  history: any;
+}
 
 class App extends React.Component {
 

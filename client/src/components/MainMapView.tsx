@@ -2,12 +2,31 @@ import * as React from 'react';
 import {renderToString} from 'react-dom/server'
 import '../styles/MainMapView.css';
 import * as mapboxgl from 'mapbox-gl';
-import {MainMapState, MainMapViewProps, Meeting, BoundsPoints} from '../Definitions';
+import {Meeting, SearchCriteria} from '../Definitions';
+import {AppState} from '../App';
 import PopUpCard from './PopUpCard';
 import NavModal from './modals/NavModal';
 import NavButton from './NavButton';
 const mapboxKey = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAyMnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
 (mapboxgl as any).accessToken = mapboxKey;
+
+interface BoundsPoints {
+  highestLat: number;
+  highestLng: number;
+  lowestLat: number;
+  lowestLng: number;
+}
+
+interface MainMapViewProps {
+  appState: AppState;
+}
+
+interface MainMapState extends AppState {
+  activeCriteria: string[];
+  searchCriteria: SearchCriteria;
+  markers: mapboxgl.Marker[];
+  showYms: boolean;
+}
 
 class MainMapView extends React.Component<MainMapViewProps> {
 

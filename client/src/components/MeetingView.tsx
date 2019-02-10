@@ -1,7 +1,17 @@
 import * as React from 'react';
 import RecordItemListing from './RecordItemListing';
 import ModifyMeetingModal from './modals/ModifyMeetingModal';
-import {MeetingViewProps} from './../Definitions';
+import {Meeting, Titles} from './../Definitions';
+
+interface MeetingViewProps {
+    meeting: Meeting;
+    yearlymeetings: Meeting[];
+    branches: any;
+    worshipStyles: any;
+    accessibilities: any;
+    titles: Titles;
+    history: any;
+}
 
 class MeetingView extends React.Component<MeetingViewProps> {
     private meeting: any;

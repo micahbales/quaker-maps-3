@@ -1,5 +1,10 @@
 import * as React from 'react';
-import {RecordItemListingProps} from './../Definitions';
+
+interface RecordItemListingProps {
+    item: any;
+    label: string;
+    link?: string;
+}
 
 const RecordItemListing: React.SFC<RecordItemListingProps> = (props) => {
     if (Array.isArray(props.item)) {
