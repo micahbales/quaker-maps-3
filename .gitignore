@@ -1,6 +1,6 @@
 node_modules/
 **/*.js
-!api/migrations/*.js
+!migrations/*.js
 **/*.js.map
 .DS_Store
 *.log
