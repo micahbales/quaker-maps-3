@@ -11,7 +11,7 @@
 
     "test": {
         "driver": "pg",
-        "user": {"ENV": "PGUSERNAME"},
+        "user": {"ENV": "PGUSER"},
         "password": {"ENV": "PGPASSWORD"},
         "host": "localhost",
         "database": "quaker_maps_test"

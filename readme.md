@@ -13,44 +13,79 @@ We release this project to the world under the [+CAL license](https://legaldesig
 * Postgres
 * db-migrate
 
-## Installing Dependencies & Setting Up Databases
-
-To install all dependencies, run database migrations, and seed test and dev databases with sample data, run:
-
-```
-npm run install-all
-cd api
-db-migrate up -e dev && db-migrate-up -e test
-npm run seed
-```
-
 ## Setting up API config:
 
-In the root directory:
+First, make sure your credentials are in place. In the root directory:
 
 ```
-cp .env.dev.example .env.dev
-cp .env.test.example .env.test
+$ cp .env.dev.example .env.dev
+$ cp .env.test.example .env.test
 ```
 
 Open `.env.dev` and `.env.test` replace the example secrets with your real project secrets.
 
-## Database Quick Start
+## Installing Dependencies & Setting Up Databases
+
+### Install Project Dependencies
+
+```
+$ npm install -g db-migrate db-migrate-pg
+$ npm run install-all
+```
+
+### Setting Up Postgres
 
 [Download PostgreSQL](https://www.postgresql.org/download/) and run it locally on your machine. Postgres must be running for the project's API to function correctly.
 
-### Installing db-migrate
+For Mac Users, install postgres via Homebrew:
 
 ```
-npm install -g db-migrate db-migrate-pg
+$ brew install postgresql
 ```
+
+Then log into psql as the default `postgres` super user (you can set up your own super user if you wish):
+
+```
+$ psql postgres
+```
+
+You'll be prompted for your user password, and then you may be prompted for the postgres user password, if you've set it.
+
+Once psql opens, create two databases:
+
+```
+CREATE DATABASE quaker_maps_dev;
+CREATE DATABASE quaker_maps_test;
+```
+
+You should now have test and development databases
+
+### Seed Dev and Test Databases
+
+Run the following commands to migrate and seed both databases:
+
+```
+$ db-migrate up -e dev && db-migrate-up -e test
+$ npm run seed
+```
+
+> Watch Out: When you run migrations, you may encounter an error like this:
+> ```
+> [ERROR] AssertionError [ERR_ASSERTION]: ifError got unwanted exception: password authentication failed for user <username>
+> ```
+> If this occurs, your environmental variables are not being set. For a quick-and-dirty fix, you can manually set them like this:
+> ```
+> $ export PGUSER=<username> $ export PGPASSWORD=<password>
+> ```
+
+## Database Quick Start
 
 ### Creating Up a New Database Migration with db-migrate
 
-In the root project directory, run:
+In the root project directory:
 
 ```
-db-migrate create [name-of-migration] --sql-file
+$ db-migrate create [name-of-migration] --sql-file
 ```
 
 You can then compose your SQL migration in the `...-up.sql` file.
@@ -62,21 +97,21 @@ Make sure to also write a backwards migration to allow rollback, using the `...-
 You'll need to run specific migrations for both the development and test environments. For example, `dev`:
 
 ```
-db-migrate up -e dev
+$ db-migrate up -e dev
 ```
 
 And `test`:
 
 ```
-db-migrate up -e test
+$ db-migrate up -e test
 ```
 
 ### Seed Local Database with Sample Data
 
-In the root project directory, run:
+In the root project directory:
 
 ```
-npm run seed
+$ npm run seed
 ```
 
 ### SQL Workbench
@@ -112,7 +147,7 @@ Once the project is successfully deployed to Heroku, there are some special step
 To migrate the database with our initial migration, execute this command from the root project directory on your local machine:
 
 ```
-cat migrations/sqls/20180910231418-initial-migration-up.sql | heroku pg:psql
+$ cat migrations/sqls/20180910231418-initial-migration-up.sql | heroku pg:psql
 ```
 
 This command outputs the content of our migration, and then pipes it to the psql console for our Heroku database. Repeat this step, in order, for any additional migrations.
@@ -124,13 +159,13 @@ Because this project is currently in pre-release development, we are using our t
 1. Open a bash command line 
 
 ```
-heroku run bash
+$ heroku run bash
 ```
 
 2. Run Typescript and Seed Database
 
 ```
-tsc && npm run seed
+$ tsc && npm run seed
 ```
 
 ### Refresh Development Data
@@ -138,5 +173,5 @@ tsc && npm run seed
 In the course of development, it may be useful to reset your local data. You can easily do this by running
 
 ```
-npm run reset-dev
+$ npm run reset-dev
 ```
