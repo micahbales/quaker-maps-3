@@ -88,7 +88,7 @@ export const createMeeting = async (req, res) => {
 
 // PUT /meetings/:id
 export const updateMeeting = async (req, res) => {
-    const meetingWithAttributeRecordIds = req.body.meeting;
+    const meetingWithAttributeRecordIds = req.body;
     const updatedMeeting = removeJoinKeys(meetingWithAttributeRecordIds);
     const meetingId = req.params.id;
     const queryString = 'UPDATE meeting ' +

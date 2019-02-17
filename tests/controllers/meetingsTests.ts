@@ -334,7 +334,7 @@ describe('Meetings', function() {
             // Update meeting record
             supertest(app)
                     .put('/api/v1/meetings/7')
-                    .send({meeting: meeting})
+                    .send(meeting)
                     .expect(200)
                     .end(() => {
                         // Then check and make sure it was updated

@@ -14,6 +14,7 @@ interface ModifyMeetingModalProps {
 
 function getIds(collection: any[], selectedTitles: any[]) {
     if (! collection || collection.length < 1) return null;
+    // Return an array of ids
     return collection
         .filter((c: any) => selectedTitles.includes(c.title))
         .map((c: any) => c.id)
@@ -47,21 +48,23 @@ class ModifyMeetingModal extends React.Component<ModifyMeetingModalProps> {
         e.preventDefault();
 
         const meetingUpdate: any = this.state.meeting;
-        meetingUpdate.yearly_meeting = null;
-        meetingUpdate.accessibility = getIds(this.state.accessibility, this.state.selectedTitles.accessibilityTitles);
-        meetingUpdate.worship_style = getIds(this.state.yearlymeetings, this.state.selectedTitles.worshipStyleTitles);
-        meetingUpdate.branch = getIds(this.state.yearlymeetings, this.state.selectedTitles.branchTitles);
+        meetingUpdate.yearly_meeting = getIds(this.state.meeting.yearly_meeting,
+            this.state.selectedTitles.yearlyMeetingTitles);
+        meetingUpdate.accessibility = getIds(this.state.meeting.accessibility, 
+                this.state.selectedTitles.accessibilityTitles);
+        meetingUpdate.worship_style = getIds(this.state.meeting.worship_style, 
+                this.state.selectedTitles.worshipStyleTitles);
+        meetingUpdate.branch = getIds(this.state.meeting.branch, 
+                this.state.selectedTitles.branchTitles);
 
-        fetch(`http://localhost:7777/api/v1/meetings/${this.state.meeting.id}`, {
+        fetch(`/api/v1/meetings/${this.state.meeting.id}`, {
             method: 'PUT',
             body: JSON.stringify(meetingUpdate),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            headers: {'Content-Type': 'application/json'}
         })
             .then(() => {
-                // this.props.history.push('/');
-                // this.props.history.go();
+                this.props.history.push('/');
+                this.props.history.go();
             });
     }
 
