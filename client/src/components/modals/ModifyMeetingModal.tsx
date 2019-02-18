@@ -12,12 +12,28 @@ interface ModifyMeetingModalProps {
     history: any;
 }
 
-function getIds(collection: any[], selectedTitles: any[]) {
-    if (! collection || collection.length < 1) return null;
+function getIds(collection: any[]) {
+    if (!collection || collection.length < 1) return null;
     // Return an array of ids
-    return collection
-        .filter((c: any) => selectedTitles.includes(c.title))
-        .map((c: any) => c.id)
+    return collection.map((c: any) => c.id)
+}
+
+function getMultiSelectValues(multiSelectElement: any) {
+    const values = []
+    const optionsLength = multiSelectElement.options.length;
+    let option;
+
+    for (let i = 0; i < optionsLength; i++) {
+        // Check every option in the multi-select
+        option = multiSelectElement.options[i];
+
+        // If it is selected, include it in the returned values array
+        if (option.selected) {
+            values.push(option.value);
+        }
+    }
+
+    return values;
 }
 
 class ModifyMeetingModal extends React.Component<ModifyMeetingModalProps> {
@@ -29,7 +45,10 @@ class ModifyMeetingModal extends React.Component<ModifyMeetingModalProps> {
         this.state = {
             meeting: this.props.meeting,
             titles: this.props.titles,
-            yearlymeetings: this.props.yearlymeetings,
+            yearly_meeting: this.props.yearlymeetings,
+            branch: this.props.branches,
+            accessibility: this.props.accessibilities,
+            worship_style: this.props.worshipStyles,
             selectedTitles: {
                 yearlyMeetingTitles: this.props.meeting.yearly_meeting.map((ym) => ym.title),
                 accessibilityTitles: this.props.meeting.accessibility.map((a) => a.title),
@@ -47,15 +66,15 @@ class ModifyMeetingModal extends React.Component<ModifyMeetingModalProps> {
     public handleUpdateMeeting = (e: React.SyntheticEvent) => {
         e.preventDefault();
 
-        const meetingUpdate: any = this.state.meeting;
-        meetingUpdate.yearly_meeting = getIds(this.state.meeting.yearly_meeting,
-            this.state.selectedTitles.yearlyMeetingTitles);
-        meetingUpdate.accessibility = getIds(this.state.meeting.accessibility, 
-                this.state.selectedTitles.accessibilityTitles);
-        meetingUpdate.worship_style = getIds(this.state.meeting.worship_style, 
-                this.state.selectedTitles.worshipStyleTitles);
-        meetingUpdate.branch = getIds(this.state.meeting.branch, 
-                this.state.selectedTitles.branchTitles);
+        // meetingUpdate is a modified version of a regular Meeting object
+        // The difference being that instead of arrays of object entities for ym, branch, etc.,
+        // meetingUpdate just has arrays of ids
+        // TODO: Refactor API to accept regular Meeting objects?
+        const meetingUpdate: any = {...this.state.meeting};
+        meetingUpdate.yearly_meeting = getIds(this.state.meeting.yearly_meeting);
+        meetingUpdate.accessibility = getIds(this.state.meeting.accessibility);
+        meetingUpdate.worship_style = getIds(this.state.meeting.worship_style);
+        meetingUpdate.branch = getIds(this.state.meeting.branch);
 
         fetch(`/api/v1/meetings/${this.state.meeting.id}`, {
             method: 'PUT',
@@ -78,6 +97,18 @@ class ModifyMeetingModal extends React.Component<ModifyMeetingModalProps> {
             });
     }
 
+    public handleMultiSelectFormChange = (e: any) => {
+        // Retrieve titles from selected options
+        const field: string = e.target.className;
+        const newTitles: string[] = getMultiSelectValues(e.target);
+
+        // Assign updated group of entities (yms, branches, etc.) to this.state.meeting
+        const state = {...this.state};
+        const allPossibleEntities: any[] = this.state[field];
+        state.meeting[field] = allPossibleEntities.filter((ent) => newTitles.includes(ent.title));
+        this.setState(state);
+    }
+
     public render() {
         return (
             <div id='modify-meeting' className='hidden'>
@@ -93,7 +124,8 @@ class ModifyMeetingModal extends React.Component<ModifyMeetingModalProps> {
 
                         <h5>Yearly Meeting:</h5>
                         <select 
-                            className='yearlymeeting' 
+                            onChange={this.handleMultiSelectFormChange}
+                            className='yearly_meeting' 
                             multiple={true}
                             defaultValue={this.state.selectedTitles.yearlyMeetingTitles}>
                             {
