@@ -143,6 +143,7 @@ class ModifyMeetingModal extends React.Component<ModifyMeetingModalProps> {
 
                         <h5>Accessibility:</h5>
                         <select
+                            onChange={this.handleMultiSelectFormChange}
                             className='accessibility'
                             multiple={true}
                             defaultValue={this.state.selectedTitles.accessibilityTitles}>
@@ -161,6 +162,7 @@ class ModifyMeetingModal extends React.Component<ModifyMeetingModalProps> {
 
                         <h5>Branch:</h5>
                         <select
+                            onChange={this.handleMultiSelectFormChange}
                             className='branch'
                             multiple={true}
                             defaultValue={this.state.selectedTitles.branchTitles}>
@@ -179,7 +181,8 @@ class ModifyMeetingModal extends React.Component<ModifyMeetingModalProps> {
 
                         <h5>Worship Style:</h5>
                         <select
-                            className='worship-style'
+                            onChange={this.handleMultiSelectFormChange}
+                            className='worship_style'
                             multiple={true}
                             defaultValue={this.state.selectedTitles.worshipStyleTitles}>
                             {
