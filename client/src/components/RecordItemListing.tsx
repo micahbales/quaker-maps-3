@@ -1,19 +1,29 @@
 import * as React from 'react';
 
+/**
+ * RecordItemListing represents a single item to be displayed in a Meeting listing.
+ * Items displayed by this component can range from an address, to a linked website,
+ * or a list of yearly meetings, branches, etc.
+ */
+
 interface RecordItemListingProps {
     item: any;
     label: string;
     link?: string;
 }
 
-const RecordItemListing: React.SFC<RecordItemListingProps> = (props) => {
-    if (Array.isArray(props.item)) {
+const RecordItemListing: React.SFC<RecordItemListingProps> = ({
+    item,
+    label,
+    link
+}) => {
+    if (Array.isArray(item)) {
         return (
             <div className='record-item-listing'>
-                <label>{props.label}: </label>
+                <label>{label}: </label>
                 <ul>
                     {
-                        props.item.map((o: any, i: number) => {
+                        item.map((o: any, i: number) => {
                             return <li key={i}>{o.title}</li>;
                         })
                     }
@@ -21,12 +31,12 @@ const RecordItemListing: React.SFC<RecordItemListingProps> = (props) => {
             </div>
         );
     }
-    if (props.link) {
+    if (link) {
         return (
             <div>
                 <p>
-                    <label>{props.label}: </label>
-                    <a href={props.link}>{props.item}</a>
+                    <label>{label}: </label>
+                    <a href={link}>{item}</a>
                 </p>
             </div>
         );
@@ -34,8 +44,8 @@ const RecordItemListing: React.SFC<RecordItemListingProps> = (props) => {
     return (
         <div>
             <p>
-                <label>{props.label}: </label>
-                {props.item}
+                <label>{label}: </label>
+                {item}
             </p>
         </div>
     );

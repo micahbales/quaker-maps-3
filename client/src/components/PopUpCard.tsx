@@ -2,74 +2,67 @@ import * as React from 'react';
 import '../styles/PopUpCard.css';
 import RecordItemListing from './RecordItemListing';
 
+/**
+ * PopUpCard is the content displayed in the popup when a map's meeting marker is clicked.
+ */
+
 interface PopUpCardProps {
     meeting: any;
 }
 
-class PopUpCard extends React.Component<PopUpCardProps> {
-    private meeting: any;
+const PopUpCard: React.SFC<PopUpCardProps> = ({ meeting }) => (
+    <div className='meeting-card'>
+        <h3>{meeting.title}</h3>
+        <RecordItemListing
+            label='Address'
+            item={`${meeting.address} ${meeting.city} ${meeting.state} ${meeting.zip}`}
+        />
+        {/* <RecordItemListing 
+                label='Email' 
+                item={meeting.email}
+            />
+            <RecordItemListing 
+                label='Phone' 
+                item={meeting.phone}
+            />
+            <RecordItemListing 
+                label='Branch' 
+                item={meeting.branch}
+            />
+            <RecordItemListing 
+                label='Worship Style' 
+                item={meeting.worship_style} 
+            /> */}
+        <RecordItemListing
+            label='Description'
+            item={meeting.description}
+        />
+        <RecordItemListing
+            label='Website'
+            item={meeting.website}
+            link={meeting.website}
+        />
+        {/* <RecordItemListing 
+                label='Yearly Meeting' 
+                item={meeting.yearly_meeting}
+            />
+            <RecordItemListing 
+                label='Accessibility' 
+                item={meeting.accessibility}
+            />
+            <RecordItemListing 
+                label='LGBT Affirming*' 
+                item={meeting.lgbt_affirming ? 'Yes' : 'No'}
+            /> */}
 
-    constructor(props: PopUpCardProps) {
-        super(props);
-        this.meeting = this.props.meeting;
-    }
-
-    public render() {
-        return (
-            <div className='meeting-card'>
-                <h3>{this.meeting.title}</h3>
-                <RecordItemListing 
-                    label='Address' 
-                    item={`${this.meeting.address} ${this.meeting.city} ${this.meeting.state} ${this.meeting.zip}`}
-                />
-                {/* <RecordItemListing 
-                    label='Email' 
-                    item={this.meeting.email}
-                />
-                <RecordItemListing 
-                    label='Phone' 
-                    item={this.meeting.phone}
-                />
-                <RecordItemListing 
-                    label='Branch' 
-                    item={this.meeting.branch}
-                />
-                <RecordItemListing 
-                    label='Worship Style' 
-                    item={this.meeting.worship_style} 
-                /> */}
-                <RecordItemListing 
-                    label='Description' 
-                    item={this.meeting.description} 
-                />
-                <RecordItemListing 
-                    label='Website' 
-                    item={this.meeting.website}
-                    link={this.meeting.website}
-                />
-                {/* <RecordItemListing 
-                    label='Yearly Meeting' 
-                    item={this.meeting.yearly_meeting}
-                />
-                <RecordItemListing 
-                    label='Accessibility' 
-                    item={this.meeting.accessibility}
-                />
-                <RecordItemListing 
-                    label='LGBT Affirming*' 
-                    item={this.meeting.lgbt_affirming ? 'Yes' : 'No'}
-                /> */}
-
-                <div>
-                    <p>
-                        <a href={`/${this.meeting.slug}`}>
-                            more info
-                        </a>
-                    </p>
-                </div>
-            </div>
-        )
-    }
-}
+        <div>
+            <p>
+                <a href={`/${meeting.slug}`}>
+                    more info
+                    </a>
+            </p>
+        </div>
+    </div>
+)
 
 export default PopUpCard;
