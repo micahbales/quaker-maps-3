@@ -1,3 +1,13 @@
+export interface AppState {
+  meetings: Meeting[];
+  yearlymeetings: Meeting[];
+  branches: any;
+  worshipStyles: any;
+  accessibilities: any;
+  titles: Titles;
+  history: any;
+}
+
 export interface Titles {
   stateTitles: string[];
     yearlyMeetingTitles: string[];

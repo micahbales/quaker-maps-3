@@ -3,7 +3,7 @@ import {renderToString} from 'react-dom/server'
 import '../styles/MainMapView.css';
 import * as mapboxgl from 'mapbox-gl';
 import {Meeting, SearchCriteria} from '../Definitions';
-import {AppState} from '../App';
+import {AppState} from '../Definitions';
 import PopUpCard from './PopUpCard';
 import NavModal from './modals/NavModal';
 import NavButton from './NavButton';
@@ -31,10 +31,9 @@ interface MainMapState extends AppState {
 class MainMapView extends React.Component<MainMapViewProps> {
 
   public map: any;
-
   public state: MainMapState;
 
-  public constructor(props: any) {
+  public constructor(props: MainMapViewProps) {
     super(props);
 
     this.state = {
