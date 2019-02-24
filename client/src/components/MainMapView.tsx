@@ -1,28 +1,24 @@
 import * as React from 'react';
-import { renderToString } from 'react-dom/server'
 import '../styles/MainMapView.css';
 import * as mapboxgl from 'mapbox-gl';
-import { AppState, Meeting, SearchCriteria } from '../Definitions';
+import { AppState, SearchCriteria } from '../Definitions';
 import { setLocalStorage } from '../utils/helpers';
-import { createMap } from '../utils/mapping';
-import PopUpCard from './PopUpCard';
+import { createMap, filterMeetings, getMarkers, removeMarkers, setActiveCriteria } from '../utils/mapping';
 import NavModal from './modals/NavModal';
 import NavButton from './NavButton';
 const mapboxKey = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAyMnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
 (mapboxgl as any).accessToken = mapboxKey;
 
-interface BoundsPoints {
-  highestLat: number;
-  highestLng: number;
-  lowestLat: number;
-  lowestLng: number;
-}
+/**
+ * MainMapView is the initial and primary view for QuakerMaps.
+ * This view displays a map with markers for each meeting selected by the user's search criteria.
+ */
 
-interface MainMapViewProps {
+export interface MainMapViewProps {
   appState: AppState;
 }
 
-interface MainMapState extends AppState {
+export interface MainMapViewState extends AppState {
   activeCriteria: string[];
   searchCriteria: SearchCriteria;
   markers: mapboxgl.Marker[];
@@ -32,7 +28,7 @@ interface MainMapState extends AppState {
 class MainMapView extends React.Component<MainMapViewProps> {
 
   public map: any;
-  public state: MainMapState;
+  public state: MainMapViewState;
 
   public constructor(props: MainMapViewProps) {
     super(props);
@@ -66,147 +62,80 @@ class MainMapView extends React.Component<MainMapViewProps> {
     };
   }
 
-  public async componentDidMount() {          
+  public async componentDidMount() { 
+    this.loadMap();
+  }
+
+  /**
+   * loadMap 
+   * - Creates the map
+   * - Activates existing search criteria, if any
+   * - Filters meetings so that only those being searched for are shown
+   * - Adds meeting markers to the map
+   */
+
+  public loadMap = async () => {
+    // Create map         
     this.map = createMap();
 
-    // Get search criteria from local storage
+    // Get search criteria from local storage, if it exists
     const localState = localStorage.getItem('quaker-maps-search-criteria');
     if (localState) {
-        const appState = Object.assign({}, this.state);
-        appState.searchCriteria = JSON.parse(localState);
-        await this.setState(appState);
+      const searchCriteria = JSON.parse(localState);
+      await this.setState({ searchCriteria });
     }
 
-    // Filter meetings and add markers
-    const filteredMeetings = await this.filterMeetings();
-    this.addMarkers(filteredMeetings);
+    // Update active criteria before filtering meetings
+    const activeCriteria = setActiveCriteria(this.state);
+    await this.setState({ activeCriteria });
+
+    // Filter meetings according to the search criteria
+    const filteredMeetings = await filterMeetings(this.state);
+
+    // Add markers
+    const markers = await getMarkers(filteredMeetings, this.map);
+    this.setState({ markers });
   }
 
-  public addMarkers(meetings: Meeting[]) {
-    let marker;
-    let popup;
-    const markers: mapboxgl.Marker[] = [];
-    meetings.forEach((meeting: Meeting) => {
-      popup = new mapboxgl.Popup();
-      popup.setHTML(
-        renderToString(<PopUpCard meeting={meeting} />)
-      );
-
-      marker = new mapboxgl.Marker()
-        .setLngLat([meeting.longitude, meeting.latitude])
-        .setPopup(popup)
-        .addTo(this.map);
-
-      markers.push(marker);
-    });
-
-    this.setBounds(meetings);
-
-    const state = Object.assign({}, this.state);
-    state.markers = markers;
-    this.setState(state);
-  }
-
-  public setBounds(meetings: Meeting[]) {
-    if (!meetings.length) return;
-
-    const boundsPoints = meetings.reduce((acc, meeting: Meeting) => {
-      const updatedPoints: BoundsPoints = {
-        highestLat: meeting.latitude > acc.highestLat ? meeting.latitude : acc.highestLat,
-        highestLng: meeting.longitude > acc.highestLng ? meeting.longitude : acc.highestLng,
-        lowestLat: meeting.latitude < acc.lowestLat ? meeting.latitude : acc.lowestLat,
-        lowestLng: meeting.longitude < acc.lowestLng ? meeting.longitude : acc.lowestLng
-      };
-      return Object.assign(acc, updatedPoints);
-    }, { highestLat: -Infinity, highestLng: -Infinity, lowestLat: Infinity, lowestLng: Infinity });
-
-    const sw: mapboxgl.LngLatLike = { lng: boundsPoints.lowestLng, lat: boundsPoints.lowestLat };
-    const ne: mapboxgl.LngLatLike = { lng: boundsPoints.highestLng, lat: boundsPoints.highestLat };
-    const bounds = new mapboxgl.LngLatBounds(sw, ne);
-    const boundsOptions = {
-      padding: {
-        top: 50,
-        bottom: 50,
-        left: 50,
-        right: 50
-      }
-    }
-    // Center map on markers
-    this.map.fitBounds(bounds, boundsOptions);
-  }
-
-  public removeMarkers = (markers: mapboxgl.Marker[]) => {
-    markers.forEach((marker) => {
-      marker.remove();
-    });
-    const state = Object.assign({}, this.state);
-    state.markers = [];
-    this.setState(state);
-  }
-
-  public setActiveCriteria() {
-    const state = Object.assign({}, this.state);
-    const activeCriteria = [];
-
-    for (const criterion in this.state.searchCriteria) {
-      if (this.state.searchCriteria[criterion]) {
-        activeCriteria.push(criterion);
-      }
-    }
-    state.activeCriteria = activeCriteria;
-    this.setState(state);
-  }
-
-  public async filterMeetings() {
-    // Only search results against actively selected criteria
-    await this.setActiveCriteria();
-    if (this.state.activeCriteria.length < 1) return this.state.meetings;
-
-    // Filter for meetings that match all active criteria
-    return this.state.meetings.filter((meeting: Meeting) => {
-      // Filter yearly meetings
-      if (meeting.yearly_meeting.length < 1 && !this.state.showYms) return false;
-
-      let criteriaSatisfied = 0;
-      for (const key of this.state.activeCriteria) {
-        // Handle string/null values
-        if (typeof (meeting[key]) !== 'object') {
-          if (String(meeting[key]).includes(this.state.searchCriteria[key]) ||
-            this.state.searchCriteria[key].includes(String(meeting[key]))) {
-            criteriaSatisfied += 1;
-            if (criteriaSatisfied >= this.state.activeCriteria.length) return true;
-          }
-          // Handle array values
-        } else if (Array.isArray(meeting[key]) && meeting[key].length > 0) {
-          for (const ym of meeting[key]) {
-            if (ym.title === this.state.searchCriteria[key]) {
-              criteriaSatisfied += 1;
-              if (criteriaSatisfied >= this.state.activeCriteria.length) return true;
-            }
-          }
-        }
-      }
-      return false;
-    });
-  }
+  /**
+   * handleNavSubmit is triggered when the user submits their criteria in the main nav bar.
+   * This function updates our markers, showing only the meetings we have selected.
+   */
 
   public handleNavSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
+    // Update active criteria before filtering meetings
+    const activeCriteria = setActiveCriteria(this.state);
+    await this.setState({ activeCriteria });
+
     // Filter meetings according to the search criteria
-    const filteredMeetings = await this.filterMeetings();
+    const filteredMeetings = await filterMeetings(this.state);
+
     // Update map only if there are any results
     if (filteredMeetings.length > 0) {
-      this.removeMarkers(this.state.markers);
-      this.addMarkers(filteredMeetings);
+      // Remove all markers
+      removeMarkers(this.state.markers);
+      
+      // Re-add only meeting markers that meet our criteria
+      const markers = await getMarkers(filteredMeetings, this.map);
+      this.setState({ markers });
+
+      // Cache our search criteria in the browser
+      setLocalStorage('quaker-maps-search-criteria', this.state.searchCriteria);
     }
   }
 
-  public handleInputChange = (criterion: string, e: React.SyntheticEvent) => {
-    const state = Object.assign({}, this.state);
-    state.searchCriteria[criterion] = (e.currentTarget as HTMLInputElement).value;
-    this.setState(state);
-    setLocalStorage('quaker-maps-search-criteria', state.searchCriteria);
+  /**
+   * handleInputChange updates the searchCriteria whenever an item on the form is updated.
+   * The search criteria must be up-to-date at all times,
+   * so that the proper search is performed when the form is submitted.
+   */
+
+  public handleInputChange = async (criterion: string, e: React.SyntheticEvent) => {
+    const searchCriteria = Object.assign({}, this.state.searchCriteria);
+    searchCriteria[criterion] = (e.currentTarget as HTMLInputElement).value;
+    await this.setState({ searchCriteria });
   }
 
   public render = () => (

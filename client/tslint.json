@@ -28,7 +28,7 @@
             "trace"
         ]
     },
-    "object-literal-shorthand": [true, "never"],
+    "object-literal-shorthand": false,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "trailing-comma": false,
