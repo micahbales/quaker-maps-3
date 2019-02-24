@@ -1,9 +1,10 @@
 import * as React from 'react';
-import {renderToString} from 'react-dom/server'
+import { renderToString } from 'react-dom/server'
 import '../styles/MainMapView.css';
 import * as mapboxgl from 'mapbox-gl';
-import {Meeting, SearchCriteria} from '../Definitions';
-import {AppState} from '../Definitions';
+import { AppState, Meeting, SearchCriteria } from '../Definitions';
+import { setLocalStorage } from '../utils/helpers';
+import { createMap } from '../utils/mapping';
 import PopUpCard from './PopUpCard';
 import NavModal from './modals/NavModal';
 import NavButton from './NavButton';
@@ -63,35 +64,17 @@ class MainMapView extends React.Component<MainMapViewProps> {
       showYms: false,
       history: this.props.appState.history,
     };
-
-    this.handleNavSubmit = this.handleNavSubmit.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.setActiveCriteria = this.setActiveCriteria.bind(this);
-  }
-
-  public setLocalStorage(itemName: string, data: object) {
-    try {
-      localStorage.setItem(itemName, JSON.stringify(data));
-    } catch(err) {
-      console.error(err);
-    }
   }
 
   public async componentDidMount() {          
-    // Create map
-    this.map = new mapboxgl.Map({
-      container: 'primary-map',
-      style: 'mapbox://styles/micahbales/cjnx84jgd0viy2sojoy624r6k',
-      center: {lng: -98.585522, lat: 39.8333333},
-      zoom: 10
-    });
+    this.map = createMap();
 
     // Get search criteria from local storage
     const localState = localStorage.getItem('quaker-maps-search-criteria');
     if (localState) {
-      const appState = Object.assign({}, this.state);
-      appState.searchCriteria = JSON.parse(localState);
-      await this.setState(appState);
+        const appState = Object.assign({}, this.state);
+        appState.searchCriteria = JSON.parse(localState);
+        await this.setState(appState);
     }
 
     // Filter meetings and add markers
@@ -110,9 +93,9 @@ class MainMapView extends React.Component<MainMapViewProps> {
       );
 
       marker = new mapboxgl.Marker()
-      .setLngLat([meeting.longitude, meeting.latitude])
-      .setPopup(popup)
-      .addTo(this.map);
+        .setLngLat([meeting.longitude, meeting.latitude])
+        .setPopup(popup)
+        .addTo(this.map);
 
       markers.push(marker);
     });
@@ -135,16 +118,16 @@ class MainMapView extends React.Component<MainMapViewProps> {
         lowestLng: meeting.longitude < acc.lowestLng ? meeting.longitude : acc.lowestLng
       };
       return Object.assign(acc, updatedPoints);
-    }, {highestLat: -Infinity, highestLng: -Infinity, lowestLat: Infinity, lowestLng: Infinity});
-    
-    const sw: mapboxgl.LngLatLike = {lng: boundsPoints.lowestLng, lat: boundsPoints.lowestLat};
-    const ne: mapboxgl.LngLatLike = {lng: boundsPoints.highestLng, lat: boundsPoints.highestLat};
+    }, { highestLat: -Infinity, highestLng: -Infinity, lowestLat: Infinity, lowestLng: Infinity });
+
+    const sw: mapboxgl.LngLatLike = { lng: boundsPoints.lowestLng, lat: boundsPoints.lowestLat };
+    const ne: mapboxgl.LngLatLike = { lng: boundsPoints.highestLng, lat: boundsPoints.highestLat };
     const bounds = new mapboxgl.LngLatBounds(sw, ne);
     const boundsOptions = {
       padding: {
-        top: 50, 
-        bottom: 50, 
-        left: 50, 
+        top: 50,
+        bottom: 50,
+        left: 50,
         right: 50
       }
     }
@@ -152,7 +135,7 @@ class MainMapView extends React.Component<MainMapViewProps> {
     this.map.fitBounds(bounds, boundsOptions);
   }
 
-  public removeMarkers(markers: mapboxgl.Marker[]) {
+  public removeMarkers = (markers: mapboxgl.Marker[]) => {
     markers.forEach((marker) => {
       marker.remove();
     });
@@ -164,7 +147,7 @@ class MainMapView extends React.Component<MainMapViewProps> {
   public setActiveCriteria() {
     const state = Object.assign({}, this.state);
     const activeCriteria = [];
-    
+
     for (const criterion in this.state.searchCriteria) {
       if (this.state.searchCriteria[criterion]) {
         activeCriteria.push(criterion);
@@ -187,13 +170,13 @@ class MainMapView extends React.Component<MainMapViewProps> {
       let criteriaSatisfied = 0;
       for (const key of this.state.activeCriteria) {
         // Handle string/null values
-        if (typeof(meeting[key]) !== 'object') {
-          if (String(meeting[key]).includes(this.state.searchCriteria[key]) || 
-              this.state.searchCriteria[key].includes(String(meeting[key]))) {
-                criteriaSatisfied += 1;
-                if (criteriaSatisfied >= this.state.activeCriteria.length) return true;
-              }
-        // Handle array values
+        if (typeof (meeting[key]) !== 'object') {
+          if (String(meeting[key]).includes(this.state.searchCriteria[key]) ||
+            this.state.searchCriteria[key].includes(String(meeting[key]))) {
+            criteriaSatisfied += 1;
+            if (criteriaSatisfied >= this.state.activeCriteria.length) return true;
+          }
+          // Handle array values
         } else if (Array.isArray(meeting[key]) && meeting[key].length > 0) {
           for (const ym of meeting[key]) {
             if (ym.title === this.state.searchCriteria[key]) {
@@ -207,7 +190,7 @@ class MainMapView extends React.Component<MainMapViewProps> {
     });
   }
 
-  public async handleNavSubmit(e: React.SyntheticEvent) {
+  public handleNavSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     // Filter meetings according to the search criteria
@@ -219,32 +202,30 @@ class MainMapView extends React.Component<MainMapViewProps> {
     }
   }
 
-  public handleInputChange(criterion: string, e: React.SyntheticEvent) {
+  public handleInputChange = (criterion: string, e: React.SyntheticEvent) => {
     const state = Object.assign({}, this.state);
     state.searchCriteria[criterion] = (e.currentTarget as HTMLInputElement).value;
     this.setState(state);
-    this.setLocalStorage('quaker-maps-search-criteria', state.searchCriteria);
+    setLocalStorage('quaker-maps-search-criteria', state.searchCriteria);
   }
 
-  public render() {
-    return (
-      <div className='app'>
-        <NavButton />
-        <NavModal 
-          handleNavSubmit={this.handleNavSubmit}
-          handleInputChange={this.handleInputChange}
-          searchCriteria={this.state.searchCriteria}
-          meetings={this.state.meetings}
-          yearlymeetings={this.state.yearlymeetings}
-          branches={this.state.branches}
-          worshipStyles={this.state.worshipStyles}
-          accessibilities={this.state.accessibilities}
-          titles={this.state.titles}
-        />
-        <div id='primary-map' />
-      </div>
-    );
-  }
+  public render = () => (
+    <div className='app'>
+      <NavButton />
+      <NavModal 
+        handleNavSubmit={this.handleNavSubmit}
+        handleInputChange={this.handleInputChange}
+        searchCriteria={this.state.searchCriteria}
+        meetings={this.state.meetings}
+        yearlymeetings={this.state.yearlymeetings}
+        branches={this.state.branches}
+        worshipStyles={this.state.worshipStyles}
+        accessibilities={this.state.accessibilities}
+        titles={this.state.titles}
+      />
+      <div id='primary-map' />
+    </div>
+  );
 }
 
 export default MainMapView;
