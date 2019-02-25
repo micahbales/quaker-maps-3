@@ -1,3 +1,6 @@
+import { Meeting } from '../Definitions';
+import { getIds } from '../utils/helpers';
+
 /**
  * getMeetingData fetches all relevant data for meetings from the Quaker Maps API.
  */
@@ -21,5 +24,39 @@ export const getMeetingData = async () => {
         branches: (await branches.json()).branches,
         worshipStyles: (await worshipStyles.json()).worshipstyles,
         accessibilities: (await accessibilities.json()).accessibilities,
-    };;
+    };
 };
+
+/**
+ * deleteMeeting deletes the meeting passed to it.
+ * This function returns a promise.
+ */
+
+export const deleteMeeting = (meeting: Meeting) => (
+    fetch(`/api/v1/meetings/${meeting.id}`, {
+        method: 'DELETE',
+    })
+)
+
+/**
+ * updateMeeting updates the meeting passed to it.
+ * This function returns a promise.
+ */
+
+export const updateMeeting = (meeting: Meeting) => {
+    // meetingUpdate is a modified version of a regular Meeting object
+    // The difference being that instead of arrays of object entities for ym, branch, etc.,
+    // meetingUpdate just has arrays of ids
+    // TODO: Refactor API to accept regular Meeting objects?
+    const meetingUpdate: any = { ...meeting };
+    meetingUpdate.yearly_meeting = getIds(meeting.yearly_meeting);
+    meetingUpdate.accessibility = getIds(meeting.accessibility);
+    meetingUpdate.worship_style = getIds(meeting.worship_style);
+    meetingUpdate.branch = getIds(meeting.branch);
+
+    return fetch(`/api/v1/meetings/${meeting.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(meetingUpdate),
+        headers: { 'Content-Type': 'application/json' }
+    });
+}
