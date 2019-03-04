@@ -16,7 +16,7 @@ import './styles/App.css';
 
 class App extends React.Component {
 
-  public state: AppState;
+  state: AppState;
 
   constructor(props: any) {
     super(props);
@@ -38,7 +38,7 @@ class App extends React.Component {
     };
   }
 
-  public componentDidMount() {
+  componentDidMount() {
     getMeetingData()
       .then(async (res) => {
         // Add all data from API to state
@@ -60,9 +60,9 @@ class App extends React.Component {
       .catch((err) => console.error(err));
   }
 
-  public renderMainMap = () => <MainMap appState={this.state} />;
+  renderMainMap = () => <MainMap appState={this.state} />;
 
-  public renderMeetingView = (props: RouteComponentProps<any>) => {
+  renderMeetingView = (props: RouteComponentProps<any>) => {
     const slug = props.match.params.slug;
     const meeting = this.state.meetings.find((m: Meeting) => m.slug === slug);
     if (!meeting) return pageNotFound();
@@ -73,12 +73,13 @@ class App extends React.Component {
         branches={this.state.branches}
         worshipStyles={this.state.worshipStyles}
         accessibilities={this.state.accessibilities}
+        history={this.state.history}
         titles={this.state.titles}
-        history={this.state.history} />
+        />
     );
   }
 
-  public render = () => (
+  render = () => (
     <div className='app'>
       <Switch>
         {/* Main Map */}

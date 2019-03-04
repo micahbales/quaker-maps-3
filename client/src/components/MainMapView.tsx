@@ -27,10 +27,10 @@ export interface MainMapViewState extends AppState {
 
 class MainMapView extends React.Component<MainMapViewProps> {
 
-  public map: any;
-  public state: MainMapViewState;
+  map: any;
+  state: MainMapViewState;
 
-  public constructor(props: MainMapViewProps) {
+  constructor(props: MainMapViewProps) {
     super(props);
 
     this.state = {
@@ -62,7 +62,7 @@ class MainMapView extends React.Component<MainMapViewProps> {
     };
   }
 
-  public async componentDidMount() { 
+  async componentDidMount() { 
     this.loadMap();
   }
 
@@ -74,7 +74,7 @@ class MainMapView extends React.Component<MainMapViewProps> {
    * - Adds meeting markers to the map
    */
 
-  public loadMap = async () => {
+  loadMap = async () => {
     // Create map         
     this.map = createMap();
 
@@ -102,7 +102,7 @@ class MainMapView extends React.Component<MainMapViewProps> {
    * This function updates our markers, showing only the meetings we have selected.
    */
 
-  public handleNavSubmit = async (e: React.SyntheticEvent) => {
+  handleNavSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     // Update active criteria before filtering meetings
@@ -132,13 +132,13 @@ class MainMapView extends React.Component<MainMapViewProps> {
    * so that the proper search is performed when the form is submitted.
    */
 
-  public handleInputChange = async (criterion: string, e: React.SyntheticEvent) => {
+  handleInputChange = async (criterion: string, e: React.SyntheticEvent) => {
     const searchCriteria = Object.assign({}, this.state.searchCriteria);
     searchCriteria[criterion] = (e.currentTarget as HTMLInputElement).value;
     await this.setState({ searchCriteria });
   }
 
-  public render = () => (
+  render = () => (
     <div className='app'>
       <NavButton />
       <NavModal 

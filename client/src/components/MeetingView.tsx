@@ -1,30 +1,30 @@
 import * as React from 'react';
 import RecordItemListing from './RecordItemListing';
 import ModifyMeetingModal from './modals/ModifyMeetingModal';
-import {Meeting, Titles} from './../Definitions';
+import {Meeting, Titles} from '../Definitions';
 
 /**
  * MeetingView is the details view for a single meeting.
  */
 
 interface MeetingViewProps {
+    history: any;
     meeting: Meeting;
     yearlymeetings: Meeting[];
     branches: any;
     worshipStyles: any;
     accessibilities: any;
     titles: Titles;
-    history: any;
 }
 
 const MeetingView: React.SFC<MeetingViewProps> = ({
+    history,
     meeting,
     yearlymeetings,
     branches,
     worshipStyles,
     accessibilities,
-    titles,
-    history
+    titles
 }) => {
 
     const handleOpenModifyMeetingModal = () => {

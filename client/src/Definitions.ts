@@ -68,3 +68,10 @@ export interface Meeting {
       }
     ]
   }
+
+  export interface State {
+    short: string;
+    name: string;
+    alt?: string[];
+    country: string;
+}
