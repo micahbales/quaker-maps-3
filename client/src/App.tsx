@@ -3,6 +3,7 @@ import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import MainMap from './components/MainMapView';
 import MeetingView from './components/MeetingView';
+import { CreateMeetingView } from './components/CreateMeetingView';
 import { AppState, Meeting } from './Definitions';
 import { getMeetingData } from './api/api';
 import { getTitleStrings } from './utils/helpers';
@@ -79,6 +80,41 @@ class App extends React.Component {
     );
   }
 
+  renderCreateMeetingView = () => {
+    const newMeeting = {
+      title: '',
+      mappable: true,
+      phone: '',
+      email: '',
+      city: '',
+      address: '',
+      zip: '',
+      latitude: 0,
+      longitude: 0,
+      description: '',
+      worship_time: '',
+      state: '',
+      website: '',
+      lgbt_affirming: false,
+      slug: '',
+      yearly_meeting: [],
+      branch: [],
+      worship_style: [],
+      accessibility: []
+    };
+    return (
+      <CreateMeetingView
+        meeting={newMeeting}
+        yearlymeetings={this.state.yearlymeetings}
+        branches={this.state.branches}
+        worshipStyles={this.state.worshipStyles}
+        accessibilities={this.state.accessibilities}
+        history={this.state.history}
+        titles={this.state.titles}
+      />
+    )
+  };
+
   render = () => (
     <div className='app'>
       <Switch>
@@ -88,10 +124,15 @@ class App extends React.Component {
             this.renderMainMap :
             loadingPage} />
         {/* Individual Meeting Pages */}
-        <Route path='/:slug' render={
+        <Route path='/meetings/:slug' render={
           this.state.meetings.length > 0 ? 
           this.renderMeetingView :
           loadingPage} />
+        {/* View for Creating a New Meeting */}
+        <Route path='/create-meeting' render={
+          this.state.meetings.length > 0 ?
+            this.renderCreateMeetingView :
+            loadingPage} />
       </Switch>
     </div>
   );

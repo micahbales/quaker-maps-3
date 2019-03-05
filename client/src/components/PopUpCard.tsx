@@ -57,7 +57,7 @@ const PopUpCard: React.SFC<PopUpCardProps> = ({ meeting }) => (
 
         <div>
             <p>
-                <a href={`/${meeting.slug}`}>
+                <a href={`/meetings/${meeting.slug}`}>
                     more info
                     </a>
             </p>

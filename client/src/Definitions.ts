@@ -75,3 +75,34 @@ export interface Meeting {
     alt?: string[];
     country: string;
 }
+
+export interface UpdateMeetingProps {
+  history: any;
+  yearlymeetings: Meeting[];
+  branches: any;
+  worshipStyles: any;
+  accessibilities: any;
+  titles: Titles;
+}
+
+export interface NewMeeting {
+  title: string;
+  mappable: boolean;
+  phone: string;
+  email: string;
+  city: string;
+  address: string;
+  zip: string;
+  latitude: number;
+  longitude: number;
+  description: string;
+  worship_time: string;
+  state: string;
+  website: string;
+  lgbt_affirming: boolean;
+  slug: string;
+  yearly_meeting: number[];
+  branch: number[];
+  worship_style: number[];
+  accessibility: number[]
+}
