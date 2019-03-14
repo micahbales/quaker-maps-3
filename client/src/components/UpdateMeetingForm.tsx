@@ -25,11 +25,43 @@ export const UpdateMeetingForm: React.SFC<UpdateMeetingFormProps> = ({
 }) => (
     <>
         <form>
+            <h5>Meeting Name:</h5>
+            <input
+                name='title'
+                placeholder='Meeting Name'
+                value={meeting.title}
+                onChange={handleUpdateAttr}
+            />
+
+            <h5>Meeting Slug:</h5>
+            <input
+                name='slug'
+                placeholder='Meeting Slug'
+                value={meeting.slug}
+                onChange={handleUpdateAttr}
+            />
+
             <h5>Address:</h5>
             <input
                 name='address'
                 placeholder='Address'
                 value={meeting.address}
+                onChange={handleUpdateAttr}
+            />
+
+            <h5>Latitude:</h5>
+            <input
+                name='latitude'
+                placeholder='Latitude'
+                value={meeting.latitude}
+                onChange={handleUpdateAttr}
+            />
+
+            <h5>Longitude:</h5>
+            <input
+                name='longitude'
+                placeholder='Longitude'
+                value={meeting.longitude}
                 onChange={handleUpdateAttr}
             />
 
@@ -110,6 +142,13 @@ export const UpdateMeetingForm: React.SFC<UpdateMeetingFormProps> = ({
                 onChange={handleUpdateAttr}
             />
 
+            <h5>Worship Time:</h5>
+            <input
+                name='worship_time'
+                placeholder='Worship Time'
+                value={meeting.worship_time}
+                onChange={handleUpdateAttr}
+            />
 
             <h5>Website:</h5>
             <input

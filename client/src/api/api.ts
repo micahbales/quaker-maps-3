@@ -60,3 +60,23 @@ export const updateMeeting = (meeting: Meeting) => {
         headers: { 'Content-Type': 'application/json' }
     });
 }
+
+/**
+ * createMeeting creates a new meeting.
+ * This function returns a promise.
+ */
+
+export const createMeeting = (meeting: Meeting) => {
+    // same comments apply here as with updateMeeting
+    const newMeeting: any = { ...meeting };
+    newMeeting.yearly_meeting = getIds(meeting.yearly_meeting);
+    newMeeting.accessibility = getIds(meeting.accessibility);
+    newMeeting.worship_style = getIds(meeting.worship_style);
+    newMeeting.branch = getIds(meeting.branch);
+
+    return fetch(`/api/v1/meetings`, {
+        method: 'POST',
+        body: JSON.stringify({ meeting: newMeeting }),
+        headers: { 'Content-Type': 'application/json' }
+    });
+}

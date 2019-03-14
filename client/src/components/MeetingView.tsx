@@ -1,7 +1,7 @@
 import * as React from 'react';
 import RecordItemListing from './RecordItemListing';
 import ModifyMeetingModal from './modals/ModifyMeetingModal';
-import {Meeting, Titles} from '../Definitions';
+import { Meeting, Titles } from '../Definitions';
 
 /**
  * MeetingView is the details view for a single meeting.

@@ -11,7 +11,7 @@ CREATE TABLE meeting (
     latitude NUMERIC,
     longitude NUMERIC,
     description VARCHAR(255),
-    worship_time TIME,
+    worship_time VARCHAR(255),
     state VARCHAR(255),
     website VARCHAR(255),
     lgbt_affirming BOOLEAN,
