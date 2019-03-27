@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { geoCodeMeeting } from '../utils/geoCodeMeeting'
 import {
     query,
     getKeys,
@@ -9,7 +9,7 @@ import {
     getMeetingAttributeRecords,
     createMeetingAttributeRecords,
     deleteMeetingAttributeRecords
-} from '../utils/utils';
+} from '../utils/sqlQueryHelpers';
 
 // GET /meetings
 export const getAllMeetings = async (req, res) => {
@@ -70,33 +70,11 @@ export const getMeetingById = async (req, res) => {
         });
 };
 
-const getFormattedAddress = (address: string, city: string, state: string, zip: string) => {
-    const formattedAddress = address.trim().replace(/\s+/g, '+');
-    return `${formattedAddress},${city},${state},${zip}`;
-};
-
 // POST /meetings
 export const createMeeting = async (req, res) => {
     const meetingWithAttributeRecordIds = req.body.meeting;
-    const newMeeting = removeJoinKeys(meetingWithAttributeRecordIds);
-
-    if (newMeeting.address) {
-        const formattedAddress = getFormattedAddress(
-            req.body.meeting.address,
-            req.body.meeting.city,
-            req.body.meeting.state,
-            req.body.meeting.zip
-        );
-        const url = `http://www.mapquestapi.com/geocoding/v1/address?key=` +
-            `${process.env.MAPQUESTKEY}&location=${formattedAddress}`;
-        const locationData: any = await axios.get(url)
-            .catch((err) => {
-                console.error(err);
-            });
-        newMeeting.latitude = Number(locationData.data.results[0].locations[0].latLng.lat);
-        newMeeting.longitude = Number(locationData.data.results[0].locations[0].latLng.lng);
-    }
-
+    let newMeeting = removeJoinKeys(meetingWithAttributeRecordIds);
+    newMeeting = await geoCodeMeeting(newMeeting);
 
     const meetingQueryString = 'INSERT INTO meeting (' + getKeys(newMeeting) + ') ' +
                         ' VALUES (' + getQueryBling(newMeeting) + ')' +

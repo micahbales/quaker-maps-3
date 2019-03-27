@@ -4,7 +4,7 @@ import {
     getValues,
     getQueryBling,
     getKeyValueQueryString
-} from '../utils/utils';
+} from '../utils/sqlQueryHelpers';
 
 // GET /quakers
 export const getAllQuakers = async (req, res) => {
