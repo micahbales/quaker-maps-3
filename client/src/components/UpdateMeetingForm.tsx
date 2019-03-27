@@ -49,22 +49,6 @@ export const UpdateMeetingForm: React.SFC<UpdateMeetingFormProps> = ({
                 onChange={handleUpdateAttr}
             />
 
-            <h5>Latitude:</h5>
-            <input
-                name='latitude'
-                placeholder='Latitude'
-                value={meeting.latitude}
-                onChange={handleUpdateAttr}
-            />
-
-            <h5>Longitude:</h5>
-            <input
-                name='longitude'
-                placeholder='Longitude'
-                value={meeting.longitude}
-                onChange={handleUpdateAttr}
-            />
-
             <h5>City:</h5>
             <input
                 name='city'
