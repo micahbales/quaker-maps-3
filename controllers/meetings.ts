@@ -92,7 +92,8 @@ export const createMeeting = async (req, res) => {
 // PUT /meetings/:id
 export const updateMeeting = async (req, res) => {
     const meetingWithAttributeRecordIds = req.body;
-    const updatedMeeting = removeJoinKeys(meetingWithAttributeRecordIds);
+    let updatedMeeting = removeJoinKeys(meetingWithAttributeRecordIds);
+    updatedMeeting = await geoCodeMeeting(updatedMeeting);
     const meetingId = req.params.id;
     const queryString = 'UPDATE meeting ' +
                         ' SET ' +
