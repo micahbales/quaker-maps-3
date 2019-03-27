@@ -62,7 +62,7 @@ You should now have test and development databases
 
 ### Seed Dev and Test Databases
 
-Run the following commands to migrate and seed both databases:
+Compile your Typescript assets. Then, run the following commands to migrate and seed both databases:
 
 ```
 $ db-migrate up -e dev && db-migrate-up -e test

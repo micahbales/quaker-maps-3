@@ -36,7 +36,11 @@ export class CreateMeetingView extends React.Component<CreateMeetingProps> {
 
     handleCreateMeeting = (e: React.SyntheticEvent) => {
         e.preventDefault();
-        createMeeting(this.state.meeting);
+        createMeeting(this.state.meeting)
+            .then(() => {
+                this.props.history.push('/');
+                this.props.history.go();
+            });
     }
 
     handleMultiSelectFormChange = (e: any) => {
