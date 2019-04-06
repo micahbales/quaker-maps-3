@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import MainMap from './components/MainMapView';
-import MeetingView from './components/MeetingView';
-import { CreateMeetingView } from './components/CreateMeetingView';
+import MainMap from './components/MainMapView/MainMapView';
+import MeetingView from './components/MeetingView/MeetingView';
+import { CreateMeetingView } from './components/CreateMeetingView/CreateMeetingView';
 import { AppState, Meeting } from './Definitions';
 import { getMeetingData } from './api/api';
 import { getTitleStrings } from './utils/helpers';

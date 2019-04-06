@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { convertStringBooleans, getMultiSelectValues } from '../utils/helpers'
-import { NewMeeting, UpdateMeetingProps } from '../Definitions';
-import { UpdateMeetingForm } from './UpdateMeetingForm';
-import { createMeeting } from '../api/api'
+import { convertStringBooleans, getMultiSelectValues } from '../../utils/helpers';
+import { NewMeeting, UpdateMeetingProps } from '../../Definitions';
+import { UpdateMeetingForm } from '../UpdateMeetingForm/UpdateMeetingForm';
+import { createMeeting } from '../../api/api';
+import './styles/CreateMeetingView.css';
 
 /**
  * CreateMeetingView is a view where the user can create a new meeting.
@@ -66,9 +67,9 @@ export class CreateMeetingView extends React.Component<CreateMeetingProps> {
 
     render = () => (
         <>
-            <h1>{this.state.meeting.title || 'New Meeting'}</h1>
-            
             <h3>Create Meeting</h3>
+
+            <h1>{this.state.meeting.title}</h1>
             
             <UpdateMeetingForm
                 meeting={this.state.meeting}

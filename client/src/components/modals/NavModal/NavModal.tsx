@@ -1,6 +1,6 @@
 import * as React from 'react';
-import '../../styles/components/NavModal.css';
-import { Meeting, SearchCriteria, Titles } from '../../Definitions';
+import './styles/NavModal.css';
+import { Meeting, SearchCriteria, Titles } from '../../../Definitions';
 
 /**
  * NavModal is a collapsable menu, visible on MainMapView.

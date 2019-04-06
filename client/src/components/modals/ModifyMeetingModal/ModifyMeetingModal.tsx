@@ -1,9 +1,9 @@
 import * as React from 'react';
-import '../../styles/components/ModifyMeetingModal.css';
-import { Meeting, UpdateMeetingProps } from '../../Definitions';
-import { deleteMeeting, updateMeeting } from '../../api/api';
-import { convertStringBooleans, getMultiSelectValues } from '../../utils/helpers'
-import { UpdateMeetingForm } from '../UpdateMeetingForm';
+import './styles/ModifyMeetingModal.css';
+import { deleteMeeting, updateMeeting } from '../../../api/api';
+import { Meeting, UpdateMeetingProps } from '../../../Definitions';
+import { convertStringBooleans, getMultiSelectValues } from '../../../utils/helpers';
+import { UpdateMeetingForm } from '../../UpdateMeetingForm/UpdateMeetingForm';
 
 /**
  * ModifyMeetingModal is a view where the user can update or delete a meeting.

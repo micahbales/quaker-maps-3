@@ -1,6 +1,6 @@
 import * as React from 'react';
-import '../styles/PopUpCard.css';
-import RecordItemListing from './RecordItemListing';
+import './styles/PopUpCard.css';
+import RecordItemListing from '../RecordItemListing/RecordItemListing';
 
 /**
  * PopUpCard is the content displayed in the popup when a map's meeting marker is clicked.

@@ -1,11 +1,11 @@
 import * as React from 'react';
-import '../styles/MainMapView.css';
+import './styles/MainMapView.css';
 import * as mapboxgl from 'mapbox-gl';
-import { AppState, SearchCriteria } from '../Definitions';
-import { setLocalStorage } from '../utils/helpers';
-import { createMap, filterMeetings, getMarkers, removeMarkers, setActiveCriteria } from '../utils/mapping';
-import NavModal from './modals/NavModal';
-import NavButton from './NavButton';
+import { AppState, SearchCriteria } from '../../Definitions';
+import { setLocalStorage } from '../../utils/helpers';
+import { createMap, filterMeetings, getMarkers, removeMarkers, setActiveCriteria } from '../../utils/mapping';
+import NavModal from '../modals/NavModal/NavModal';
+import NavButton from '../NavButton/NavButton';
 const mapboxKey = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAyMnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
 (mapboxgl as any).accessToken = mapboxKey;
 

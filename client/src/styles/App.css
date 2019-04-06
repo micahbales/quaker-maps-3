@@ -1,11 +1,19 @@
-@import url('https://fonts.googleapis.com/css?family=Arvo');
+@import url('https://fonts.googleapis.com/css?family=Arvo|PT+Sans');
 
 :root {
-  --white: #fefefe;
-  --nav-background: rgba(100,128,210, .9);
-  --nav-button: rgb(100,128,210)
+    --white: #fefefe;
+    --nav-background: rgba(100,128,210, .9);
+    --nav-button: rgb(100,128,210)
+}
+
+body {
+    font-family: 'PT Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Arvo', serif;
 }
 
 .hidden {
     visibility: hidden;
-  }
+}

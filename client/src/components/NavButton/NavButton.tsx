@@ -1,5 +1,5 @@
 import * as React from 'react';
-import '../styles/NavButton.css';
+import './styles/NavButton.css';
 
 /**
  * NavButton is the large, pulsating 'Q' button at the top of the NavModal.

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { MainMapViewState } from '../components/MainMapView';
+import { MainMapViewState } from '../components/MainMapView/MainMapView';
 import { renderToString } from 'react-dom/server';
-import PopUpCard from '../components/PopUpCard';
+import PopUpCard from '../components/PopUpCard/PopUpCard';
 import { Meeting } from '../Definitions';
 import * as mapboxgl from 'mapbox-gl';
 const mapboxKey = 'pk.eyJ1IjoibWljYWhiYWxlcyIsImEiOiJjaXg4OTlrNHgwMDAyMnlvNDRleXBrdGNrIn0.d3eUGWL--AriB6n5MXy5TA';
