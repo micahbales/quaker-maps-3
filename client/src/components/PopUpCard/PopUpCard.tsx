@@ -10,7 +10,7 @@ interface PopUpCardProps {
     meeting: any;
 }
 
-const PopUpCard: React.SFC<PopUpCardProps> = ({ meeting }) => (
+const PopUpCard: React.FC<PopUpCardProps> = ({ meeting }) => (
     <div className='meeting-card'>
         <h3>{meeting.title}</h3>
         <RecordItemListing

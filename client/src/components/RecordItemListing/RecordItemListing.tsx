@@ -12,7 +12,7 @@ interface RecordItemListingProps {
     link?: string;
 }
 
-const RecordItemListing: React.SFC<RecordItemListingProps> = ({
+const RecordItemListing: React.FC<RecordItemListingProps> = ({
     item,
     label,
     link

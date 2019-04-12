@@ -5,7 +5,7 @@ import './styles/NavButton.css';
  * NavButton is the large, pulsating 'Q' button at the top of the NavModal.
  */
 
-const NavButton: React.SFC = () => {
+const NavButton: React.FC = () => {
     const handleNavModalOpen = () => {
         const nav = document.querySelector('#nav');
         if (nav) nav.classList.remove('hidden');
