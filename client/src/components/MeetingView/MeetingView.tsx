@@ -2,6 +2,7 @@ import * as React from 'react';
 import RecordItemListing from '../RecordItemListing/RecordItemListing';
 import ModifyMeetingModal from '../modals/ModifyMeetingModal/ModifyMeetingModal';
 import { Meeting, Titles } from '../../Definitions';
+import { Button, Link } from '@material-ui/core';
 
 /**
  * MeetingView is the details view for a single meeting.
@@ -17,7 +18,7 @@ interface MeetingViewProps {
     titles: Titles;
 }
 
-const MeetingView: React.SFC<MeetingViewProps> = ({
+const MeetingView: React.FC<MeetingViewProps> = ({
     history,
     meeting,
     yearlymeetings,
@@ -85,9 +86,9 @@ const MeetingView: React.SFC<MeetingViewProps> = ({
                 item={meeting.lgbt_affirming ? 'Yes' : 'No'}
             />
 
-            <h4><a href='/'>Back to Main Map</a></h4>
+            <Link block={true} underline='always' href='/'>Back to Main Map</Link>
 
-            <button onClick={handleOpenModifyMeetingModal}>Modify Meeting</button>
+            <Button onClick={handleOpenModifyMeetingModal}>Modify Meeting</Button>
         </div>
     );
 }

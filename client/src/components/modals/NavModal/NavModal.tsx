@@ -1,9 +1,10 @@
+import { Button } from '@material-ui/core'
 import * as React from 'react';
 import './styles/NavModal.css';
 import { Meeting, SearchCriteria, Titles } from '../../../Definitions';
 
 /**
- * NavModal is a collapsable menu, visible on MainMapView.
+ * NavModal is a collapsible menu, visible on MainMapView.
  * This modal allows the user to select from various search criteria,
  * adjusting which meetings are displayed on the map.
  */
@@ -20,7 +21,7 @@ interface NavModalProps {
     titles: Titles;
 }
 
-const NavModal: React.SFC<NavModalProps> = ({
+const NavModal: React.FC<NavModalProps> = ({
     handleNavSubmit,
     handleInputChange,
     searchCriteria,
@@ -148,8 +149,7 @@ const NavModal: React.SFC<NavModalProps> = ({
                 </div>
 
                 <div className='form-element'>
-                    <button className='submit' type='submit' value='Find Meetings' 
-                        onClick={handleNavSubmit}>Submit</button>
+                    <Button onClick={handleNavSubmit}>Submit</Button>
                 </div>
             </form>
         </div>

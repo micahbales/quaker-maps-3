@@ -4,6 +4,7 @@ import { deleteMeeting, updateMeeting } from '../../../api/api';
 import { Meeting, UpdateMeetingProps } from '../../../Definitions';
 import { convertStringBooleans, getMultiSelectValues } from '../../../utils/helpers';
 import { UpdateMeetingForm } from '../../UpdateMeetingForm/UpdateMeetingForm';
+import { Button } from '@material-ui/core';
 
 /**
  * ModifyMeetingModal is a view where the user can update or delete a meeting.
@@ -95,7 +96,7 @@ class ModifyMeetingModal extends React.Component<ModifyMeetingProps> {
 
                 <h2>Delete</h2>
 
-                <button onClick={this.handleDeleteMeeting}>Delete Meeting</button>
+                <Button onClick={this.handleDeleteMeeting}>Delete Meeting</Button>
             </div>
         </div>
         

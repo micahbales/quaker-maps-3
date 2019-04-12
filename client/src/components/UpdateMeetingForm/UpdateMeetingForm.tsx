@@ -3,6 +3,7 @@ import { Meeting, State } from '../../Definitions';
 import { states } from '../../utils/helpers';
 import './styles/UpdateMeetingForm.css';
 import { FormInput } from './components/FormInput';
+import { Button } from '@material-ui/core';
 
 /**
  * UpdateMeetingForm is a general-purpose form used for both updating and creating meetings
@@ -17,7 +18,7 @@ interface UpdateMeetingFormProps {
     titles: any;
 }
 
-export const UpdateMeetingForm: React.SFC<UpdateMeetingFormProps> = ({
+export const UpdateMeetingForm: React.FC<UpdateMeetingFormProps> = ({
     meeting,
     handleMultiSelectFormChange,
     handleUpdateAttr,
@@ -180,6 +181,8 @@ export const UpdateMeetingForm: React.SFC<UpdateMeetingFormProps> = ({
             Non-Affirming
         </div>
 
-        <button onClick={handleUpdateMeeting}>Submit</button>
+        <div className='form-element'>
+            <Button onClick={handleUpdateMeeting}>Submit</Button>
+        </div>
     </form>
 )
