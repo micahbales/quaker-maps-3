@@ -1,0 +1,277 @@
+[
+    {
+        "id": 1,
+        "title": "Southern Appalachian YMA",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 2,
+        "title": "Unaffiliated",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 3,
+        "title": "Alaska YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 4,
+        "title": "Alaska Friends Conference",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 5,
+        "title": "Canadian YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 6,
+        "title": "Intermountain YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 7,
+        "title": "EFC - Southwest",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 8,
+        "title": "Rocky Mountain YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 9,
+        "title": "South Central YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 10,
+        "title": "Central YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 11,
+        "title": "Pacific YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 12,
+        "title": "Western Assn",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 13,
+        "title": "EFC - Mid-America YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 14,
+        "title": "New England YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 15,
+        "title": "New York YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 16,
+        "title": "Philadelphia YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 17,
+        "title": "Baltimore YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 18,
+        "title": "Friends Of Jesus Fellowship",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 19,
+        "title": "Southeastern YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 20,
+        "title": "EFC - Eastern Region",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 21,
+        "title": "North Carolina (FUM)",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 22,
+        "title": "Northwest YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 23,
+        "title": "North Pacific YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 24,
+        "title": "Illinois YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 25,
+        "title": "Western YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 26,
+        "title": "Western YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 27,
+        "title": "Indiana YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 28,
+        "title": "Ohio Valley YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 29,
+        "title": "New Association",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 30,
+        "title": "Iowa (FUM)",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 31,
+        "title": "Iowa (C)",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 32,
+        "title": "Northern YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 33,
+        "title": "Great Plains YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 34,
+        "title": "Missouri Valley FC",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 35,
+        "title": "EFC - Mid-America YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 36,
+        "title": "Lake Erie YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 37,
+        "title": "Ohio YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 38,
+        "title": "Missouri Valley FC",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 39,
+        "title": "New York YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 40,
+        "title": "Piedmont Friends Fellowship/YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 41,
+        "title": "North Carolina (C)",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 42,
+        "title": "Piedmont Friends Fellowship/YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 43,
+        "title": "Piedmont Friends Fellowship/YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 44,
+        "title": "Piedmont Friends Fellowship/YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 45,
+        "title": "Piedmont Friends Fellowship/YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 46,
+        "title": "Piedmont Friends Fellowship/YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 47,
+        "title": "Piedmont Friends Fellowship/YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 48,
+        "title": "Piedmont Friends Fellowship/YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 49,
+        "title": "Wilmington YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 50,
+        "title": "Ohio Valley YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 51,
+        "title": "Wilmington YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 52,
+        "title": "Ohio Valley YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 53,
+        "title": "Baltimore YM",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 54,
+        "title": "JA de M�xico",
+        "table_type": "yearly_meeting"
+    },
+    {
+        "id": 55,
+        "title": "Illinois YM",
+        "table_type": "yearly_meeting"
+    }
+]

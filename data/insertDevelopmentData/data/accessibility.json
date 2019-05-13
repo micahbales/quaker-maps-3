@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "title": "Wheelchair Accessible",
+        "table_type": "accessibility"
+    },
+    {
+        "id": 2,
+        "title": "Hearing Assistance System",
+        "table_type": "accessibility"
+    },
+    {
+        "id": 3,
+        "title": "Some Areas Accessible",
+        "table_type": "accessibility"
+    },
+    {
+        "id": 4,
+        "title": "American Sign Language",
+        "table_type": "accessibility"
+    }
+]

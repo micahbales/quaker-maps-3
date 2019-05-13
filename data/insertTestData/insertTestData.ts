@@ -2,16 +2,16 @@ import * as dotenv from 'dotenv';
 dotenv.config({path: __dirname + '/../../.env'});
 import {Pool} from 'pg';
 
-import * as sampleMeetings from './sampleMeetings.json';
-import * as sampleMeetingYearlyMeetings from './sampleMeetingYearlyMeetings.json';
-import * as sampleBranches from './sampleBranches.json';
-import * as sampleMeetingBranches from './sampleMeetingBranches.json';
-import * as sampleWorshipStyles from './sampleWorshipStyles.json';
-import * as sampleMeetingWorshipStyles from './sampleMeetingWorshipStyles.json';
-import * as sampleAccessibility from './sampleAccessibility.json';
-import * as sampleMeetingAccessibility from './sampleMeetingAccessibility.json';
-import * as sampleQuakers from './sampleQuakers.json';
-import * as sampleMeetingQuakers from './sampleMeetingQuakers.json';
+import * as sampleMeetings from './data/sampleMeetings.json';
+import * as sampleMeetingYearlyMeetings from './data/sampleMeetingYearlyMeetings.json';
+import * as sampleBranches from './data/sampleBranches.json';
+import * as sampleMeetingBranches from './data/sampleMeetingBranches.json';
+import * as sampleWorshipStyles from './data/sampleWorshipStyles.json';
+import * as sampleMeetingWorshipStyles from './data/sampleMeetingWorshipStyles.json';
+import * as sampleAccessibility from './data/sampleAccessibility.json';
+import * as sampleMeetingAccessibility from './data/sampleMeetingAccessibility.json';
+import * as sampleQuakers from './data/sampleQuakers.json';
+import * as sampleMeetingQuakers from './data/sampleMeetingQuakers.json';
 
 async function insertTestData(records) {
     const pool = new Pool({

@@ -1,4 +1,4 @@
-import { geoCodeMeeting } from '../utils/geoCodeMeeting'
+import { geoCodeMeeting } from '../utils/geoCodeMeeting';
 import {
     query,
     getKeys,

@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "title": "Unprogrammed",
+        "table_type": "worship_style"
+    },
+    {
+        "id": 2,
+        "title": "Programmed",
+        "table_type": "worship_style"
+    },
+    {
+        "id": 3,
+        "title": "Semi-programmed",
+        "table_type": "worship_style"
+    }
+]

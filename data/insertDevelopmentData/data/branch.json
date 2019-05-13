@@ -1,0 +1,27 @@
+[
+    {
+        "id": 1,
+        "title": "Friends General Conference",
+        "table_type": "branch"
+    },
+    {
+        "id": 2,
+        "title": "Evangelical Friends Church International",
+        "table_type": "branch"
+    },
+    {
+        "id": 3,
+        "title": "Friends United Meeting",
+        "table_type": "branch"
+    },
+    {
+        "id": 4,
+        "title": "Unaffiliated",
+        "table_type": "branch"
+    },
+    {
+        "id": 5,
+        "title": "Conservative",
+        "table_type": "branch"
+    }
+]
