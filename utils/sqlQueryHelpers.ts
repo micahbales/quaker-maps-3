@@ -1,20 +1,22 @@
-import {Client} from 'pg';
+import {Pool} from 'pg';
+const pool = new Pool();
+
+// Handle client errors
+pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err);
+    process.exit(-1);
+});
 
 // Make a simple query to the database
 export const query = async (queryString, values?) => {
-  const client = new Client({
-    connectionString: process.env.DATABASE_URL
-  });
-  await client.connect().catch((err) => console.error(err));
+  const client = await pool.connect();
 
   try {
-    return await client.query(queryString, values).then((rows) => {
-      // Clean up and return results
-      client.end();
-      return rows;
-    });
+    return await client.query(queryString, values);
   } catch (err) {
     console.error(err);
+  } finally {
+      client.release();
   }
 };
 
@@ -101,7 +103,7 @@ export async function getMeetingAttributeRecords(meetings) {
       return meeting.accessibility = access.rows;
   });
 
-  const promise = new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     Promise.all([
       Promise.all(yms),
       Promise.all(branches),
@@ -111,8 +113,6 @@ export async function getMeetingAttributeRecords(meetings) {
         resolve();
       });
   }).catch((err) => console.error(err));
-
-  return promise;
 }
 
 export async function createMeetingAttributeRecords(meeting, meetingId) {
